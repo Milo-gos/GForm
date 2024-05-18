@@ -1,0 +1,13 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    input {
+        padding: 6px 8px;
+        border-bottom: 1px solid #ccc;
+        transition: $transition;
+        width: 100%;
+
+        &:focus {
+            border-bottom: 1px solid #000;
+        }
+    }
+}

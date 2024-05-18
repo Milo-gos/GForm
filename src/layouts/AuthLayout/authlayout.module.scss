@@ -1,0 +1,89 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+    .left-side {
+        width: 36%;
+        position: relative;
+        background-color: $mainColor;
+        .app {
+            margin-top: 32px;
+            margin-left: 32px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+
+            span {
+                font-size: 48px;
+                font-weight: 700;
+                color: white;
+            }
+        }
+        .logo-container {
+            background-color: white;
+            width: 72px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-right: 16px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            img {
+                width: 56px;
+            }
+        }
+
+        .imageSignup {
+            width: 450px;
+            object-fit: cover;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: -140px;
+        }
+    }
+
+    .right-side {
+        background-color: $mainColor;
+        flex: 1;
+    }
+
+    .inner {
+        background-color: white;
+        height: 100%;
+        border-top-left-radius: 40px;
+        border-bottom-left-radius: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .body {
+            width: 60%;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        h2 {
+            font-size: 48px;
+            margin-bottom: 48px;
+            text-align: center;
+        }
+    }
+    .forgot-password {
+        align-self: flex-end;
+        margin-top: 12px;
+        display: inline-block;
+        font-size: 14px;
+        text-decoration: underline;
+        transition: $transition;
+        cursor: pointer;
+        &:hover {
+            color: $mainColor;
+        }
+    }
+}

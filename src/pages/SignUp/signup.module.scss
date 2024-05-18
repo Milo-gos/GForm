@@ -1,0 +1,30 @@
+@import '../../variableSCSS.scss';
+
+.wrapper {
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+    h2 {
+        font-size: 48px;
+        margin-bottom: 48px;
+        text-align: center;
+    }
+    .confirm-have-account {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin: 20px 0;
+        span {
+            font-size: 15px;
+        }
+        a {
+            font-size: 15px;
+            color: $mainColor;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    }
+}
