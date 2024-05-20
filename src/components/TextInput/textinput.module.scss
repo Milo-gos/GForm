@@ -1,5 +1,6 @@
 @import '../../variableSCSS.scss';
 .wrapper {
+    position: relative;
     input {
         padding: 6px 8px;
         border-bottom: 1px solid #ccc;
@@ -8,6 +9,17 @@
 
         &:focus {
             border-bottom: 1px solid #000;
+        }
+    }
+
+    .obscured {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 8px;
+        .icon {
+            font-size: 24px;
         }
     }
 }

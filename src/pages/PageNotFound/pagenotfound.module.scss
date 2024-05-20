@@ -10,22 +10,11 @@
         gap: 16px;
     }
     h2 {
-        font-size: 48px;
+        font-size: 36px;
         margin-bottom: 48px;
         text-align: center;
     }
-    .forgot-password {
-        align-self: flex-end;
-        margin-top: 12px;
-        display: inline-block;
-        font-size: 14px;
-        text-decoration: underline;
-        transition: $transition;
-        cursor: pointer;
-        &:hover {
-            color: $mainColor;
-        }
-    }
+
     .back-login {
         margin-top: 12px;
         text-align: right;

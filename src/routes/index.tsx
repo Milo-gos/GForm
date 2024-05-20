@@ -2,6 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import { ForgotPasswordPage, SignInPage, SignUpPage } from '../pages';
 import { AuthLayout, MainLayout } from '../layouts';
+import EmailVerificationPage from '../pages/EmailVerification';
+import EmailVerificationSuccessPage from '../pages/EmailVerificationSuccess';
 
 const pages = [
     {
@@ -12,6 +14,16 @@ const pages = [
     {
         path: '/signup',
         page: SignUpPage,
+        layout: AuthLayout,
+    },
+    {
+        path: '/email-verification',
+        page: EmailVerificationPage,
+        layout: AuthLayout,
+    },
+    {
+        path: '/email-verification-success/:token-link',
+        page: EmailVerificationSuccessPage,
         layout: AuthLayout,
     },
     {

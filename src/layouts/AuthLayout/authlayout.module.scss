@@ -57,33 +57,11 @@
         border-top-left-radius: 40px;
         border-bottom-left-radius: 40px;
         display: flex;
-        align-items: center;
         justify-content: center;
+        padding-top: 100px;
 
         .body {
             width: 60%;
-        }
-        .form {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-        h2 {
-            font-size: 48px;
-            margin-bottom: 48px;
-            text-align: center;
-        }
-    }
-    .forgot-password {
-        align-self: flex-end;
-        margin-top: 12px;
-        display: inline-block;
-        font-size: 14px;
-        text-decoration: underline;
-        transition: $transition;
-        cursor: pointer;
-        &:hover {
-            color: $mainColor;
         }
     }
 }

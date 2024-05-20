@@ -5,18 +5,21 @@ const cx = classNames.bind(style);
 
 interface Props {
     textButton: string;
-    onClick?: () => void;
+    onClick?: (data: any) => void;
     size?: 'small' | 'big';
+    type?: 'button' | 'reset' | 'submit' | undefined;
 }
 const MyButton = (props: Props) => {
     return (
-        <div
+        <button
             className={cx('wrapper', {
                 big: props.size === 'big',
             })}
+            onClick={props.onClick}
+            type={props.type}
         >
             <span>{props.textButton}</span>
-        </div>
+        </button>
     );
 };
 
