@@ -2,6 +2,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import API from '../../utils/api';
 import { setLoading } from './global';
+import { error } from 'console';
 
 interface User {
     fullName: string;
@@ -38,22 +39,26 @@ const registerUser = createAsyncThunk(
             thunkAPI.dispatch(setLoading(false));
             return response.data.data;
         } catch (error: any) {
+            console.log(error);
             thunkAPI.dispatch(setLoading(false));
-            throw new Error(error.response?.data);
+            throw new Error(error.response?.data?.message);
         }
     },
 );
 
 const verifyEmail = createAsyncThunk(
     'auth/verifyEmail',
-    async (_, thunkAPI) => {
+    async (tokenLink: string, thunkAPI) => {
         thunkAPI.dispatch(setLoading(true));
         try {
-            const response = await axios.get(API.VerifyEmail.endPoint);
+            const response = await axios.get(
+                `${API.VerifyEmail.endPoint}/${tokenLink}`,
+            );
             thunkAPI.dispatch(setLoading(false));
-            return response.data.data;
         } catch (error: any) {
+            console.log(error);
             thunkAPI.dispatch(setLoading(false));
+
             throw new Error(error.response?.data);
         }
     },
@@ -69,32 +74,26 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         // register
-        builder.addCase(
-            registerUser.fulfilled,
-            (state, action: PayloadAction<User>) => {
-                state.currentUser = action.payload;
-                state.errorEmail = '';
-                state.isRegister = true;
-            },
-        );
-        builder.addCase(registerUser.rejected, (state, error) => {
-            state.errorEmail = error.error.message || '';
+        builder.addCase(registerUser.fulfilled, (state, action) => {
+            state.currentUser = action.payload;
+            state.errorEmail = '';
+            state.isRegister = true;
+        });
+        builder.addCase(registerUser.rejected, (state, action) => {
+            state.errorEmail = action.error.message || '';
         });
 
         // Verify email
-        builder.addCase(
-            verifyEmail.fulfilled,
-            (state, action: PayloadAction<boolean>) => {
-                state.verifiedStatus = 'success';
-            },
-        );
-        builder.addCase(verifyEmail.rejected, (state, error) => {
+        builder.addCase(verifyEmail.fulfilled, (state, action) => {
+            state.verifiedStatus = 'success';
+        });
+        builder.addCase(verifyEmail.rejected, (state, action) => {
             state.verifiedStatus = 'failed';
-            console.log(error.error.message || '');
+            console.log(action.error.message || '');
         });
     },
 });
 
 export default authSlice.reducer;
 export { registerUser, verifyEmail };
-export const {} = authSlice.actions;
+export const { setErrorEmail } = authSlice.actions;

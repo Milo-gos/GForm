@@ -6,9 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import auth, { registerUser } from '../../redux/slice/auth';
-import { RootState, useAppDispatch, useAppSelector } from '../../redux';
+import { registerUser, setErrorEmail } from '../../redux/slice/auth';
+import { useAppDispatch, useAppSelector } from '../../redux';
 const cx = classNames.bind(style);
 
 const SignUpSchema = z
@@ -35,7 +34,7 @@ const SignUpSchema = z
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 const SignUpPage = () => {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
+    const dispatchApp = useAppDispatch();
     const authState = useAppSelector((state) => state.auth);
     if (authState.isRegister) {
         navigate('/email-verification');
@@ -51,8 +50,10 @@ const SignUpPage = () => {
     });
 
     const onbsumit = (data: SignUpSchemaType) => {
-        dispatch(registerUser(data));
+        dispatchApp(registerUser(data));
     };
+    if (errors.email?.message && authState.errorEmail)
+        dispatchApp(setErrorEmail(''));
     return (
         <div className={cx('wrapper')}>
             <h2>Đăng ký</h2>

@@ -3,7 +3,7 @@ import App from '../App';
 import { ForgotPasswordPage, SignInPage, SignUpPage } from '../pages';
 import { AuthLayout, MainLayout } from '../layouts';
 import EmailVerificationPage from '../pages/EmailVerification';
-import EmailVerificationSuccessPage from '../pages/EmailVerificationSuccess';
+import EmailVerificationResultPage from '../pages/EmailVerificationResult';
 
 const pages = [
     {
@@ -22,8 +22,8 @@ const pages = [
         layout: AuthLayout,
     },
     {
-        path: '/email-verification-success/:token-link',
-        page: EmailVerificationSuccessPage,
+        path: '/email-verification-result/:tokenLink',
+        page: EmailVerificationResultPage,
         layout: AuthLayout,
     },
     {

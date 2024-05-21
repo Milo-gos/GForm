@@ -7,7 +7,7 @@ const API = {
     },
 
     VerifyEmail: {
-        endPoint: `${BE_URL}/auth/verifyEmail/:token-link`,
+        endPoint: `${BE_URL}/auth/verifyEmail`,
         method: 'get',
     },
 };
