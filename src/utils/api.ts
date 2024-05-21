@@ -6,9 +6,19 @@ const API = {
         method: 'post',
     },
 
+    VerifyEmailPublicLink: {
+        endPoint: `${BE_URL}/auth/verifyEmailPublicLink`,
+        method: 'get',
+    },
+
     VerifyEmail: {
         endPoint: `${BE_URL}/auth/verifyEmail`,
         method: 'get',
+    },
+
+    SignIn: {
+        endPoint: `${BE_URL}/auth/signIn`,
+        method: 'post',
     },
 };
 

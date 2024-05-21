@@ -1,11 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
-import { ForgotPasswordPage, SignInPage, SignUpPage } from '../pages';
-import { AuthLayout, MainLayout } from '../layouts';
-import EmailVerificationPage from '../pages/EmailVerification';
-import EmailVerificationResultPage from '../pages/EmailVerificationResult';
+import {
+    AddNewSurveyPage,
+    EmailVerificationPage,
+    EmailVerificationResultPage,
+    ForgotPasswordPage,
+    SignInPage,
+    SignUpPage,
+} from '../pages';
+import { AuthLayout, SurveyLayout } from '../layouts';
 
 const pages = [
+    // AUTH UI
     {
         path: '/signin',
         page: SignInPage,
@@ -17,7 +23,7 @@ const pages = [
         layout: AuthLayout,
     },
     {
-        path: '/email-verification',
+        path: '/email-verification/:tokenLinkPublic',
         page: EmailVerificationPage,
         layout: AuthLayout,
     },
@@ -30,6 +36,13 @@ const pages = [
         path: '/forgot-password',
         page: ForgotPasswordPage,
         layout: AuthLayout,
+    },
+
+    // SURVEY UI
+    {
+        path: '/surveys/:id/edit',
+        page: AddNewSurveyPage,
+        layout: SurveyLayout,
     },
 ];
 

@@ -11,39 +11,45 @@ const cx = classNames.bind(style);
 const EmailVerificationResultPage = () => {
     const dispatch = useAppDispatch();
     const { tokenLink } = useParams();
-    console.log(tokenLink);
+    const [result, setResult] = useState('');
+
     useEffect(() => {
         let isIgnore = false;
+        const verifyFunction = async (tokenLink: string) => {
+            try {
+                await dispatch(verifyEmail(tokenLink)).unwrap();
+                setResult('success');
+            } catch (error) {
+                setResult('failed');
+            }
+        };
+
         // Call API
 
         if (tokenLink) {
-            if (!isIgnore) dispatch(verifyEmail(tokenLink));
+            if (!isIgnore) verifyFunction(tokenLink);
         }
 
         return () => {
             isIgnore = true;
         };
     }, []);
-    const authState = useAppSelector((state) => state.auth);
 
     return (
         <div className={cx('wrapper')}>
-            {authState.verifiedStatus === 'success' && (
+            {result === 'success' && (
                 <>
                     <h2>Xác minh email thành công!</h2>
                     <div style={{ textAlign: 'center' }}>
                         <FaRegCircleCheck size={100} />
                     </div>
 
-                    <div
-                        className={cx('back-login')}
-                        style={{ textAlign: 'center', marginTop: '48px' }}
-                    >
+                    <div className={cx('back-login')} style={{ textAlign: 'center', marginTop: '48px' }}>
                         <Link to={'/signin'}>Quay về đăng nhập</Link>
                     </div>
                 </>
             )}
-            {authState.verifiedStatus === 'failed' && <PageNotFound />}
+            {result === 'failed' && <PageNotFound />}
         </div>
     );
 };

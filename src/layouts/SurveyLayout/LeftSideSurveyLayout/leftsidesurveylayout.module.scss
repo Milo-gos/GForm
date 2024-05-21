@@ -1,0 +1,101 @@
+@import '../../../variableSCSS.scss';
+.wrapper {
+    width: 230px;
+    min-width: 230px;
+    background-color: #fff;
+    color: $textColor;
+    font-size: 14px;
+
+    -webkit-font-smoothing: antialiased;
+
+    .surveyInfo {
+        background-image: linear-gradient(rgba(42, 42, 42, 0.5) 0px, rgb(42, 42, 42) 100%),
+            url(https://c3.iggcdn.com/indiegogo-media-prod-cld/image/upload/c_fill,w_230,g_center,q_auto:best,dpr_1.3,f_auto,h_230/kkm1kzwamwukkszcmszq);
+        display: flex;
+        flex-direction: column;
+        height: 230px;
+        background-size: 100%;
+        justify-content: flex-end;
+        padding-left: 24px;
+        font-size: 13px;
+
+        .surveyStatus {
+            span {
+                display: inline-block;
+                border-radius: 2px;
+                color: #2a2a2a;
+                border: 1px solid #fdde86;
+                background-color: #fdde86;
+                padding: 1px 5px;
+
+                text-transform: uppercase;
+                letter-spacing: 0.8.2px;
+                font-weight: 500;
+            }
+        }
+
+        .survey-name {
+            margin-top: 8px;
+            color: white;
+            text-transform: uppercase;
+            font-weight: 600;
+            display: inline-block;
+            width: 180px;
+            white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+            margin-bottom: 12px;
+        }
+    }
+
+    .navItem {
+        padding: 4px 16px;
+        cursor: pointer;
+
+        .navItem-inner {
+            display: flex;
+            gap: 12px;
+            text-decoration: none;
+            text-transform: uppercase;
+            min-height: 50px;
+            align-items: center;
+            margin-top: 4px;
+            border-radius: 6px;
+            padding: 0 8px;
+        }
+
+        .navItem-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+        &:hover .navItem-inner {
+            background-color: $mainColor;
+            color: white;
+        }
+        &:hover .navItem-link {
+            color: #fff;
+        }
+    }
+
+    .navSection-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        letter-spacing: 0.8px;
+        text-decoration: none;
+        text-transform: uppercase;
+        min-height: 50px;
+        padding: 16px 24px;
+        &:hover {
+            color: #fff;
+            background-color: #7a69b3;
+        }
+        .icon {
+            font-size: 16px;
+        }
+    }
+}
