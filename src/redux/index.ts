@@ -10,9 +10,9 @@ const store = configureStore({
     },
 });
 
-store.subscribe(() => {
-    console.log(store.getState());
-});
+// store.subscribe(() => {
+//     console.log(store.getState());
+// });
 export default store;
 
 type AppDispatch = typeof store.dispatch;

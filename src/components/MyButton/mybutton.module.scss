@@ -1,25 +1,26 @@
 @import '../../variableSCSS.scss';
 
 .wrapper {
+    min-height: 36px;
     min-width: 90px;
-    padding: 4px 8px;
+    padding: 10px;
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: center;
     color: white;
     background-color: $mainColor;
-    border-radius: 12px;
-    min-height: 30px;
+    border-radius: 4px;
     cursor: pointer;
     transition: $transition;
     &:hover {
-        background-color: #fbd258;
+        opacity: 0.8;
     }
 
     &.big {
         min-height: 44px;
         min-width: 120px;
+        border-radius: 12px;
         span {
             font-weight: 600;
             font-size: 18px;

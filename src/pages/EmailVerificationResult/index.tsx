@@ -14,7 +14,6 @@ const EmailVerificationResultPage = () => {
     const [result, setResult] = useState('');
 
     useEffect(() => {
-        let isIgnore = false;
         const verifyFunction = async (tokenLink: string) => {
             try {
                 await dispatch(verifyEmail(tokenLink)).unwrap();
@@ -24,15 +23,7 @@ const EmailVerificationResultPage = () => {
             }
         };
 
-        // Call API
-
-        if (tokenLink) {
-            if (!isIgnore) verifyFunction(tokenLink);
-        }
-
-        return () => {
-            isIgnore = true;
-        };
+        if (tokenLink) verifyFunction(tokenLink);
     }, []);
 
     return (

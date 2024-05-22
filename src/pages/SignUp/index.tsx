@@ -24,9 +24,9 @@ const SignUpSchema = z
 
 type SignUpSchemaType = z.infer<typeof SignUpSchema>;
 const SignUpPage = () => {
+    //err
     const dispatchApp = useAppDispatch();
     const navigate = useNavigate();
-    const authState = useAppSelector((state) => state.auth);
     const {
         setError,
         register,

@@ -4,6 +4,9 @@ import ForgotPasswordPage from './ForgotPassword';
 import AddNewSurveyPage from './AddNewSurvey';
 import EmailVerificationPage from './EmailVerification';
 import EmailVerificationResultPage from './EmailVerificationResult';
+import ResetPasswordPage from './ResetPassword';
+import AddNewSurveyQuestionPage from './AddNewSurveyQuestion';
+import ResponseSurveyPage from './ResponseSurvey';
 
 export {
     SignInPage,
@@ -12,4 +15,7 @@ export {
     AddNewSurveyPage,
     EmailVerificationPage,
     EmailVerificationResultPage,
+    ResetPasswordPage,
+    AddNewSurveyQuestionPage,
+    ResponseSurveyPage,
 };

@@ -2,9 +2,12 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import {
     AddNewSurveyPage,
+    AddNewSurveyQuestionPage,
     EmailVerificationPage,
     EmailVerificationResultPage,
     ForgotPasswordPage,
+    ResetPasswordPage,
+    ResponseSurveyPage,
     SignInPage,
     SignUpPage,
 } from '../pages';
@@ -40,14 +43,19 @@ const pages = [
 
     {
         path: '/reset-password/:tokenLinkResetPassword',
-        page: ForgotPasswordPage,
+        page: ResetPasswordPage,
         layout: AuthLayout,
     },
 
     // SURVEY UI
     {
         path: '/surveys/:id/edit',
-        page: AddNewSurveyPage,
+        page: AddNewSurveyQuestionPage,
+        layout: SurveyLayout,
+    },
+    {
+        path: '/surveys/:id/response',
+        page: ResponseSurveyPage,
         layout: SurveyLayout,
     },
 ];

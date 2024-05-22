@@ -72,6 +72,7 @@ const ForgotPasswordPage = () => {
                         {errors.email?.message}
                     </p>
                 </div>
+
                 {showNotification && (
                     <p style={{ textAlign: 'center' }}>
                         Một liên kết đã được gửi đến email của bạn. Vui lòng truy cập liên kết để thay đổi mật khẩu.

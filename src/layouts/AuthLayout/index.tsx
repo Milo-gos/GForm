@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import style from './authlayout.module.scss';
 import classNames from 'classnames/bind';
 import { MyButton, TextInput } from '../../components';
-import { Google, ImageSignin, Logo } from '../../assets/images';
+import { ImageSignin, Logo } from '../../assets/images';
 const cx = classNames.bind(style);
 
 const AuthLayout = ({ children }: { children?: JSX.Element }) => {

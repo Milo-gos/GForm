@@ -1,28 +1,25 @@
 import React from 'react';
-import style from './mybutton.module.scss';
+import style from './mylabel.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(style);
 
 interface Props {
-    textButton: string;
-    onClick?: (data: any) => void;
+    label: string;
     size?: 'normal' | 'big';
-    type?: 'button' | 'reset' | 'submit' | undefined;
     backgroundColor?: string;
     textColor?: string;
 }
-const MyButton = (props: Props) => {
+const MyLabel = (props: Props) => {
     return (
-        <button
+        <div
             style={{ backgroundColor: props.backgroundColor, color: props.textColor }}
             className={cx('wrapper', {
                 big: props.size === 'big',
-            })}
-            onClick={props.onClick}
-            type={props.type}>
-            <span>{props.textButton}</span>
-        </button>
+                normal: props.size === 'normal',
+            })}>
+            {props.label}
+        </div>
     );
 };
 
-export default MyButton;
+export default MyLabel;

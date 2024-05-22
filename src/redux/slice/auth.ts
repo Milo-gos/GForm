@@ -106,28 +106,43 @@ const checkExistEmail = createAsyncThunk('auth/checkExistEmail', async (email: s
     }
 });
 
-// Lát làm
-const resetPassword = createAsyncThunk('auth/resetPassword', async (password: string, thunkAPI) => {
-    thunkAPI.dispatch(setLoading(true));
-    try {
-        const response = await axios.post(API.ResetPassword.endPoint, { password });
-        thunkAPI.dispatch(setLoading(false));
-        return response.data.data;
-    } catch (error: any) {
-        console.log(error);
-        thunkAPI.dispatch(setLoading(false));
-        return thunkAPI.rejectWithValue(error.response?.data?.message);
-    }
-});
+const verifyLinkResetPassword = createAsyncThunk(
+    'auth/verifyLinkResetPassword',
+    async (tokenLinkResetPassword: string, thunkAPI) => {
+        thunkAPI.dispatch(setLoading(true));
+        try {
+            const response = await axios.get(`${API.VerifyLinkResetPassword.endPoint}/${tokenLinkResetPassword}`);
+            thunkAPI.dispatch(setLoading(false));
+            return thunkAPI.fulfillWithValue(response.data?.data);
+        } catch (error: any) {
+            console.log(error);
+            thunkAPI.dispatch(setLoading(false));
+            return thunkAPI.rejectWithValue(error.response?.data?.message);
+        }
+    },
+);
+
+const resetPassword = createAsyncThunk(
+    'auth/resetPassword',
+    async ({ email, password }: { email: string; password: string }, thunkAPI) => {
+        thunkAPI.dispatch(setLoading(true));
+        try {
+            const response = await axios.post(API.ResetPassword.endPoint, { email, password });
+            thunkAPI.dispatch(setLoading(false));
+            return response.data.data;
+        } catch (error: any) {
+            console.log(error);
+            thunkAPI.dispatch(setLoading(false));
+            return thunkAPI.rejectWithValue(error.response?.data?.message);
+        }
+    },
+);
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // register
-
-        // sign in
         builder.addCase(signIn.fulfilled, (state, action) => {
             state.currentUser = action.payload;
         });
@@ -135,5 +150,13 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export { registerUser, verifyEmailPublicLink, verifyEmail, signIn, checkExistEmail, resetPassword };
+export {
+    registerUser,
+    verifyEmailPublicLink,
+    verifyEmail,
+    signIn,
+    checkExistEmail,
+    resetPassword,
+    verifyLinkResetPassword,
+};
 export const {} = authSlice.actions;
