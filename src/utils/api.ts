@@ -20,6 +20,15 @@ const API = {
         endPoint: `${BE_URL}/auth/signIn`,
         method: 'post',
     },
+
+    CheckExistEmail: {
+        endPoint: `${BE_URL}/auth/checkExistEmail`,
+        method: 'get',
+    },
+    ResetPassword: {
+        endPoint: `${BE_URL}/auth/resetPassword`,
+        method: 'post',
+    },
 };
 
 export default API;

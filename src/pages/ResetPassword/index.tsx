@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import style from './forgotpassword.module.scss';
+import style from './resetpassword.module.scss';
 import classNames from 'classnames/bind';
 import { MyButton, TextInput } from '../../components';
 import { Google, ImageSignin, Logo } from '../../assets/images';
@@ -8,12 +8,19 @@ import { string, z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from '../../redux';
-import { checkExistEmail } from '../../redux/slice/auth';
+import { checkExistEmail, resetPassword } from '../../redux/slice/auth';
 const cx = classNames.bind(style);
 
-const object = z.object({
-    email: z.string().nonempty('Vui lòng nhập email').email('Vui lòng nhập đúng định dạng email'),
-});
+const ResetPasswordSchema = z
+    .object({
+        password: z.string().nonempty('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
+        confirmPassword: z.string().nonempty('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: 'Mật khẩu không trùng khớp',
+        path: ['confirmPassword'],
+    });
+type ResetPasswordType = z.infer<typeof ResetPasswordSchema>;
 
 const ForgotPasswordPage = () => {
     const dispatchApp = useAppDispatch();
@@ -28,8 +35,8 @@ const ForgotPasswordPage = () => {
         setError,
         register,
         formState: { errors },
-    } = useForm<{ email: string }>({
-        resolver: zodResolver(object),
+    } = useForm<ResetPasswordType>({
+        resolver: zodResolver(ResetPasswordSchema),
         mode: 'onSubmit',
         shouldFocusError: true,
     });
@@ -46,12 +53,12 @@ const ForgotPasswordPage = () => {
             clearInterval(refId.current);
         };
     }, [showNotification]);
-    const onsubmit = async ({ email }: { email: string }) => {
+    const onsubmit = async ({ password, confirmPassword }: ResetPasswordType) => {
         try {
-            await dispatchApp(checkExistEmail(email)).unwrap();
+            await dispatchApp(resetPassword(password)).unwrap();
             setShowNotification(true);
         } catch (error) {
-            setError('email', {
+            setError('confirmPassword', {
                 type: 'server',
                 message: (error as string) || '',
             });
@@ -59,17 +66,36 @@ const ForgotPasswordPage = () => {
     };
     return (
         <div className={cx('wrapper')}>
-            <h2>Quên mật khẩu</h2>
+            <h2>Thay đổi mật khẩu</h2>
             <form className={cx('form')} onSubmit={handleSubmit(onsubmit)}>
                 <div>
-                    <TextInput placeholder="Nhập email tài khoản" name="email" register={register}></TextInput>
+                    <TextInput
+                        placeholder="Mật khẩu"
+                        typePassword={true}
+                        name="password"
+                        register={register}></TextInput>
                     <p
                         style={{
                             marginTop: '4px',
                             fontSize: '14px',
                             color: '#db4437',
                         }}>
-                        {errors.email?.message}
+                        {errors.password?.message}
+                    </p>
+                </div>
+                <div>
+                    <TextInput
+                        placeholder="Nhập lại mật khẩu"
+                        name="confirmPassword"
+                        typePassword={true}
+                        register={register}></TextInput>
+                    <p
+                        style={{
+                            marginTop: '4px',
+                            fontSize: '14px',
+                            color: '#db4437',
+                        }}>
+                        {errors.confirmPassword?.message}
                     </p>
                 </div>
                 {showNotification && (

@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch, useAppSelector } from '../../redux';
-import { resetError, setErrorEmailSignIn, setErrorPasswordSignIn, signIn } from '../../redux/slice/auth';
+import { signIn } from '../../redux/slice/auth';
 const cx = classNames.bind(style);
 
 const SignInSchema = z.object({
@@ -21,8 +21,8 @@ type SignInSchemaType = z.infer<typeof SignInSchema>;
 const SignInPage = () => {
     const navigate = useNavigate();
     const dispatchApp = useAppDispatch();
-    const authState = useAppSelector((state) => state.auth);
     const {
+        setError,
         register,
         handleSubmit,
         formState: { errors },
@@ -31,21 +31,17 @@ const SignInPage = () => {
         mode: 'onSubmit',
         shouldFocusError: true,
     });
-    useEffect(() => {
-        dispatchApp(resetError(''));
-    }, []);
-
-    useEffect(() => {
-        if (errors.email?.message && authState.errorEmailSignUp) dispatchApp(setErrorEmailSignIn(''));
-
-        if (errors.password?.message && authState.errorPasswordSignIn) dispatchApp(setErrorPasswordSignIn(''));
-    }, [errors.email?.message, errors.password?.message]);
 
     const onbsumit = async (user: SignInSchemaType) => {
         try {
             await dispatchApp(signIn(user)).unwrap();
             alert('Đăng nhập thành công');
-        } catch (error) {}
+        } catch (error) {
+            setError('password', {
+                type: 'server',
+                message: (error as string) || '',
+            });
+        }
     };
     return (
         <div className={cx('wrapper')}>
@@ -60,7 +56,7 @@ const SignInPage = () => {
                             fontSize: '14px',
                             color: '#db4437',
                         }}>
-                        {errors.email?.message || authState.errorEmailSignIn}
+                        {errors.email?.message}
                     </p>
                 </div>
 
@@ -81,7 +77,7 @@ const SignInPage = () => {
                                 fontSize: '14px',
                                 color: '#db4437',
                             }}>
-                            {errors.password?.message || authState.errorPasswordSignIn}
+                            {errors.password?.message}
                         </p>
                     </div>
                     <Link to={'/forgot-password'} className={cx('forgot-password')}>

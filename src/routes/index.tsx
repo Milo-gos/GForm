@@ -38,6 +38,12 @@ const pages = [
         layout: AuthLayout,
     },
 
+    {
+        path: '/reset-password/:tokenLinkResetPassword',
+        page: ForgotPasswordPage,
+        layout: AuthLayout,
+    },
+
     // SURVEY UI
     {
         path: '/surveys/:id/edit',

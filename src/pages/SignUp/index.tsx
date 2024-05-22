@@ -6,8 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { registerUser, resetError, setErrorEmailSignUp } from '../../redux/slice/auth';
 import { useAppDispatch, useAppSelector } from '../../redux';
+import { registerUser } from '../../redux/slice/auth';
 const cx = classNames.bind(style);
 
 const SignUpSchema = z
@@ -28,6 +28,7 @@ const SignUpPage = () => {
     const navigate = useNavigate();
     const authState = useAppSelector((state) => state.auth);
     const {
+        setError,
         register,
         handleSubmit,
         formState: { errors },
@@ -36,15 +37,17 @@ const SignUpPage = () => {
         mode: 'onSubmit',
         shouldFocusError: true,
     });
-    useEffect(() => {
-        dispatchApp(resetError(''));
-    }, []);
-    const onbsumit = (user: SignUpSchemaType) => {
-        dispatchApp(registerUser({ user, navigate }));
+
+    const onbsumit = async (user: SignUpSchemaType) => {
+        try {
+            await dispatchApp(registerUser({ user, navigate })).unwrap();
+        } catch (error) {
+            setError('email', {
+                type: 'server',
+                message: (error as string) || '',
+            });
+        }
     };
-    useEffect(() => {
-        if (errors.email?.message && authState.errorEmailSignUp) dispatchApp(setErrorEmailSignUp(''));
-    }, [errors.email?.message]);
 
     return (
         <div className={cx('wrapper')}>
@@ -69,7 +72,7 @@ const SignUpPage = () => {
                             fontSize: '14px',
                             color: '#db4437',
                         }}>
-                        {errors.email?.message || authState.errorEmailSignUp}
+                        {errors.email?.message}
                     </p>
                 </div>
 
