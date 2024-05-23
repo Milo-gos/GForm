@@ -25,12 +25,8 @@ const TextInput: React.FC<InputProps> = ({
     ...rest
 }) => {
     const [hide, setHide] = useState(!!typePassword);
-    const ref = useRef<HTMLInputElement>(null);
-    useEffect(() => {
-        if (isActiveQuestion) {
-            if (ref) ref.current?.focus();
-        }
-    }, [isActiveQuestion]);
+    if (isActiveQuestion) {
+    }
     return (
         <div
             className={cx('wrapper', {
@@ -40,7 +36,7 @@ const TextInput: React.FC<InputProps> = ({
                 type={hide ? 'password' : 'text'}
                 {...register?.(name)}
                 {...rest}
-                ref={ref}
+                autoFocus={isActiveQuestion}
                 style={{ fontSize: fontSize, padding: padding }}></input>
             {typePassword && (
                 <span className={cx('obscured')} onClick={() => setHide((prev) => !prev)}>

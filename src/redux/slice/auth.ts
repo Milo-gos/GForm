@@ -37,22 +37,17 @@ const initialState: InitState = {
     errorPasswordSignIn: '',
 };
 
-const registerUser = createAsyncThunk(
-    'auth/registerUser',
-    async ({ user, navigate }: { user: UserRequest; navigate: NavigateFunction }, thunkAPI) => {
-        thunkAPI.dispatch(setLoading(true));
-        try {
-            const response = await axios.post(API.RegisterUser.endPoint, user);
-            thunkAPI.dispatch(setLoading(false));
-            const tokenLinkPublic = response.data.data;
-            navigate(`/email-verification/${tokenLinkPublic}`);
-        } catch (error: any) {
-            console.log(error);
-            thunkAPI.dispatch(setLoading(false));
-            return thunkAPI.rejectWithValue(error.response?.data?.message);
-        }
-    },
-);
+const registerUser = createAsyncThunk('auth/registerUser', async (user: UserRequest, thunkAPI) => {
+    thunkAPI.dispatch(setLoading(true));
+    try {
+        await axios.post(API.RegisterUser.endPoint, user);
+        thunkAPI.dispatch(setLoading(false));
+    } catch (error: any) {
+        console.log(error);
+        thunkAPI.dispatch(setLoading(false));
+        return thunkAPI.rejectWithValue(error.response?.data?.message);
+    }
+});
 
 const verifyEmailPublicLink = createAsyncThunk(
     'auth/verifyEmailPublicLink',

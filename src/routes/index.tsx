@@ -3,7 +3,6 @@ import App from '../App';
 import {
     AddNewSurveyPage,
     AddNewSurveyQuestionPage,
-    EmailVerificationPage,
     EmailVerificationResultPage,
     ForgotPasswordPage,
     ResetPasswordPage,
@@ -23,11 +22,6 @@ const pages = [
     {
         path: '/signup',
         page: SignUpPage,
-        layout: AuthLayout,
-    },
-    {
-        path: '/email-verification/:tokenLinkPublic',
-        page: EmailVerificationPage,
         layout: AuthLayout,
     },
     {

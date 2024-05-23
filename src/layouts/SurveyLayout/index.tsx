@@ -4,8 +4,6 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import classNames from 'classnames/bind';
 import { ImageSignin, Logo } from '../../assets/images';
 import { MyLabel, MyButton } from '../../components';
-import { Box, Tab } from '@mui/material';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(style);
