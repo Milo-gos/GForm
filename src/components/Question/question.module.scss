@@ -1,0 +1,18 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    padding: 24px 24px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid rgb(224, 224, 218);
+    transition: $transition;
+    &.isActiveQuestion {
+        border-left: 6px solid $orangeColor;
+    }
+
+    .question {
+        font-weight: 500;
+    }
+}

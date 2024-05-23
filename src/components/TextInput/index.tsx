@@ -12,6 +12,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     fontWeight?: number;
     padding?: string;
     isActiveQuestion?: boolean;
+    boldPlaceHolder?: boolean;
 }
 
 const TextInput: React.FC<InputProps> = ({
@@ -22,15 +23,16 @@ const TextInput: React.FC<InputProps> = ({
     padding,
     fontWeight,
     isActiveQuestion,
+    boldPlaceHolder,
     ...rest
 }) => {
     const [hide, setHide] = useState(!!typePassword);
-    if (isActiveQuestion) {
-    }
+
     return (
         <div
             className={cx('wrapper', {
                 isActiveQuestion: isActiveQuestion === true,
+                boldPlaceHolder: boldPlaceHolder === true,
             })}>
             <input
                 type={hide ? 'password' : 'text'}

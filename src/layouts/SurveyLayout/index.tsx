@@ -28,7 +28,7 @@ const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
                             <h3 style={{ fontSize: '16px' }}>Survey name</h3>
 
                             <div style={{ marginTop: '4px' }}>
-                                <MyLabel label="Bản nháp" size="big" backgroundColor="#db4437"></MyLabel>
+                                <MyLabel label="Bản nháp" size="big" backgroundColor="#ed6c02"></MyLabel>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@ const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
                     </div>
                 </div>
             </div>
-            {children}
+            <div className={cx('children-wrapper')}>{children}</div>
         </div>
     );
 };

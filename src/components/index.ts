@@ -1,6 +1,6 @@
 import TextInput from './TextInput';
 import MyButton from './MyButton';
 import MyLabel from './MyLabel';
-import QuestionShortAnswer from './QuestionShortAnswer';
+import Question from './Question';
 
-export { TextInput, MyButton, MyLabel, QuestionShortAnswer };
+export { TextInput, MyButton, MyLabel, Question };

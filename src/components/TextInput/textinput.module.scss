@@ -2,11 +2,17 @@
 .wrapper {
     transition: $transition;
     position: relative;
+
     input {
         padding: 6px 8px;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid rgb(224, 224, 218);
         transition: $transition;
         width: 100%;
+    }
+    &.boldPlaceHolder input::placeholder {
+        color: $textColor;
+        font-weight: 400;
+        opacity: 1;
     }
 
     .obscured {
@@ -30,12 +36,25 @@
 
         transition: $transition;
     }
+
     input:focus {
         border: none;
     }
     input:focus ~ .border {
         width: 100%;
+
         left: 0;
     }
+
+    &.isActiveQuestion input {
+        border: none;
+        transition: unset;
+        background-color: #f4f4f1;
+
+        padding-bottom: 8px;
+        padding-top: 8px;
+        border-radius: 4px;
+    }
+
     padding: 2px 4px;
 }

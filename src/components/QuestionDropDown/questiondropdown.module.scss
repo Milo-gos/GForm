@@ -1,0 +1,35 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .option-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .add-option {
+        cursor: pointer;
+        margin-top: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: rgb(119, 113, 105);
+
+        .underline {
+            margin-top: 2px;
+            opacity: 0;
+            height: 1px;
+            background-color: rgb(224, 224, 218);
+        }
+        &:hover {
+            .underline {
+                opacity: 1;
+            }
+        }
+        p {
+            letter-spacing: 0.2px;
+        }
+    }
+}
