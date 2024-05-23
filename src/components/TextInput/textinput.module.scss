@@ -1,0 +1,41 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    transition: $transition;
+    position: relative;
+    input {
+        padding: 6px 8px;
+        border-bottom: 1px solid #ccc;
+        transition: $transition;
+        width: 100%;
+    }
+
+    .obscured {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 8px;
+        .icon {
+            font-size: 24px;
+        }
+    }
+
+    .border {
+        width: 0;
+        height: 1.5px;
+        background-color: $mainColor;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+
+        transition: $transition;
+    }
+    input:focus {
+        border: none;
+    }
+    input:focus ~ .border {
+        width: 100%;
+        left: 0;
+    }
+    padding: 2px 4px;
+}

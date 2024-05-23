@@ -1,0 +1,32 @@
+@import '../../variableSCSS.scss';
+
+.wrapper {
+    .body {
+        width: 60%;
+    }
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    h2 {
+        font-size: 36px;
+        margin-bottom: 48px;
+        text-align: center;
+    }
+
+    .back-login {
+        margin-top: 12px;
+        text-align: right;
+        a {
+            font-size: 15px;
+            text-decoration: underline;
+            cursor: pointer;
+
+            transition: $transition;
+            &:hover {
+                color: $mainColor;
+            }
+        }
+    }
+}

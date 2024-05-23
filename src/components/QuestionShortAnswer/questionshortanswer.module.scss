@@ -1,0 +1,26 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    padding: 24px 24px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: 1px solid rgb(224, 224, 218);
+    transition: $transition;
+    &.active {
+        border-left: 6px solid $redColor;
+    }
+
+    .answer {
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 14px;
+        border-bottom: 1px dotted #ccc;
+        width: 350px;
+        padding-bottom: 4px;
+    }
+
+    .question {
+        font-weight: 600;
+    }
+}
