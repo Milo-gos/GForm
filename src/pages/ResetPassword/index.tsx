@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import style from './resetpassword.module.scss';
 import classNames from 'classnames/bind';
-import { MyButton, TextInput } from '../../components';
+import { MyButton, NormalTextInput } from '../../components';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { string, z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -72,11 +72,11 @@ const ResetPasswordPage = () => {
                     <h2>Thay đổi mật khẩu</h2>
                     <form className={cx('form')} onSubmit={handleSubmit(onsubmit)}>
                         <div>
-                            <TextInput
+                            <NormalTextInput
                                 placeholder="Nhập mật khẩu mới"
                                 typePassword={true}
                                 name="password"
-                                register={register}></TextInput>
+                                register={register}></NormalTextInput>
                             <p
                                 style={{
                                     marginTop: '4px',
@@ -87,11 +87,11 @@ const ResetPasswordPage = () => {
                             </p>
                         </div>
                         <div>
-                            <TextInput
+                            <NormalTextInput
                                 placeholder="Nhập lại mật khẩu"
                                 name="confirmPassword"
                                 typePassword={true}
-                                register={register}></TextInput>
+                                register={register}></NormalTextInput>
                             <p
                                 style={{
                                     marginTop: '4px',

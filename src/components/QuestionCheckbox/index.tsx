@@ -3,8 +3,8 @@ import style from './questioncheckbox.module.scss';
 import classNames from 'classnames/bind';
 import CloseIcon from '@mui/icons-material/Close';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import TextInput from '../TextInput';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import QuestionTextInput from '../QuestionTextInput';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -26,7 +26,7 @@ const QuestionCheckbox = ({ isActiveQuestion }: Props) => {
                     <div key={index} className={cx('option-wrapper')}>
                         <CheckBoxOutlineBlankIcon style={{ color: '#bdbdbd' }} />
                         <div style={{ flex: '1' }}>
-                            <TextInput padding="8px 0" />
+                            <QuestionTextInput isActiveQuestion={isActiveQuestion} />
                         </div>
                         {listOption.length > 1 && isActiveQuestion && (
                             <CloseIcon

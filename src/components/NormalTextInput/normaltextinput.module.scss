@@ -5,14 +5,8 @@
 
     input {
         padding: 6px 8px;
-        border-bottom: 1px solid rgb(224, 224, 218);
-        transition: $transition;
+        background-color: transparent;
         width: 100%;
-    }
-    &.boldPlaceHolder input::placeholder {
-        color: $textColor;
-        font-weight: 400;
-        opacity: 1;
     }
 
     .obscured {
@@ -27,33 +21,30 @@
     }
 
     .border {
+        height: 1px;
+        left: 0;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        background-color: rgb(224, 224, 218);
+    }
+    .inner-border {
         width: 0;
+        left: 0;
         height: 1.5px;
         background-color: $mainColor;
         position: absolute;
         bottom: 0;
         left: 50%;
-
         transition: $transition;
     }
 
-    input:focus {
-        border: none;
-    }
-    input:focus ~ .border {
-        width: 100%;
-
-        left: 0;
-    }
-
-    &.isActiveQuestion input {
-        border: none;
-        transition: unset;
-        background-color: #f4f4f1;
-
-        padding-bottom: 8px;
-        padding-top: 8px;
-        border-radius: 4px;
+    &.isFocus {
+        .inner-border {
+            width: 100%;
+            left: 0;
+        }
+        background-color: transparent;
     }
 
     padding: 2px 4px;

@@ -3,7 +3,8 @@ import style from './questiondropdown.module.scss';
 import classNames from 'classnames/bind';
 import CloseIcon from '@mui/icons-material/Close';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import TextInput from '../TextInput';
+
+import QuestionTextInput from '../QuestionTextInput';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -23,7 +24,7 @@ const QuestionDropDown = ({ isActiveQuestion }: Props) => {
                     <div key={index} className={cx('option-wrapper')}>
                         <span>{index + 1}.</span>
                         <div style={{ flex: '1' }}>
-                            <TextInput padding="8px 0" />
+                            <QuestionTextInput isActiveQuestion={isActiveQuestion} />
                         </div>
                         {listOption.length > 1 && isActiveQuestion && (
                             <CloseIcon style={{ cursor: 'pointer' }} onClick={() => handleClickRemoveOption(index)} />

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import style from './signin.module.scss';
 import { z } from 'zod';
 import classNames from 'classnames/bind';
-import { MyButton, TextInput } from '../../components';
+import { MyButton, NormalTextInput } from '../../components';
 import { Google } from '../../assets/images';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -48,7 +48,7 @@ const SignInPage = () => {
             <h2>Đăng nhập</h2>
             <form className={cx('form')} onSubmit={handleSubmit(onbsumit)}>
                 <div>
-                    <TextInput placeholder="Email" name="email" register={register}></TextInput>
+                    <NormalTextInput placeholder="Email" name="email" register={register}></NormalTextInput>
 
                     <p
                         style={{
@@ -66,11 +66,11 @@ const SignInPage = () => {
                         flexDirection: 'column',
                     }}>
                     <div>
-                        <TextInput
+                        <NormalTextInput
                             placeholder="Mật khẩu"
                             name="password"
                             typePassword={true}
-                            register={register}></TextInput>
+                            register={register}></NormalTextInput>
                         <p
                             style={{
                                 marginTop: '4px',

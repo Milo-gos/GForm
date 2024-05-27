@@ -3,8 +3,9 @@ import style from './questionlinearscale.module.scss';
 import classNames from 'classnames/bind';
 import CloseIcon from '@mui/icons-material/Close';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import TextInput from '../TextInput';
+import TextInput from '../NormalTextInput';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import QuestionTextInput from '../QuestionTextInput';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -70,13 +71,13 @@ const QuestionLinearScale = ({ isActiveQuestion }: Props) => {
             <div className={cx('label')}>
                 <span>1.</span>
                 <div style={{ flex: '1' }}>
-                    <TextInput padding="8px 0" placeholder="Nhãn trái (tùy chọn)" />
+                    <QuestionTextInput padding="8px 0" placeholder="Nhãn trái (tùy chọn)" />
                 </div>
             </div>
             <div className={cx('label')}>
                 <span>6.</span>
                 <div style={{ flex: '1' }}>
-                    <TextInput padding="8px 0" placeholder="Nhãn phải (tùy chọn)" />
+                    <QuestionTextInput padding="8px 0" placeholder="Nhãn phải (tùy chọn)" />
                 </div>
             </div>
         </div>
