@@ -2,7 +2,7 @@ import React, { MutableRefObject, RefObject, useEffect, useRef, useState } from 
 import style from './question.module.scss';
 import classNames from 'classnames/bind';
 import BottomQuestion from '../BottomQuestion';
-import QuestionType from '../../utils/questionType';
+import QuestionType from '../../utils/interfaces/questionType';
 import QuestionShortAnswer from '../QuestionShortAnswer';
 import QuestionParagraph from '../QuestionParagraph';
 import QuestionDropDown from '../QuestionDropDown';
@@ -13,34 +13,25 @@ import Description from '../Description';
 import QuestionTextInput from '../QuestionTextInput';
 import QuestionRadioButtonGrid from '../QuestionRadioButtonGrid';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import { IconButton } from '@mui/material';
+import { Button, IconButton, Menu, MenuItem } from '@mui/material';
+import { CgArrowsExchangeAlt } from 'react-icons/cg';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import { activeQuestion, insertQuestion } from '../../redux/slice/survey';
+import { EditNotifications } from '@mui/icons-material';
 const cx = classNames.bind(style);
 
 interface Props {
-    type?: QuestionType;
-    id: string;
+    index: number;
 }
-const Question = ({ type, id }: Props) => {
-    const [isActiveQuestion, setActiveQuestion] = useState(false);
+const Question = ({ index }: Props) => {
+    const question = useAppSelector((state) => state.survey.questions[index]);
+    const indexActiveQuestion = useAppSelector((state) => state.survey.indexActiveQuestion);
+    const isActiveQuestion = index === indexActiveQuestion;
+    const dispatchApp = useAppDispatch();
+
     const myRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (myRef.current && !myRef.current.contains(event.target as Node)) {
-                setTimeout(() => {
-                    setActiveQuestion(false);
-                }, 200);
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [myRef]);
     useEffect(() => {
         if (isActiveQuestion) {
             const topElement = myRef.current?.offsetTop;
@@ -48,18 +39,30 @@ const Question = ({ type, id }: Props) => {
         }
     }, [isActiveQuestion]);
 
-    const handleClickInside = () => {
-        setActiveQuestion(true);
+    const handleClickInsideQuestion = () => {
+        dispatchApp(activeQuestion(index));
     };
 
     const handleClickAddImageQuestion = () => {
         console.log('qq');
     };
-    const heading = type !== QuestionType.Description ? 'Câu hỏi' : 'Tiêu đề';
+    const handleInsertQuestion = (position: number) => {
+        dispatchApp(insertQuestion(position));
+    };
+    const heading = question.questionType !== QuestionType.Description ? 'Câu hỏi' : 'Tiêu đề';
+
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     return (
         <div className={cx('wrapper')} ref={myRef}>
             {isActiveQuestion && (
-                <div className={cx('add', 'before')}>
+                <div className={cx('add', 'before')} onClick={() => handleInsertQuestion(index)}>
                     <div className={cx('separate')}></div>
                     <IoIosAddCircleOutline className={cx('icon')} />
                     <div className={cx('separate')}></div>
@@ -69,7 +72,7 @@ const Question = ({ type, id }: Props) => {
                 className={cx('body', {
                     isActiveQuestion: isActiveQuestion === true,
                 })}
-                onClick={handleClickInside}>
+                onClick={handleClickInsideQuestion}>
                 <div className={cx('question-wrapper')}>
                     <div style={{ flex: '1' }}>
                         <QuestionTextInput
@@ -78,30 +81,71 @@ const Question = ({ type, id }: Props) => {
                             isQuestionHeading={true}></QuestionTextInput>
                     </div>
 
-                    {isActiveQuestion && (
-                        <IconButton style={{ padding: '12px' }} onClick={handleClickAddImageQuestion}>
-                            <ImageOutlinedIcon style={{ fontSize: '28px' }} />
-                        </IconButton>
-                    )}
+                    <div>
+                        {isActiveQuestion && (
+                            <IconButton style={{ padding: '12px' }} onClick={handleClickAddImageQuestion}>
+                                <ImageOutlinedIcon style={{ fontSize: '28px' }} />
+                            </IconButton>
+                        )}
+                        {isActiveQuestion && (
+                            <IconButton style={{ padding: '12px' }} onClick={handleClickAddImageQuestion}>
+                                <CgArrowsExchangeAlt />
+                            </IconButton>
+                        )}
+                        <Button
+                            style={{
+                                padding: '0',
+                                borderRadius: '50%',
+                            }}
+                            id="demo-customized-button"
+                            aria-controls={open ? 'demo-customized-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            disableElevation
+                            onClick={handleClick}>
+                            <IconButton style={{ padding: '12px' }} onClick={handleClickAddImageQuestion}>
+                                <CgArrowsExchangeAlt />
+                            </IconButton>
+                        </Button>
+                        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+                            <MenuItem onClick={handleClose} disableRipple>
+                                <EditNotifications />
+                                Edit
+                            </MenuItem>
+                        </Menu>
+                    </div>
                 </div>
+                {question.isHasDescription && (
+                    <QuestionTextInput placeholder={'Mô tả'} isActiveQuestion={isActiveQuestion}></QuestionTextInput>
+                )}
 
-                {type === QuestionType.ShortAnswer && <QuestionShortAnswer />}
-                {type === QuestionType.Paragraph && <QuestionParagraph />}
-                {type === QuestionType.Dropdown && <QuestionDropDown isActiveQuestion={isActiveQuestion} />}
-                {type === QuestionType.Checkbox && <QuestionCheckbox isActiveQuestion={isActiveQuestion} />}
-                {type === QuestionType.RadioButton && <QuestionRadioButton isActiveQuestion={isActiveQuestion} />}
-                {type === QuestionType.LinearScale && <QuestionLinearScale isActiveQuestion={isActiveQuestion} />}
-                {type === QuestionType.Description && <Description isActiveQuestion={isActiveQuestion} />}
+                {question.questionType === QuestionType.ShortAnswer && <QuestionShortAnswer />}
+                {question.questionType === QuestionType.Paragraph && <QuestionParagraph />}
+                {question.questionType === QuestionType.Dropdown && (
+                    <QuestionDropDown isActiveQuestion={isActiveQuestion} />
+                )}
+                {question.questionType === QuestionType.Checkbox && (
+                    <QuestionCheckbox isActiveQuestion={isActiveQuestion} />
+                )}
+                {question.questionType === QuestionType.RadioButton && (
+                    <QuestionRadioButton isActiveQuestion={isActiveQuestion} />
+                )}
+                {question.questionType === QuestionType.LinearScale && (
+                    <QuestionLinearScale isActiveQuestion={isActiveQuestion} />
+                )}
+                {question.questionType === QuestionType.Description && (
+                    <Description isActiveQuestion={isActiveQuestion} />
+                )}
 
-                {type === QuestionType.RadioButtonGrid && (
+                {question.questionType === QuestionType.RadioButtonGrid && (
                     <QuestionRadioButtonGrid isActiveQuestion={isActiveQuestion} />
                 )}
 
-                {isActiveQuestion && <BottomQuestion type={type} />}
+                {isActiveQuestion && <BottomQuestion type={question.questionType} indexQuestion={index} />}
             </div>
 
             {isActiveQuestion && (
-                <div className={cx('add', 'after')}>
+                <div className={cx('add', 'after')} onClick={() => handleInsertQuestion(index + 1)}>
                     <div className={cx('separate')}></div>
                     <IoIosAddCircleOutline className={cx('icon')} />
                     <div className={cx('separate')}></div>

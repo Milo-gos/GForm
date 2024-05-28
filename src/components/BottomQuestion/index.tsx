@@ -8,12 +8,16 @@ import { FormControlLabel, IconButton, Menu, MenuItem, Switch, Tooltip } from '@
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import MyDialog from '../MyDialog';
-import QuestionType from '../../utils/questionType';
+import QuestionType from '../../utils/interfaces/questionType';
+import { useAppDispatch } from '../../redux';
+import { deleteQuestion, toggleDescription } from '../../redux/slice/survey';
 const cx = classNames.bind(style);
 interface Props {
     type?: QuestionType;
+    indexQuestion: number;
 }
-const BottomQuestion = ({ type }: Props) => {
+const BottomQuestion = ({ type, indexQuestion }: Props) => {
+    const dispatchApp = useAppDispatch();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -26,6 +30,11 @@ const BottomQuestion = ({ type }: Props) => {
     const handleClickDescription = () => {
         setDescription((prev) => !prev);
         setAnchorEl(null);
+        dispatchApp(toggleDescription(indexQuestion));
+    };
+
+    const handleClickRemoveQuestion = () => {
+        dispatchApp(deleteQuestion(indexQuestion));
     };
 
     return (
@@ -37,7 +46,7 @@ const BottomQuestion = ({ type }: Props) => {
             </Tooltip>
 
             <Tooltip title="Xóa">
-                <IconButton style={{ padding: '12px' }}>
+                <IconButton style={{ padding: '12px' }} onClick={handleClickRemoveQuestion}>
                     <DeleteIcon style={{ fontSize: '28px', cursor: 'pointer' }} />
                 </IconButton>
             </Tooltip>

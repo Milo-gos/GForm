@@ -1,26 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from './addnewsurveyquestion.module.scss';
 import classNames from 'classnames/bind';
 import { Question, QuestionTextInput } from '../../components';
-import QuestionType from '../../utils/questionType';
+import QuestionType from '../../utils/interfaces/questionType';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import { insertQuestion, setNewSurvey } from '../../redux/slice/survey';
+import { IoIosAddCircleOutline } from 'react-icons/io';
 
 const cx = classNames.bind(style);
 
 const AddNewSurveyQuestionPage = () => {
-    const [questions, setQuestions] = useState([...Object.values(QuestionType)]);
+    const dispatchApp = useAppDispatch();
+    const survey = useAppSelector((state) => state.survey);
+    useEffect(() => {
+        dispatchApp(setNewSurvey());
+    }, []);
 
+    const handleAddFirstQuestion = () => {
+        dispatchApp(insertQuestion(0));
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <div className={cx('background')}>
-                    <img src="https://lh7-us.googleusercontent.com/9lAdYA6VtlQXffFuiByK_CiCbqBw1_U2WLyFxffILM_cSVaac_nbMN4YyydbrxhxpDE8wTAW1e4cFQEioP3D7VDouKFpchj-FTjftokvBTOg4v8aKIStnhcrKONGtrOQZUYlCoqAGfuqyOLZYszgytj2Omvzww" />
+                    <img src="https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg" />
                 </div>
                 <div className={cx('container', 'active', 'form-header')}>
                     <QuestionTextInput placeholder="Tiêu đề khảo sát" isTitleForm={true}></QuestionTextInput>
                     <QuestionTextInput placeholder="Mô tả khảo sát"></QuestionTextInput>
                 </div>
-                {questions.map((question, index) => (
-                    <Question type={question} key={index} id={question} />
+                {survey.questions.length == 0 && (
+                    <div className={cx('add')} onClick={handleAddFirstQuestion}>
+                        <div className={cx('separate')}></div>
+                        <IoIosAddCircleOutline className={cx('icon')} />
+                        <div className={cx('separate')}></div>
+                    </div>
+                )}
+                {survey.questions.map((question, index) => (
+                    <Question key={question.id} index={index} />
                 ))}
             </div>
         </div>
