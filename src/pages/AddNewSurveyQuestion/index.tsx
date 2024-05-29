@@ -4,7 +4,13 @@ import classNames from 'classnames/bind';
 import { Question, QuestionTextInput } from '../../components';
 import QuestionType from '../../utils/interfaces/questionType';
 import { useAppDispatch, useAppSelector } from '../../redux';
-import { insertQuestion, setNewSurvey } from '../../redux/slice/survey';
+import {
+    handleActiveQuestion,
+    handleChangeDescription,
+    handleChangeTitle,
+    handleInsertQuestion,
+    setNewSurvey,
+} from '../../redux/slice/survey';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 
 const cx = classNames.bind(style);
@@ -17,7 +23,11 @@ const AddNewSurveyQuestionPage = () => {
     }, []);
 
     const handleAddFirstQuestion = () => {
-        dispatchApp(insertQuestion(0));
+        dispatchApp(
+            handleInsertQuestion({
+                position: 0,
+            }),
+        );
     };
     return (
         <div className={cx('wrapper')}>
@@ -25,9 +35,25 @@ const AddNewSurveyQuestionPage = () => {
                 <div className={cx('background')}>
                     <img src="https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg" />
                 </div>
-                <div className={cx('container', 'active', 'form-header')}>
-                    <QuestionTextInput placeholder="Tiêu đề khảo sát" isTitleForm={true}></QuestionTextInput>
-                    <QuestionTextInput placeholder="Mô tả khảo sát"></QuestionTextInput>
+                <div
+                    className={cx('container', 'active', 'form-header')}
+                    onClick={() =>
+                        dispatchApp(
+                            handleActiveQuestion({
+                                indexQuestion: -1,
+                            }),
+                        )
+                    }>
+                    <QuestionTextInput
+                        value={survey.title}
+                        onChange={(e) => dispatchApp(handleChangeTitle({ title: e.target.value }))}
+                        isTitleForm={true}></QuestionTextInput>
+                    <QuestionTextInput
+                        placeholder="Mô tả khảo sát"
+                        value={survey.description}
+                        onChange={(e) =>
+                            dispatchApp(handleChangeDescription({ description: e.target.value }))
+                        }></QuestionTextInput>
                 </div>
                 {survey.questions.length == 0 && (
                     <div className={cx('add')} onClick={handleAddFirstQuestion}>

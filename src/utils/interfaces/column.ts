@@ -1,5 +1,5 @@
 interface ColumnInterface {
-    cColumnContent: string;
+    columnContent: string;
 }
 
 export default ColumnInterface;

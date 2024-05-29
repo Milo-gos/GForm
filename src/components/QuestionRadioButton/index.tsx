@@ -5,62 +5,96 @@ import CloseIcon from '@mui/icons-material/Close';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
 import QuestionTextInput from '../QuestionTextInput';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import { useDispatch } from 'react-redux';
+import {
+    handleAddOption,
+    handleChangeOptionText,
+    handleRemoveOption,
+    handleSetHasOther,
+} from '../../redux/slice/survey';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
+    indexQuestion: number;
 }
-const QuestionRadioButton = ({ isActiveQuestion }: Props) => {
-    const [listOption, setListOption] = useState([1]);
-    const [hasOther, setHasOther] = useState(false);
-    const handleClickAddOption = () => {
-        setListOption((prev) => [...prev, 1]);
-    };
-    const handleClickRemoveOption = (indexRemove: number) => {
-        setListOption((prev) => [...prev].filter((item, index) => index !== indexRemove));
+const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
+    const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
+    const optionsLength = question.options ? question.options.length : 0;
+    const isHasOther = question.isHasOther;
+    const dispatchApp = useAppDispatch();
+    const handleAddOther = () => {
+        if (isHasOther) return;
+        dispatchApp(
+            handleSetHasOther({
+                indexQuestion,
+                isHasOther: true,
+            }),
+        );
     };
 
     return (
         <div className={cx('wrapper')}>
-            {listOption.map((item, index) => {
+            {question.options?.map((option, indexOption) => {
                 return (
-                    <div key={index} className={cx('option-wrapper')}>
+                    <div key={indexOption} className={cx('option-wrapper')}>
                         <RadioButtonUncheckedOutlinedIcon style={{ color: '#bdbdbd' }} />
                         <div style={{ flex: '1' }}>
-                            <QuestionTextInput isActiveQuestion={isActiveQuestion} />
+                            <QuestionTextInput
+                                isActiveQuestion={isActiveQuestion}
+                                value={option.optionText}
+                                onChange={(e) =>
+                                    dispatchApp(
+                                        handleChangeOptionText({
+                                            indexQuestion,
+                                            indexOption,
+                                            optionText: e.target.value,
+                                        }),
+                                    )
+                                }
+                            />
                         </div>
-                        {listOption.length > 1 && isActiveQuestion && (
+                        {optionsLength + Number(isHasOther) > 1 && isActiveQuestion && (
                             <CloseIcon
                                 style={{ cursor: 'pointer', color: 'rgb(95, 99, 104)' }}
-                                onClick={() => handleClickRemoveOption(index)}
+                                onClick={() => dispatchApp(handleRemoveOption({ indexQuestion, indexOption }))}
                             />
                         )}
                     </div>
                 );
             })}
-            {hasOther && (
+
+            {isHasOther && (
                 <div className={cx('option-wrapper')}>
                     <RadioButtonUncheckedOutlinedIcon style={{ color: '#bdbdbd' }} />
                     <div style={{ flex: '1' }}>
                         <div className={cx('other')}>Khác...</div>
                     </div>
-                    {listOption.length > 1 && isActiveQuestion && (
+                    {optionsLength + Number(isHasOther) > 1 && isActiveQuestion && (
                         <CloseIcon
                             style={{ cursor: 'pointer', color: 'rgb(95, 99, 104)' }}
-                            onClick={() => setHasOther(false)}
+                            onClick={() =>
+                                dispatchApp(
+                                    handleSetHasOther({
+                                        indexQuestion,
+                                        isHasOther: true,
+                                    }),
+                                )
+                            }
                         />
                     )}
                 </div>
             )}
             {isActiveQuestion && (
                 <div className={cx('add-option-other')}>
-                    <div onClick={handleClickAddOption} className={cx('add-option')}>
+                    <div onClick={() => dispatchApp(handleAddOption({ indexQuestion }))} className={cx('add-option')}>
                         <IoIosAddCircleOutline size={24} />
                         <div>
                             <p>Thêm lựa chọn</p>
                             <div className={cx('underline')}></div>
                         </div>
                     </div>
-                    <div className={cx('add-other')} onClick={() => setHasOther(true)}>
+                    <div className={cx('add-other')} onClick={handleAddOther}>
                         <p>
                             hoặc <span>{'thêm "khác"'}</span>
                         </p>

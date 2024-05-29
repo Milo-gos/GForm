@@ -1,6 +1,7 @@
 import ColumnInterface from './column';
 
 import LinearScaleInterface from './linear_scale';
+import OptionInterface from './option';
 
 import QuestionType from './questionType';
 import RowInterface from './row';
@@ -29,6 +30,8 @@ interface QuestionInterface {
     rows?: RowInterface[];
 
     columns?: ColumnInterface[];
+    options?: OptionInterface[];
+    isHasOther?: boolean;
 }
 
 export default QuestionInterface;

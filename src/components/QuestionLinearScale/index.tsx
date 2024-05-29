@@ -6,11 +6,15 @@ import { IoIosAddCircleOutline } from 'react-icons/io';
 import TextInput from '../NormalTextInput';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import QuestionTextInput from '../QuestionTextInput';
+import { useAppSelector } from '../../redux';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
+    indexQuestion: number;
 }
-const QuestionLinearScale = ({ isActiveQuestion }: Props) => {
+const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
+    const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
+    const optionsLength = question.options ? question.options.length : 0;
     const [valueLeft, setValueLeft] = useState('1');
     const [valueRight, setValueRight] = useState('5');
     const handleChangeSelectLeft = (e: SelectChangeEvent) => {

@@ -13,12 +13,34 @@ import Description from '../Description';
 import QuestionTextInput from '../QuestionTextInput';
 import QuestionRadioButtonGrid from '../QuestionRadioButtonGrid';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+import ArrowDropDownCircleOutlinedIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import { Button, IconButton, Menu, MenuItem } from '@mui/material';
+import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import {
+    Button,
+    Divider,
+    FormControl,
+    IconButton,
+    Menu,
+    MenuItem,
+    Select,
+    SelectChangeEvent,
+    alpha,
+} from '@mui/material';
 import { CgArrowsExchangeAlt } from 'react-icons/cg';
 import { useAppDispatch, useAppSelector } from '../../redux';
-import { activeQuestion, insertQuestion } from '../../redux/slice/survey';
-import { EditNotifications } from '@mui/icons-material';
+import {
+    handleActiveQuestion,
+    handleChangeDescriptionQuestion,
+    handleChangeQuestion,
+    handleChangeQuestionType,
+    handleInsertQuestion,
+} from '../../redux/slice/survey';
+import ShortTextIcon from '@mui/icons-material/ShortText';
+import NotesIcon from '@mui/icons-material/Notes';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+
 const cx = classNames.bind(style);
 
 interface Props {
@@ -40,29 +62,35 @@ const Question = ({ index }: Props) => {
     }, [isActiveQuestion]);
 
     const handleClickInsideQuestion = () => {
-        dispatchApp(activeQuestion(index));
+        if (isActiveQuestion) return;
+        dispatchApp(handleActiveQuestion({ indexQuestion: index }));
     };
 
     const handleClickAddImageQuestion = () => {
         console.log('qq');
     };
-    const handleInsertQuestion = (position: number) => {
-        dispatchApp(insertQuestion(position));
+    const handleInsertNewQuestion = (position: number) => {
+        dispatchApp(
+            handleInsertQuestion({
+                position,
+            }),
+        );
     };
     const heading = question.questionType !== QuestionType.Description ? 'Câu hỏi' : 'Tiêu đề';
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
+    const handleChangeNewQuestionType = (e: SelectChangeEvent) => {
+        const questionType = e.target.value;
+        dispatchApp(
+            handleChangeQuestionType({
+                index,
+                questionType,
+            }),
+        );
     };
     return (
         <div className={cx('wrapper')} ref={myRef}>
             {isActiveQuestion && (
-                <div className={cx('add', 'before')} onClick={() => handleInsertQuestion(index)}>
+                <div className={cx('add', 'before')} onClick={() => handleInsertNewQuestion(index)}>
                     <div className={cx('separate')}></div>
                     <IoIosAddCircleOutline className={cx('icon')} />
                     <div className={cx('separate')}></div>
@@ -74,78 +102,160 @@ const Question = ({ index }: Props) => {
                 })}
                 onClick={handleClickInsideQuestion}>
                 <div className={cx('question-wrapper')}>
-                    <div style={{ flex: '1' }}>
-                        <QuestionTextInput
-                            placeholder={heading}
-                            isActiveQuestion={isActiveQuestion}
-                            isQuestionHeading={true}></QuestionTextInput>
-                    </div>
+                    <div style={{ flex: '1', display: 'flex', alignItems: 'center' }}>
+                        <div style={{ flex: '1' }}>
+                            <QuestionTextInput
+                                value={question.question}
+                                onChange={(e) =>
+                                    dispatchApp(
+                                        handleChangeQuestion({
+                                            indexQuestion: index,
 
-                    <div>
+                                            question: e.target.value,
+                                        }),
+                                    )
+                                }
+                                placeholder={heading}
+                                isActiveQuestion={isActiveQuestion}
+                                isQuestionHeading={true}></QuestionTextInput>
+                        </div>
                         {isActiveQuestion && (
                             <IconButton style={{ padding: '12px' }} onClick={handleClickAddImageQuestion}>
                                 <ImageOutlinedIcon style={{ fontSize: '28px' }} />
                             </IconButton>
                         )}
-                        {isActiveQuestion && (
-                            <IconButton style={{ padding: '12px' }} onClick={handleClickAddImageQuestion}>
-                                <CgArrowsExchangeAlt />
-                            </IconButton>
-                        )}
-                        <Button
-                            style={{
-                                padding: '0',
-                                borderRadius: '50%',
-                            }}
-                            id="demo-customized-button"
-                            aria-controls={open ? 'demo-customized-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            disableElevation
-                            onClick={handleClick}>
-                            <IconButton style={{ padding: '12px' }} onClick={handleClickAddImageQuestion}>
-                                <CgArrowsExchangeAlt />
-                            </IconButton>
-                        </Button>
-                        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                            <MenuItem onClick={handleClose} disableRipple>
-                                <EditNotifications />
-                                Edit
+                    </div>
+
+                    <div>
+                        <Select
+                            onChange={handleChangeNewQuestionType}
+                            value={question.questionType}
+                            MenuProps={{ disablePortal: true }}
+                            slotProps={{
+                                root: {
+                                    sx: {
+                                        p: 0,
+                                        '.MuiSelect-select': {
+                                            width: 160,
+
+                                            alignItems: 'center',
+                                        },
+                                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                            border: '1px solid #e0e0db',
+                                            borderRadius: '5px 5px 0 0',
+                                        },
+                                        '&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                            border: '1px solid #e0e0db',
+                                            borderRadius: '5px 5px 0 0',
+                                        },
+                                        '& .MuiOutlinedInput-input': { p: 1.25 },
+                                    },
+                                },
+                            }}>
+                            <MenuItem value={QuestionType.ShortAnswer}>
+                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                    <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
+                                        <ShortTextIcon style={{ fontSize: '30px' }} />
+                                    </div>
+                                    <span style={{ marginLeft: '12px' }}>Câu trả lời ngắn</span>
+                                </div>
                             </MenuItem>
-                        </Menu>
+                            <MenuItem value={QuestionType.Paragraph}>
+                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                    <div
+                                        style={{
+                                            width: '30px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}>
+                                        <NotesIcon style={{ fontSize: '24px' }} />
+                                    </div>
+                                    <span style={{ marginLeft: '12px' }}>Câu trả lời dài</span>
+                                </div>
+                            </MenuItem>
+                            <Divider sx={{ my: 0.5 }} />
+                            <MenuItem value={QuestionType.RadioButton}>
+                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                    <div
+                                        style={{
+                                            width: '30px',
+                                            height: '20px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                        }}>
+                                        <RadioButtonCheckedIcon style={{ fontSize: '24px' }} />
+                                    </div>
+                                    <span style={{ marginLeft: '12px' }}>Multiple choice</span>
+                                </div>
+                            </MenuItem>
+                            <MenuItem value={QuestionType.Checkbox}>
+                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                    <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
+                                        <CheckBoxOutlinedIcon style={{ fontSize: '24px' }} />
+                                    </div>
+                                    <span style={{ marginLeft: '12px' }}>Checkboxes</span>
+                                </div>
+                            </MenuItem>
+                            <MenuItem value={QuestionType.Dropdown}>
+                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                    <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
+                                        <ArrowDropDownCircleOutlinedIcon style={{ fontSize: '24px' }} />
+                                    </div>
+                                    <span style={{ marginLeft: '12px' }}>Dropdown</span>
+                                </div>
+                            </MenuItem>
+                            <Divider sx={{ my: 0.5 }} />
+                            <MenuItem value={QuestionType.Description}>
+                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                    <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
+                                        <DescriptionOutlinedIcon style={{ fontSize: '24px' }} />
+                                    </div>
+
+                                    <span style={{ marginLeft: '12px' }}>Mô tả</span>
+                                </div>
+                            </MenuItem>
+                        </Select>
                     </div>
                 </div>
-                {question.isHasDescription && (
-                    <QuestionTextInput placeholder={'Mô tả'} isActiveQuestion={isActiveQuestion}></QuestionTextInput>
+                {question.isHasDescription && question.questionType !== QuestionType.Description && (
+                    <QuestionTextInput
+                        placeholder={'Mô tả'}
+                        value={question.description}
+                        onChange={(e) =>
+                            dispatchApp(
+                                handleChangeDescriptionQuestion({ indexQuestion: index, description: e.target.value }),
+                            )
+                        }
+                        isActiveQuestion={isActiveQuestion}></QuestionTextInput>
                 )}
 
-                {question.questionType === QuestionType.ShortAnswer && <QuestionShortAnswer />}
-                {question.questionType === QuestionType.Paragraph && <QuestionParagraph />}
+                {question.questionType === QuestionType.ShortAnswer && <QuestionShortAnswer indexQuestion={index} />}
+                {question.questionType === QuestionType.Paragraph && <QuestionParagraph indexQuestion={index} />}
                 {question.questionType === QuestionType.Dropdown && (
-                    <QuestionDropDown isActiveQuestion={isActiveQuestion} />
+                    <QuestionDropDown isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
                 {question.questionType === QuestionType.Checkbox && (
-                    <QuestionCheckbox isActiveQuestion={isActiveQuestion} />
+                    <QuestionCheckbox isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
                 {question.questionType === QuestionType.RadioButton && (
-                    <QuestionRadioButton isActiveQuestion={isActiveQuestion} />
+                    <QuestionRadioButton isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
                 {question.questionType === QuestionType.LinearScale && (
-                    <QuestionLinearScale isActiveQuestion={isActiveQuestion} />
+                    <QuestionLinearScale isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
                 {question.questionType === QuestionType.Description && (
-                    <Description isActiveQuestion={isActiveQuestion} />
+                    <Description isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
 
                 {question.questionType === QuestionType.RadioButtonGrid && (
-                    <QuestionRadioButtonGrid isActiveQuestion={isActiveQuestion} />
+                    <QuestionRadioButtonGrid isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
 
                 {isActiveQuestion && <BottomQuestion type={question.questionType} indexQuestion={index} />}
             </div>
 
             {isActiveQuestion && (
-                <div className={cx('add', 'after')} onClick={() => handleInsertQuestion(index + 1)}>
+                <div className={cx('add', 'after')} onClick={() => handleInsertNewQuestion(index + 1)}>
                     <div className={cx('separate')}></div>
                     <IoIosAddCircleOutline className={cx('icon')} />
                     <div className={cx('separate')}></div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import style from './bottomquestion.module.scss';
 import classNames from 'classnames/bind';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -9,8 +9,13 @@ import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import MyDialog from '../MyDialog';
 import QuestionType from '../../utils/interfaces/questionType';
-import { useAppDispatch } from '../../redux';
-import { deleteQuestion, toggleDescription } from '../../redux/slice/survey';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import {
+    handleDeleteQuestion,
+    handleToggleDescription,
+    handleChangeRequired,
+    handleDuplicateQuestion,
+} from '../../redux/slice/survey';
 const cx = classNames.bind(style);
 interface Props {
     type?: QuestionType;
@@ -18,6 +23,7 @@ interface Props {
 }
 const BottomQuestion = ({ type, indexQuestion }: Props) => {
     const dispatchApp = useAppDispatch();
+    const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -26,21 +32,43 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const [description, setDescription] = useState(false);
+    const isHasDescription = question.isHasDescription;
     const handleClickDescription = () => {
-        setDescription((prev) => !prev);
         setAnchorEl(null);
-        dispatchApp(toggleDescription(indexQuestion));
+        dispatchApp(handleToggleDescription({ indexQuestion }));
     };
 
-    const handleClickRemoveQuestion = () => {
-        dispatchApp(deleteQuestion(indexQuestion));
+    const handleClickRemoveQuestion = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        dispatchApp(
+            handleDeleteQuestion({
+                indexQuestion,
+            }),
+        );
     };
 
+    const handleSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const isRequired = event.target.checked;
+
+        dispatchApp(
+            handleChangeRequired({
+                indexQuestion: indexQuestion,
+                isRequired,
+            }),
+        );
+    };
+    const handleDuplicateThisQuestion = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        dispatchApp(
+            handleDuplicateQuestion({
+                indexQuestion,
+            }),
+        );
+    };
     return (
         <div className={cx('wrapper')}>
             <Tooltip title="Nhân bản">
-                <IconButton style={{ padding: '12px' }}>
+                <IconButton style={{ padding: '12px' }} onClick={handleDuplicateThisQuestion}>
                     <ContentCopyIcon style={{ fontSize: '28px' }} />
                 </IconButton>
             </Tooltip>
@@ -55,7 +83,13 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
             {/* <Switch defaultChecked /> */}
             {type !== QuestionType.Description && (
                 <FormControlLabel
-                    control={<Switch defaultChecked color="warning" sx={{ color: 'error' }}></Switch>}
+                    control={
+                        <Switch
+                            color="warning"
+                            sx={{ color: 'error' }}
+                            checked={question.isRequired}
+                            onChange={handleSwitch}></Switch>
+                    }
                     labelPlacement="start"
                     label={<span style={{ fontSize: '14px' }}>Bắt buộc</span>}
                 />
@@ -79,7 +113,7 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
                     horizontal: 'left',
                 }}>
                 <MenuItem onClick={handleClickDescription}>
-                    {description && <CheckOutlinedIcon style={{ color: '#ed6c02', marginRight: '8px' }} />} Mô tả
+                    {isHasDescription && <CheckOutlinedIcon style={{ color: '#ed6c02', marginRight: '8px' }} />} Mô tả
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Kiểm tra định dạng</MenuItem>
                 <MenuItem onClick={handleClose}>Đi đến phần chỉ định dựa vào câu trả lời</MenuItem>

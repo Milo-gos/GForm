@@ -8,8 +8,9 @@ import QuestionTextInput from '../QuestionTextInput';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
+    indexQuestion: number;
 }
-const QuestionRadioButtonGrid = ({ isActiveQuestion }: Props) => {
+const QuestionRadioButtonGrid = ({ isActiveQuestion, indexQuestion }: Props) => {
     const [listRows, setListRows] = useState([1]);
     const handleClickAddRow = () => {
         setListRows((prev) => [...prev, 1]);

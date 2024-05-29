@@ -51,7 +51,11 @@
 
     .question-wrapper {
         display: flex;
-        align-items: center;
+        // align-items: center;
         gap: 12px;
+    }
+
+    .icon {
+        font-size: 100px;
     }
 }

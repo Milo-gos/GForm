@@ -5,11 +5,17 @@ import CloseIcon from '@mui/icons-material/Close';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 
 import QuestionTextInput from '../QuestionTextInput';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import { handleAddOption, handleChangeOptionText, handleRemoveOption } from '../../redux/slice/survey';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
+    indexQuestion: number;
 }
-const QuestionDropDown = ({ isActiveQuestion }: Props) => {
+const QuestionDropDown = ({ isActiveQuestion, indexQuestion }: Props) => {
+    const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
+    const optionsLength = question.options ? question.options.length : 0;
+    const dispatchApp = useAppDispatch();
     const [listOption, setListOption] = useState([1]);
     const handleClickAddOption = () => {
         setListOption((prev) => [...prev, 1]);
@@ -19,21 +25,36 @@ const QuestionDropDown = ({ isActiveQuestion }: Props) => {
     };
     return (
         <div className={cx('wrapper')}>
-            {listOption.map((item, index) => {
+            {question.options?.map((option, indexOption) => {
                 return (
-                    <div key={index} className={cx('option-wrapper')}>
-                        <span>{index + 1}.</span>
+                    <div key={indexOption} className={cx('option-wrapper')}>
+                        <span>{indexOption + 1}.</span>
                         <div style={{ flex: '1' }}>
-                            <QuestionTextInput isActiveQuestion={isActiveQuestion} />
+                            <QuestionTextInput
+                                isActiveQuestion={isActiveQuestion}
+                                value={option.optionText}
+                                onChange={(e) =>
+                                    dispatchApp(
+                                        handleChangeOptionText({
+                                            indexQuestion,
+                                            indexOption,
+                                            optionText: e.target.value,
+                                        }),
+                                    )
+                                }
+                            />
                         </div>
-                        {listOption.length > 1 && isActiveQuestion && (
-                            <CloseIcon style={{ cursor: 'pointer' }} onClick={() => handleClickRemoveOption(index)} />
+                        {optionsLength > 1 && isActiveQuestion && (
+                            <CloseIcon
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => dispatchApp(handleRemoveOption({ indexQuestion, indexOption }))}
+                            />
                         )}
                     </div>
                 );
             })}
             {isActiveQuestion && (
-                <div className={cx('add-option')} onClick={handleClickAddOption}>
+                <div className={cx('add-option')} onClick={() => dispatchApp(handleAddOption({ indexQuestion }))}>
                     <IoIosAddCircleOutline size={24} />
                     <div>
                         <p>Thêm lựa chọn</p>
