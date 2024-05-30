@@ -35,11 +35,21 @@ import {
     handleChangeQuestion,
     handleChangeQuestionType,
     handleInsertQuestion,
+    handleSetQuestion,
 } from '../../redux/slice/survey';
 import ShortTextIcon from '@mui/icons-material/ShortText';
 import NotesIcon from '@mui/icons-material/Notes';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import useCurrentSurvey from '../../hooks/useCurrentSurvey';
+import useAutoSave from '../../hooks/useAutoSave';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import axios from 'axios';
+import API from '../../utils/api';
+import QuestionInterface from '../../utils/interfaces/question';
+import { useParams } from 'react-router-dom';
+import SurveyInterface from '../../utils/interfaces/survey';
+import useChangeQuestionMutation from './mutation/changeQuestion';
 
 const cx = classNames.bind(style);
 
@@ -51,6 +61,34 @@ const Question = ({ index }: Props) => {
     const indexActiveQuestion = useAppSelector((state) => state.survey.indexActiveQuestion);
     const isActiveQuestion = index === indexActiveQuestion;
     const dispatchApp = useAppDispatch();
+    const changeQuestion = useChangeQuestionMutation(question?.id || '');
+
+    useAutoSave(question.description, () => {
+        changeQuestion.mutate(
+            {
+                description: question.description,
+            },
+
+            {
+                onError(error, variables, context) {
+                    console.log(error);
+                },
+            },
+        );
+    });
+    useAutoSave(question.question, () => {
+        changeQuestion.mutate(
+            {
+                question: question.question,
+            },
+
+            {
+                onError(error, variables, context) {
+                    console.log(error);
+                },
+            },
+        );
+    });
 
     const myRef = useRef<HTMLDivElement>(null);
 
@@ -76,16 +114,38 @@ const Question = ({ index }: Props) => {
             }),
         );
     };
-    const heading = question.questionType !== QuestionType.Description ? 'Câu hỏi' : 'Tiêu đề';
+    const heading = question?.questionType !== QuestionType.Description ? 'Câu hỏi' : 'Tiêu đề';
 
     const handleChangeNewQuestionType = (e: SelectChangeEvent) => {
-        const questionType = e.target.value;
+        const questionType = e.target.value as QuestionType;
         dispatchApp(
             handleChangeQuestionType({
                 index,
                 questionType,
             }),
         );
+        changeQuestion.mutate(
+            {
+                questionType: questionType,
+            },
+
+            {
+                onError(error, variables, context) {
+                    console.log(error);
+                },
+                onSuccess(data, variables, context) {
+                    // dispatchApp(
+                    //     handleSetQuestion({
+                    //         indexQuestion: index,
+                    //         id: data.id,
+                    //     }),
+                    // );
+                },
+            },
+        );
+    };
+    const handleChangeDescription = (value: string) => {
+        dispatchApp(handleChangeDescriptionQuestion({ indexQuestion: index, description: value }));
     };
     return (
         <div className={cx('wrapper')} ref={myRef}>
@@ -110,7 +170,6 @@ const Question = ({ index }: Props) => {
                                     dispatchApp(
                                         handleChangeQuestion({
                                             indexQuestion: index,
-
                                             question: e.target.value,
                                         }),
                                     )
@@ -129,7 +188,7 @@ const Question = ({ index }: Props) => {
                     <div>
                         <Select
                             onChange={handleChangeNewQuestionType}
-                            value={question.questionType}
+                            value={question?.questionType}
                             MenuProps={{ disablePortal: true }}
                             slotProps={{
                                 root: {
@@ -217,41 +276,37 @@ const Question = ({ index }: Props) => {
                         </Select>
                     </div>
                 </div>
-                {question.isHasDescription && question.questionType !== QuestionType.Description && (
+                {question?.isHasDescription && question?.questionType !== QuestionType.Description && (
                     <QuestionTextInput
                         placeholder={'Mô tả'}
                         value={question.description}
-                        onChange={(e) =>
-                            dispatchApp(
-                                handleChangeDescriptionQuestion({ indexQuestion: index, description: e.target.value }),
-                            )
-                        }
+                        onChange={(e) => handleChangeDescription(e.target.value)}
                         isActiveQuestion={isActiveQuestion}></QuestionTextInput>
                 )}
 
-                {question.questionType === QuestionType.ShortAnswer && <QuestionShortAnswer indexQuestion={index} />}
-                {question.questionType === QuestionType.Paragraph && <QuestionParagraph indexQuestion={index} />}
-                {question.questionType === QuestionType.Dropdown && (
+                {question?.questionType === QuestionType.ShortAnswer && <QuestionShortAnswer indexQuestion={index} />}
+                {question?.questionType === QuestionType.Paragraph && <QuestionParagraph indexQuestion={index} />}
+                {question?.questionType === QuestionType.Dropdown && (
                     <QuestionDropDown isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
-                {question.questionType === QuestionType.Checkbox && (
+                {question?.questionType === QuestionType.Checkbox && (
                     <QuestionCheckbox isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
-                {question.questionType === QuestionType.RadioButton && (
+                {question?.questionType === QuestionType.RadioButton && (
                     <QuestionRadioButton isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
-                {question.questionType === QuestionType.LinearScale && (
+                {question?.questionType === QuestionType.LinearScale && (
                     <QuestionLinearScale isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
-                {question.questionType === QuestionType.Description && (
+                {question?.questionType === QuestionType.Description && (
                     <Description isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
 
-                {question.questionType === QuestionType.RadioButtonGrid && (
+                {question?.questionType === QuestionType.RadioButtonGrid && (
                     <QuestionRadioButtonGrid isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
 
-                {isActiveQuestion && <BottomQuestion type={question.questionType} indexQuestion={index} />}
+                {isActiveQuestion && <BottomQuestion type={question?.questionType} indexQuestion={index} />}
             </div>
 
             {isActiveQuestion && (

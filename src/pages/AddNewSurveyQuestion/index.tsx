@@ -10,25 +10,62 @@ import {
     handleChangeTitle,
     handleInsertQuestion,
     setNewSurvey,
+    setSurvey,
 } from '../../redux/slice/survey';
 import { IoIosAddCircleOutline } from 'react-icons/io';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import API from '../../utils/api';
+import { useParams } from 'react-router-dom';
+import SurveyInterface from '../../utils/interfaces/survey';
 
 const cx = classNames.bind(style);
 
 const AddNewSurveyQuestionPage = () => {
     const dispatchApp = useAppDispatch();
-    const survey = useAppSelector((state) => state.survey);
-    useEffect(() => {
-        dispatchApp(setNewSurvey());
-    }, []);
+    const { id } = useParams();
+    const {
+        data: survey,
+        isLoading,
+        isError,
+        isSuccess,
+    } = useQuery({
+        queryKey: [`getSurveyById_${id}`],
+        queryFn: async () => {
+            const response = await axios.get(`${API.GetSurveyById.endPoint}/${id}`);
+            const survey: SurveyInterface = response.data.data;
+            return survey;
+        },
+    });
+    // useEffect(() => {
+    //     dispatchApp(setNewSurvey());
+    // }, []);
 
     const handleAddFirstQuestion = () => {
+        console.log('111');
+        // dispatchApp(
+        //     handleInsertQuestion({
+        //         position: 0,
+        //     }),
+        // );
+    };
+    if (isLoading) {
+        return <div>Đang tải survey ......................</div>;
+    }
+    if (isError) return <div>Lỗi ......................</div>;
+    if (survey) {
         dispatchApp(
-            handleInsertQuestion({
-                position: 0,
+            setSurvey({
+                survey,
             }),
         );
-    };
+        dispatchApp(
+            handleActiveQuestion({
+                indexQuestion: 0,
+            }),
+        );
+    }
+    console.log('111');
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
@@ -45,26 +82,24 @@ const AddNewSurveyQuestionPage = () => {
                         )
                     }>
                     <QuestionTextInput
-                        value={survey.title}
+                        value={survey?.title}
                         onChange={(e) => dispatchApp(handleChangeTitle({ title: e.target.value }))}
                         isTitleForm={true}></QuestionTextInput>
                     <QuestionTextInput
                         placeholder="Mô tả khảo sát"
-                        value={survey.description}
+                        value={survey?.description}
                         onChange={(e) =>
                             dispatchApp(handleChangeDescription({ description: e.target.value }))
                         }></QuestionTextInput>
                 </div>
-                {survey.questions.length == 0 && (
+                {survey?.questions.length == 0 && (
                     <div className={cx('add')} onClick={handleAddFirstQuestion}>
                         <div className={cx('separate')}></div>
                         <IoIosAddCircleOutline className={cx('icon')} />
                         <div className={cx('separate')}></div>
                     </div>
                 )}
-                {survey.questions.map((question, index) => (
-                    <Question key={question.id} index={index} />
-                ))}
+                {survey?.questions.map((question, index) => <Question key={question.id} index={index} />)}
             </div>
         </div>
     );

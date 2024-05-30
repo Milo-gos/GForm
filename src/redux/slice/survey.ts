@@ -4,6 +4,8 @@ import API from '../../utils/api';
 import { setLoading } from './global';
 import Survey from '../../utils/interfaces/survey';
 import QuestionType from '../../utils/interfaces/questionType';
+import { useMutation } from '@tanstack/react-query';
+import useChangeQuestionMutation from '../../components/Question/mutation/changeQuestion';
 
 const initialState: Survey = {
     id: '',
@@ -18,6 +20,14 @@ const surveySlice = createSlice({
     name: 'survey',
     initialState,
     reducers: {
+        setSurvey: (state, action) => {
+            const { survey } = action.payload;
+            state.id = survey.id;
+            state.title = survey.title;
+            state.description = survey.description;
+            state.questions = survey.questions;
+            state.indexActiveQuestion = 0;
+        },
         setNewSurvey: (state) => {
             state.title = 'Tiêu đề khảo sát';
             state.description = '';
@@ -60,8 +70,9 @@ const surveySlice = createSlice({
 
         handleToggleDescription: (state, action) => {
             const { indexQuestion } = action.payload;
-            const currentState = state.questions[indexQuestion].isHasDescription;
-            state.questions[indexQuestion].isHasDescription = !currentState;
+            const nextState = !state.questions[indexQuestion].isHasDescription;
+            state.questions[indexQuestion].isHasDescription = nextState;
+            if (nextState === false) state.questions[indexQuestion].description = '';
         },
         handleDeleteQuestion: (state, action) => {
             const { indexQuestion } = action.payload;
@@ -123,6 +134,10 @@ const surveySlice = createSlice({
         handleChangeRequired: (state, action) => {
             const { indexQuestion, isRequired } = action.payload;
             state.questions[indexQuestion].isRequired = isRequired;
+        },
+        handleSetQuestion: (state, action) => {
+            const { indexQuestion, ...info } = action.payload;
+            state.questions[indexQuestion] = { ...state.questions[indexQuestion], ...info };
         },
     },
 });
@@ -217,6 +232,7 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
 export default surveySlice.reducer;
 export {};
 export const {
+    setSurvey,
     setNewSurvey,
     handleActiveQuestion,
     handleInsertQuestion,
@@ -233,4 +249,5 @@ export const {
     handleChangeQuestion,
     handleSetHasOther,
     handleChangeRequired,
+    handleSetQuestion,
 } = surveySlice.actions;

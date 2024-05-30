@@ -7,25 +7,21 @@ import { IoIosAddCircleOutline } from 'react-icons/io';
 import QuestionTextInput from '../QuestionTextInput';
 import { useAppDispatch, useAppSelector } from '../../redux';
 import { handleAddOption, handleChangeOptionText, handleRemoveOption } from '../../redux/slice/survey';
+import useCurrentSurvey from '../../hooks/useCurrentSurvey';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
     indexQuestion: number;
 }
 const QuestionDropDown = ({ isActiveQuestion, indexQuestion }: Props) => {
-    const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
-    const optionsLength = question.options ? question.options.length : 0;
+    // const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
+    const question = useCurrentSurvey()?.questions[indexQuestion];
+    const optionsLength = question?.options ? question.options.length : 0;
     const dispatchApp = useAppDispatch();
-    const [listOption, setListOption] = useState([1]);
-    const handleClickAddOption = () => {
-        setListOption((prev) => [...prev, 1]);
-    };
-    const handleClickRemoveOption = (indexRemove: number) => {
-        setListOption((prev) => [...prev].filter((item, index) => index !== indexRemove));
-    };
+
     return (
         <div className={cx('wrapper')}>
-            {question.options?.map((option, indexOption) => {
+            {question?.options?.map((option, indexOption) => {
                 return (
                     <div key={indexOption} className={cx('option-wrapper')}>
                         <span>{indexOption + 1}.</span>

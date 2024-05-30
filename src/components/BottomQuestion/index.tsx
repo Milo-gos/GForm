@@ -16,6 +16,8 @@ import {
     handleChangeRequired,
     handleDuplicateQuestion,
 } from '../../redux/slice/survey';
+import useCurrentSurvey from '../../hooks/useCurrentSurvey';
+import useChangeQuestionMutation from '../Question/mutation/changeQuestion';
 const cx = classNames.bind(style);
 interface Props {
     type?: QuestionType;
@@ -32,10 +34,21 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const isHasDescription = question.isHasDescription;
+    const isHasDescription = question?.isHasDescription;
     const handleClickDescription = () => {
         setAnchorEl(null);
         dispatchApp(handleToggleDescription({ indexQuestion }));
+        changeQuestion.mutate(
+            {
+                isHasDescription: !question.isHasDescription,
+            },
+
+            {
+                onError(error, variables, context) {
+                    console.log(error);
+                },
+            },
+        );
     };
 
     const handleClickRemoveQuestion = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -46,15 +59,25 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
             }),
         );
     };
-
+    const changeQuestion = useChangeQuestionMutation(question.id || '');
     const handleSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const isRequired = event.target.checked;
-
         dispatchApp(
             handleChangeRequired({
                 indexQuestion: indexQuestion,
                 isRequired,
             }),
+        );
+        changeQuestion.mutate(
+            {
+                isRequired: isRequired,
+            },
+
+            {
+                onError(error, variables, context) {
+                    console.log(error);
+                },
+            },
         );
     };
     const handleDuplicateThisQuestion = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -87,7 +110,7 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
                         <Switch
                             color="warning"
                             sx={{ color: 'error' }}
-                            checked={question.isRequired}
+                            checked={question?.isRequired}
                             onChange={handleSwitch}></Switch>
                     }
                     labelPlacement="start"

@@ -38,6 +38,21 @@ const API = {
         endPoint: `${BE_URL}/auth/resetPassword`,
         method: 'post',
     },
+
+    CreateSurvey: {
+        endPoint: `${BE_URL}/survey/createSurvey`,
+        method: 'post',
+    },
+
+    GetSurveyById: {
+        endPoint: `${BE_URL}/survey/getSurveyById`,
+        method: 'post',
+    },
+
+    ChangeQuestion: {
+        endPoint: `${BE_URL}/question/changeQuestion`,
+        method: 'patch',
+    },
 };
 
 export default API;
