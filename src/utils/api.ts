@@ -57,6 +57,20 @@ const API = {
         endPoint: `${BE_URL}/option/changeOption`,
         method: 'patch',
     },
+
+    AddOption: {
+        endPoint: `${BE_URL}/option/addOption`,
+        method: 'post',
+    },
+    DeleteOption: {
+        endPoint: `${BE_URL}/option/deleteOption`,
+        method: 'delete',
+    },
+    ChangeLinearScale: {
+        endPoint: `${BE_URL}/linearScale/changeLinearScale`,
+        method: 'patch',
+    },
+
     ChangeSurvey: {
         endPoint: `${BE_URL}/survey/changeSurvey`,
         method: 'patch',

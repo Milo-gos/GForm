@@ -6,6 +6,7 @@ import Survey from '../../utils/interfaces/survey';
 import QuestionType from '../../utils/interfaces/questionType';
 import { useMutation } from '@tanstack/react-query';
 import useChangeQuestionMutation from '../../components/Question/mutation/changeQuestion';
+import QuestionInterface from '../../utils/interfaces/question';
 
 const initialState: Survey = {
     id: '',
@@ -101,7 +102,6 @@ const surveySlice = createSlice({
         },
         handleAddOption: (state, action: PayloadAction<{ indexQuestion: number }>) => {
             const { indexQuestion } = action.payload;
-
             state.questions[indexQuestion]?.options?.push({
                 optionText: `Lựa chọn ${state.questions[indexQuestion]?.options!.length + 1}`,
             });
@@ -136,8 +136,30 @@ const surveySlice = createSlice({
             state.questions[indexQuestion].isRequired = isRequired;
         },
         handleSetQuestion: (state, action) => {
-            const { indexQuestion, ...info } = action.payload;
-            state.questions[indexQuestion] = { ...state.questions[indexQuestion], ...info };
+            const { questionType, indexQuestion, newQuestion } = action.payload;
+            state.questions[indexQuestion] = { ...state.questions[indexQuestion], ...newQuestion };
+            resetQuestion2(state, indexQuestion, questionType, newQuestion);
+        },
+        handleChangeLinear: (state, action) => {
+            const { min, max, indexQuestion, leftLabel, rightLabel } = action.payload;
+
+            if (min !== undefined) {
+                state.questions[indexQuestion].linearScale!.min = min;
+            }
+            if (max !== undefined) {
+                state.questions[indexQuestion].linearScale!.max = max;
+            }
+            if (leftLabel) {
+                state.questions[indexQuestion].linearScale!.leftLabel = leftLabel;
+            }
+            if (rightLabel) {
+                state.questions[indexQuestion].linearScale!.rightLabel = rightLabel;
+            }
+        },
+        handleSetOption: (state, action) => {
+            const { indexQuestion, option } = action.payload;
+            const lastIndex = state.questions[indexQuestion].options!.length - 1;
+            state.questions[indexQuestion].options![lastIndex].id = option.id;
         },
     },
 });
@@ -161,7 +183,7 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
             state.questions[index].linearScale = undefined;
             state.questions[index].rows = undefined;
             state.questions[index].columns = undefined;
-            if (!state.questions[index].options) {
+            if (!state.questions[index].options || state.questions[index].options?.length === 0) {
                 state.questions[index].options = [
                     {
                         optionText: 'Lựa chọn 1',
@@ -176,8 +198,8 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
             state.questions[index].linearScale = undefined;
             state.questions[index].rows = undefined;
             state.questions[index].columns = undefined;
-            state.questions[index].isHasOther = undefined;
-            if (!state.questions[index].options) {
+            state.questions[index].isHasOther = false;
+            if (!state.questions[index].options || state.questions[index].options?.length === 0) {
                 state.questions[index].options = [
                     {
                         optionText: 'Lựa chọn 1',
@@ -194,7 +216,7 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
             state.questions[index].isHasOther = false;
             state.questions[index].linearScale = {
                 min: 1,
-                max: 10,
+                max: 5,
                 leftLabel: '',
                 rightLabel: '',
             };
@@ -228,6 +250,40 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
             break;
     }
 };
+const resetQuestion2 = (
+    state: Draft<Survey>,
+    index: number,
+    questionType: QuestionType,
+    newQuestion: QuestionInterface,
+) => {
+    switch (questionType) {
+        case QuestionType.Checkbox:
+        case QuestionType.Dropdown:
+        case QuestionType.RadioButton:
+            state.questions[index].options![0].id = newQuestion.options![0].id;
+            break;
+        case QuestionType.LinearScale:
+            state.questions[index].linearScale!.id = newQuestion.linearScale?.id;
+            break;
+        case QuestionType.RadioButtonGrid:
+            state.questions[index].isValidation = false;
+            state.questions[index].validation = undefined;
+            state.questions[index].options = undefined;
+            state.questions[index].linearScale = undefined;
+            state.questions[index].isHasOther = false;
+            state.questions[index].rows = [
+                {
+                    rowContent: 'Hàng 1',
+                },
+            ];
+            state.questions[index].columns = [
+                {
+                    columnContent: 'Cột 1',
+                },
+            ];
+            break;
+    }
+};
 
 export default surveySlice.reducer;
 export {};
@@ -250,4 +306,6 @@ export const {
     handleSetHasOther,
     handleChangeRequired,
     handleSetQuestion,
+    handleChangeLinear,
+    handleSetOption,
 } = surveySlice.actions;

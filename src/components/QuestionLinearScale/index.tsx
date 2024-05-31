@@ -6,23 +6,52 @@ import { IoIosAddCircleOutline } from 'react-icons/io';
 import TextInput from '../NormalTextInput';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import QuestionTextInput from '../QuestionTextInput';
-import { useAppSelector } from '../../redux';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import { handleChangeLinear } from '../../redux/slice/survey';
+import useChangeLinearScaleMutation from '../Question/mutation/changeLinearScale';
+import useAutoSave from '../../hooks/useAutoSave';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
     indexQuestion: number;
 }
 const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
-    const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
-    const optionsLength = question.options ? question.options.length : 0;
-    const [valueLeft, setValueLeft] = useState('1');
-    const [valueRight, setValueRight] = useState('5');
+    const dispatchApp = useAppDispatch();
+    const linearScale = useAppSelector((state) => state.survey.questions[indexQuestion].linearScale);
+    const ChangeLinearMutation = useChangeLinearScaleMutation(linearScale?.id);
+
     const handleChangeSelectLeft = (e: SelectChangeEvent) => {
-        setValueLeft(e.target.value);
+        dispatchApp(
+            handleChangeLinear({
+                min: e.target.value,
+                indexQuestion,
+            }),
+        );
+        ChangeLinearMutation.mutate({
+            min: e.target.value,
+        });
     };
     const handleChangeSelectRight = (e: SelectChangeEvent) => {
-        setValueRight(e.target.value);
+        dispatchApp(
+            handleChangeLinear({
+                max: Number(e.target.value),
+                indexQuestion,
+            }),
+        );
+        ChangeLinearMutation.mutate({
+            max: Number(e.target.value),
+        });
     };
+    useAutoSave(linearScale?.leftLabel, () => {
+        ChangeLinearMutation.mutate({
+            leftLabel: linearScale?.leftLabel,
+        });
+    });
+    useAutoSave(linearScale?.rightLabel, () => {
+        ChangeLinearMutation.mutate({
+            rightLabel: linearScale?.rightLabel,
+        });
+    });
 
     return (
         <div className={cx('wrapper')}>
@@ -38,7 +67,7 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
                     size="small">
                     <Select
                         onChange={handleChangeSelectLeft}
-                        value={valueLeft}
+                        value={'' + linearScale!.min}
                         size="small"
                         MenuProps={{ disablePortal: true }}>
                         <MenuItem value={0}>0</MenuItem>
@@ -57,7 +86,7 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
                     size="small">
                     <Select
                         onChange={handleChangeSelectRight}
-                        value={valueRight}
+                        value={'' + linearScale!.max}
                         size="small"
                         MenuProps={{ disablePortal: true }}>
                         <MenuItem value={2}>2</MenuItem>
@@ -75,13 +104,37 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
             <div className={cx('label')}>
                 <span>1.</span>
                 <div style={{ flex: '1' }}>
-                    <QuestionTextInput padding="8px 0" placeholder="Nhãn trái (tùy chọn)" />
+                    <QuestionTextInput
+                        padding="8px 0"
+                        placeholder="Nhãn trái (tùy chọn)"
+                        value={linearScale?.leftLabel}
+                        onChange={(e) =>
+                            dispatchApp(
+                                handleChangeLinear({
+                                    indexQuestion,
+                                    leftLabel: e.target.value,
+                                }),
+                            )
+                        }
+                    />
                 </div>
             </div>
             <div className={cx('label')}>
                 <span>6.</span>
                 <div style={{ flex: '1' }}>
-                    <QuestionTextInput padding="8px 0" placeholder="Nhãn phải (tùy chọn)" />
+                    <QuestionTextInput
+                        padding="8px 0"
+                        placeholder="Nhãn phải (tùy chọn)"
+                        value={linearScale?.rightLabel}
+                        onChange={(e) =>
+                            dispatchApp(
+                                handleChangeLinear({
+                                    indexQuestion,
+                                    rightLabel: e.target.value,
+                                }),
+                            )
+                        }
+                    />
                 </div>
             </div>
         </div>

@@ -11,8 +11,12 @@ import {
     handleChangeOptionText,
     handleRemoveOption,
     handleSetHasOther,
+    handleSetOption,
 } from '../../redux/slice/survey';
 import OptionComponent from '../Question/OptionComponent';
+import useDeleteOptionMutation from '../Question/mutation/deleteOption';
+import useAddOptionMutation from '../Question/mutation/addOption';
+import useChangeQuestionMutation from '../Question/mutation/changeQuestion';
 
 const cx = classNames.bind(style);
 interface Props {
@@ -26,6 +30,8 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
     const isHasOther = question.isHasOther;
     const dispatchApp = useAppDispatch();
 
+    //////////////////////////////////
+    const ChangeQuestion = useChangeQuestionMutation(question.id || '');
     const handleAddOther = () => {
         if (isHasOther) return;
         dispatchApp(
@@ -34,6 +40,49 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
                 isHasOther: true,
             }),
         );
+        ChangeQuestion.mutate({
+            isHasOther: true,
+        });
+    };
+    const handleRemoveOther = () => {
+        dispatchApp(
+            handleSetHasOther({
+                indexQuestion,
+                isHasOther: false,
+            }),
+        );
+        ChangeQuestion.mutate({
+            isHasOther: false,
+        });
+    };
+
+    const AddOption = useAddOptionMutation(question.id);
+    const handleAdd = () => {
+        dispatchApp(handleAddOption({ indexQuestion }));
+        AddOption.mutate(
+            {
+                optionText: `Lựa chọn ${question.options!.length + 1}`,
+            },
+
+            {
+                onSuccess(data, variables, context) {
+                    dispatchApp(
+                        handleSetOption({
+                            indexQuestion,
+                            option: data,
+                        }),
+                    );
+                },
+            },
+        );
+    };
+    const DeleteOptionMutation = useDeleteOptionMutation();
+    const handleRemove = (indexOption: number, optionId?: string) => {
+        dispatchApp(handleRemoveOption({ indexQuestion, indexOption }));
+
+        DeleteOptionMutation.mutate({
+            optionId,
+        });
     };
     return (
         <div className={cx('wrapper')}>
@@ -44,14 +93,14 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
                         <div style={{ flex: '1' }}>
                             <OptionComponent
                                 isActiveQuestion={isActiveQuestion}
-                                indexOption={indexQuestion}
+                                indexOption={indexOption}
                                 indexQuestion={indexQuestion}
                             />
                         </div>
                         {optionsLength + Number(isHasOther) > 1 && isActiveQuestion && (
                             <CloseIcon
                                 style={{ cursor: 'pointer', color: 'rgb(95, 99, 104)' }}
-                                onClick={() => dispatchApp(handleRemoveOption({ indexQuestion, indexOption }))}
+                                onClick={() => handleRemove(indexOption, option.id)}
                             />
                         )}
                     </div>
@@ -66,21 +115,14 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
                     {optionsLength + Number(isHasOther) > 1 && isActiveQuestion && (
                         <CloseIcon
                             style={{ cursor: 'pointer', color: 'rgb(95, 99, 104)' }}
-                            onClick={() =>
-                                dispatchApp(
-                                    handleSetHasOther({
-                                        indexQuestion,
-                                        isHasOther: false,
-                                    }),
-                                )
-                            }
+                            onClick={handleRemoveOther}
                         />
                     )}
                 </div>
             )}
             {isActiveQuestion && (
                 <div className={cx('add-option-other')}>
-                    <div onClick={() => dispatchApp(handleAddOption({ indexQuestion }))} className={cx('add-option')}>
+                    <div onClick={handleAdd} className={cx('add-option')}>
                         <IoIosAddCircleOutline size={24} />
                         <div>
                             <p>Thêm lựa chọn</p>

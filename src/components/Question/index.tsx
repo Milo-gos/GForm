@@ -16,6 +16,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import ArrowDropDownCircleOutlinedIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import {
     Button,
     Divider,
@@ -130,6 +131,15 @@ const Question = ({ index }: Props) => {
             },
 
             {
+                onSuccess(data, variables, context) {
+                    dispatchApp(
+                        handleSetQuestion({
+                            questionType,
+                            indexQuestion: index,
+                            newQuestion: data,
+                        }),
+                    );
+                },
                 onError(error, variables, context) {
                     console.log(error);
                 },
@@ -254,6 +264,17 @@ const Question = ({ index }: Props) => {
                                             <ArrowDropDownCircleOutlinedIcon style={{ fontSize: '24px' }} />
                                         </div>
                                         <span style={{ marginLeft: '12px' }}>Dropdown</span>
+                                    </div>
+                                </MenuItem>
+                                <Divider sx={{ my: 0.5 }} />
+
+                                <MenuItem value={QuestionType.LinearScale}>
+                                    <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                        <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
+                                            <LinearScaleIcon style={{ fontSize: '24px' }} />
+                                        </div>
+
+                                        <span style={{ marginLeft: '12px' }}>Thang đo</span>
                                     </div>
                                 </MenuItem>
                                 <Divider sx={{ my: 0.5 }} />
