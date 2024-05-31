@@ -53,6 +53,14 @@ const API = {
         endPoint: `${BE_URL}/question/changeQuestion`,
         method: 'patch',
     },
+    ChangeOption: {
+        endPoint: `${BE_URL}/option/changeOption`,
+        method: 'patch',
+    },
+    ChangeSurvey: {
+        endPoint: `${BE_URL}/survey/changeSurvey`,
+        method: 'patch',
+    },
 };
 
 export default API;

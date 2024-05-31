@@ -8,6 +8,8 @@ import QuestionTextInput from '../QuestionTextInput';
 import { useAppDispatch, useAppSelector } from '../../redux';
 import { handleAddOption, handleChangeOptionText, handleRemoveOption } from '../../redux/slice/survey';
 import useCurrentSurvey from '../../hooks/useCurrentSurvey';
+import Option from '../Question/OptionComponent';
+import OptionComponent from '../Question/OptionComponent';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -26,18 +28,10 @@ const QuestionDropDown = ({ isActiveQuestion, indexQuestion }: Props) => {
                     <div key={indexOption} className={cx('option-wrapper')}>
                         <span>{indexOption + 1}.</span>
                         <div style={{ flex: '1' }}>
-                            <QuestionTextInput
+                            <OptionComponent
                                 isActiveQuestion={isActiveQuestion}
-                                value={option.optionText}
-                                onChange={(e) =>
-                                    dispatchApp(
-                                        handleChangeOptionText({
-                                            indexQuestion,
-                                            indexOption,
-                                            optionText: e.target.value,
-                                        }),
-                                    )
-                                }
+                                indexOption={indexQuestion}
+                                indexQuestion={indexQuestion}
                             />
                         </div>
                         {optionsLength > 1 && isActiveQuestion && (

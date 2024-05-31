@@ -1,4 +1,5 @@
 interface OptionInterface {
+    id?: string;
     optionText: string;
 }
 

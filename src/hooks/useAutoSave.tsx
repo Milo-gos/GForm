@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-const useAutoSave = (text: any, callback: any, delay = 500) => {
+const useAutoSave = (data: any, callback: any, delay = 500) => {
+    const prevData = useRef(data);
     useEffect(() => {
-        const timeOutId = setTimeout(() => {
-            callback();
-        }, delay);
-
+        let timeOutId: any;
+        if (prevData.current !== data) {
+            prevData.current = data;
+            timeOutId = setTimeout(() => {
+                callback();
+            }, delay);
+        }
         return () => {
             clearTimeout(timeOutId);
         };
-    }, [text, delay]);
+    }, [data, callback]);
 };
 
 export default useAutoSave;

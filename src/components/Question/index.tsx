@@ -133,14 +133,6 @@ const Question = ({ index }: Props) => {
                 onError(error, variables, context) {
                     console.log(error);
                 },
-                onSuccess(data, variables, context) {
-                    // dispatchApp(
-                    //     handleSetQuestion({
-                    //         indexQuestion: index,
-                    //         id: data.id,
-                    //     }),
-                    // );
-                },
             },
         );
     };
@@ -185,96 +177,98 @@ const Question = ({ index }: Props) => {
                         )}
                     </div>
 
-                    <div>
-                        <Select
-                            onChange={handleChangeNewQuestionType}
-                            value={question?.questionType}
-                            MenuProps={{ disablePortal: true }}
-                            slotProps={{
-                                root: {
-                                    sx: {
-                                        p: 0,
-                                        '.MuiSelect-select': {
-                                            width: 160,
+                    {index === indexActiveQuestion && (
+                        <div>
+                            <Select
+                                onChange={handleChangeNewQuestionType}
+                                value={question?.questionType}
+                                MenuProps={{ disablePortal: true }}
+                                slotProps={{
+                                    root: {
+                                        sx: {
+                                            p: 0,
+                                            '.MuiSelect-select': {
+                                                width: 160,
 
-                                            alignItems: 'center',
+                                                alignItems: 'center',
+                                            },
+                                            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                border: '1px solid #e0e0db',
+                                                borderRadius: '5px 5px 0 0',
+                                            },
+                                            '&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+                                                border: '1px solid #e0e0db',
+                                                borderRadius: '5px 5px 0 0',
+                                            },
+                                            '& .MuiOutlinedInput-input': { p: 1.25 },
                                         },
-                                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                            border: '1px solid #e0e0db',
-                                            borderRadius: '5px 5px 0 0',
-                                        },
-                                        '&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                                            border: '1px solid #e0e0db',
-                                            borderRadius: '5px 5px 0 0',
-                                        },
-                                        '& .MuiOutlinedInput-input': { p: 1.25 },
                                     },
-                                },
-                            }}>
-                            <MenuItem value={QuestionType.ShortAnswer}>
-                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
-                                    <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
-                                        <ShortTextIcon style={{ fontSize: '30px' }} />
+                                }}>
+                                <MenuItem value={QuestionType.ShortAnswer}>
+                                    <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                        <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
+                                            <ShortTextIcon style={{ fontSize: '30px' }} />
+                                        </div>
+                                        <span style={{ marginLeft: '12px' }}>Câu trả lời ngắn</span>
                                     </div>
-                                    <span style={{ marginLeft: '12px' }}>Câu trả lời ngắn</span>
-                                </div>
-                            </MenuItem>
-                            <MenuItem value={QuestionType.Paragraph}>
-                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
-                                    <div
-                                        style={{
-                                            width: '30px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                        }}>
-                                        <NotesIcon style={{ fontSize: '24px' }} />
+                                </MenuItem>
+                                <MenuItem value={QuestionType.Paragraph}>
+                                    <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                        <div
+                                            style={{
+                                                width: '30px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}>
+                                            <NotesIcon style={{ fontSize: '24px' }} />
+                                        </div>
+                                        <span style={{ marginLeft: '12px' }}>Câu trả lời dài</span>
                                     </div>
-                                    <span style={{ marginLeft: '12px' }}>Câu trả lời dài</span>
-                                </div>
-                            </MenuItem>
-                            <Divider sx={{ my: 0.5 }} />
-                            <MenuItem value={QuestionType.RadioButton}>
-                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
-                                    <div
-                                        style={{
-                                            width: '30px',
-                                            height: '20px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                        }}>
-                                        <RadioButtonCheckedIcon style={{ fontSize: '24px' }} />
+                                </MenuItem>
+                                <Divider sx={{ my: 0.5 }} />
+                                <MenuItem value={QuestionType.RadioButton}>
+                                    <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                        <div
+                                            style={{
+                                                width: '30px',
+                                                height: '20px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}>
+                                            <RadioButtonCheckedIcon style={{ fontSize: '24px' }} />
+                                        </div>
+                                        <span style={{ marginLeft: '12px' }}>Multiple choice</span>
                                     </div>
-                                    <span style={{ marginLeft: '12px' }}>Multiple choice</span>
-                                </div>
-                            </MenuItem>
-                            <MenuItem value={QuestionType.Checkbox}>
-                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
-                                    <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
-                                        <CheckBoxOutlinedIcon style={{ fontSize: '24px' }} />
+                                </MenuItem>
+                                <MenuItem value={QuestionType.Checkbox}>
+                                    <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                        <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
+                                            <CheckBoxOutlinedIcon style={{ fontSize: '24px' }} />
+                                        </div>
+                                        <span style={{ marginLeft: '12px' }}>Checkboxes</span>
                                     </div>
-                                    <span style={{ marginLeft: '12px' }}>Checkboxes</span>
-                                </div>
-                            </MenuItem>
-                            <MenuItem value={QuestionType.Dropdown}>
-                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
-                                    <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
-                                        <ArrowDropDownCircleOutlinedIcon style={{ fontSize: '24px' }} />
+                                </MenuItem>
+                                <MenuItem value={QuestionType.Dropdown}>
+                                    <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                        <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
+                                            <ArrowDropDownCircleOutlinedIcon style={{ fontSize: '24px' }} />
+                                        </div>
+                                        <span style={{ marginLeft: '12px' }}>Dropdown</span>
                                     </div>
-                                    <span style={{ marginLeft: '12px' }}>Dropdown</span>
-                                </div>
-                            </MenuItem>
-                            <Divider sx={{ my: 0.5 }} />
-                            <MenuItem value={QuestionType.Description}>
-                                <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
-                                    <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
-                                        <DescriptionOutlinedIcon style={{ fontSize: '24px' }} />
-                                    </div>
+                                </MenuItem>
+                                <Divider sx={{ my: 0.5 }} />
+                                <MenuItem value={QuestionType.Description}>
+                                    <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                        <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
+                                            <DescriptionOutlinedIcon style={{ fontSize: '24px' }} />
+                                        </div>
 
-                                    <span style={{ marginLeft: '12px' }}>Mô tả</span>
-                                </div>
-                            </MenuItem>
-                        </Select>
-                    </div>
+                                        <span style={{ marginLeft: '12px' }}>Mô tả</span>
+                                    </div>
+                                </MenuItem>
+                            </Select>
+                        </div>
+                    )}
                 </div>
                 {question?.isHasDescription && question?.questionType !== QuestionType.Description && (
                     <QuestionTextInput

@@ -13,6 +13,7 @@ import {
     handleRemoveOption,
     handleSetHasOther,
 } from '../../redux/slice/survey';
+import OptionComponent from '../Question/OptionComponent';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -40,18 +41,10 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
                     <div key={indexOption} className={cx('option-wrapper')}>
                         <RadioButtonUncheckedOutlinedIcon style={{ color: '#bdbdbd' }} />
                         <div style={{ flex: '1' }}>
-                            <QuestionTextInput
+                            <OptionComponent
                                 isActiveQuestion={isActiveQuestion}
-                                value={option.optionText}
-                                onChange={(e) =>
-                                    dispatchApp(
-                                        handleChangeOptionText({
-                                            indexQuestion,
-                                            indexOption,
-                                            optionText: e.target.value,
-                                        }),
-                                    )
-                                }
+                                indexOption={indexQuestion}
+                                indexQuestion={indexQuestion}
                             />
                         </div>
                         {optionsLength + Number(isHasOther) > 1 && isActiveQuestion && (
