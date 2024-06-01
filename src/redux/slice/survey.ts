@@ -106,10 +106,32 @@ const surveySlice = createSlice({
                 optionText: `Lựa chọn ${state.questions[indexQuestion]?.options!.length + 1}`,
             });
         },
+        handleAddRow: (state, action: PayloadAction<{ indexQuestion: number }>) => {
+            const { indexQuestion } = action.payload;
+            state.questions[indexQuestion]?.rows?.push({
+                rowContent: `Hàng ${state.questions[indexQuestion]?.rows!.length + 1}`,
+            });
+        },
+        handleAddGColumn: (state, action: PayloadAction<{ indexQuestion: number }>) => {
+            const { indexQuestion } = action.payload;
+            state.questions[indexQuestion]?.gcolumns?.push({
+                gcolumnContent: `Cột ${state.questions[indexQuestion]?.gcolumns!.length + 1}`,
+            });
+        },
         handleRemoveOption: (state, action: PayloadAction<{ indexQuestion: number; indexOption: number }>) => {
             const { indexQuestion, indexOption } = action.payload;
 
             state.questions[indexQuestion]?.options?.splice(indexOption, 1);
+        },
+        handleRemoveRow: (state, action: PayloadAction<{ indexQuestion: number; indexRow: number }>) => {
+            const { indexQuestion, indexRow } = action.payload;
+
+            state.questions[indexQuestion]?.rows?.splice(indexRow, 1);
+        },
+        handleRemoveGColumn: (state, action: PayloadAction<{ indexQuestion: number; indexGColumn: number }>) => {
+            const { indexQuestion, indexGColumn } = action.payload;
+
+            state.questions[indexQuestion]?.gcolumns?.splice(indexGColumn, 1);
         },
         handleChangeTitle: (state, action) => {
             const { title } = action.payload;
@@ -156,10 +178,28 @@ const surveySlice = createSlice({
                 state.questions[indexQuestion].linearScale!.rightLabel = rightLabel;
             }
         },
+        handleChangeRowContent: (state, action) => {
+            const { indexQuestion, indexRow, rowContent } = action.payload;
+            state.questions[indexQuestion]!.rows![indexRow].rowContent = rowContent;
+        },
+        handleChangeGColumnContent: (state, action) => {
+            const { indexQuestion, indexGColumn, gcolumnContent } = action.payload;
+            state.questions[indexQuestion]!.gcolumns![indexGColumn].gcolumnContent = gcolumnContent;
+        },
         handleSetOption: (state, action) => {
             const { indexQuestion, option } = action.payload;
             const lastIndex = state.questions[indexQuestion].options!.length - 1;
             state.questions[indexQuestion].options![lastIndex].id = option.id;
+        },
+        handleSetRow: (state, action) => {
+            const { indexQuestion, row } = action.payload;
+            const lastIndex = state.questions[indexQuestion].rows!.length - 1;
+            state.questions[indexQuestion].rows![lastIndex].id = row.id;
+        },
+        handleSetGColumn: (state, action) => {
+            const { indexQuestion, gcolumn } = action.payload;
+            const lastIndex = state.questions[indexQuestion].gcolumns!.length - 1;
+            state.questions[indexQuestion].gcolumns![lastIndex].id = gcolumn.id;
         },
     },
 });
@@ -172,7 +212,7 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
             state.questions[index].validation = undefined;
             state.questions[index].linearScale = undefined;
             state.questions[index].rows = undefined;
-            state.questions[index].columns = undefined;
+            state.questions[index].gcolumns = undefined;
             state.questions[index].options = undefined;
             state.questions[index].isHasOther = undefined;
             break;
@@ -182,7 +222,7 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
             state.questions[index].validation = undefined;
             state.questions[index].linearScale = undefined;
             state.questions[index].rows = undefined;
-            state.questions[index].columns = undefined;
+            state.questions[index].gcolumns = undefined;
             if (!state.questions[index].options || state.questions[index].options?.length === 0) {
                 state.questions[index].options = [
                     {
@@ -197,7 +237,7 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
             state.questions[index].validation = undefined;
             state.questions[index].linearScale = undefined;
             state.questions[index].rows = undefined;
-            state.questions[index].columns = undefined;
+            state.questions[index].gcolumns = undefined;
             state.questions[index].isHasOther = false;
             if (!state.questions[index].options || state.questions[index].options?.length === 0) {
                 state.questions[index].options = [
@@ -211,7 +251,7 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
             state.questions[index].isValidation = false;
             state.questions[index].validation = undefined;
             state.questions[index].rows = undefined;
-            state.questions[index].columns = undefined;
+            state.questions[index].gcolumns = undefined;
             state.questions[index].options = undefined;
             state.questions[index].isHasOther = false;
             state.questions[index].linearScale = {
@@ -232,9 +272,9 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
                     rowContent: 'Hàng 1',
                 },
             ];
-            state.questions[index].columns = [
+            state.questions[index].gcolumns = [
                 {
-                    columnContent: 'Cột 1',
+                    gcolumnContent: 'Cột 1',
                 },
             ];
             break;
@@ -243,7 +283,7 @@ const resetQuestion = (state: Draft<Survey>, index: number, questionType: Questi
             state.questions[index].validation = undefined;
             state.questions[index].linearScale = undefined;
             state.questions[index].rows = undefined;
-            state.questions[index].columns = undefined;
+            state.questions[index].gcolumns = undefined;
             state.questions[index].options = undefined;
             state.questions[index].isHasOther = undefined;
             state.questions[index].isHasDescription = true;
@@ -276,9 +316,9 @@ const resetQuestion2 = (
                     rowContent: 'Hàng 1',
                 },
             ];
-            state.questions[index].columns = [
+            state.questions[index].gcolumns = [
                 {
-                    columnContent: 'Cột 1',
+                    gcolumnContent: 'Cột 1',
                 },
             ];
             break;
@@ -298,7 +338,11 @@ export const {
     handleChangeQuestionType,
     handleChangeOptionText,
     handleAddOption,
+    handleAddRow,
+    handleAddGColumn,
     handleRemoveOption,
+    handleRemoveRow,
+    handleRemoveGColumn,
     handleChangeTitle,
     handleChangeDescription,
     handleChangeDescriptionQuestion,
@@ -307,5 +351,9 @@ export const {
     handleChangeRequired,
     handleSetQuestion,
     handleChangeLinear,
+    handleChangeRowContent,
+    handleChangeGColumnContent,
     handleSetOption,
+    handleSetRow,
+    handleSetGColumn,
 } = surveySlice.actions;

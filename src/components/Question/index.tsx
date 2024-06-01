@@ -16,6 +16,7 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import ArrowDropDownCircleOutlinedIcon from '@mui/icons-material/ArrowDropDownCircleOutlined';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import DragIndicatorRoundedIcon from '@mui/icons-material/DragIndicatorRounded';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
 import {
     Button,
@@ -198,7 +199,7 @@ const Question = ({ index }: Props) => {
                                         sx: {
                                             p: 0,
                                             '.MuiSelect-select': {
-                                                width: 160,
+                                                width: 190,
 
                                                 alignItems: 'center',
                                             },
@@ -275,6 +276,15 @@ const Question = ({ index }: Props) => {
                                         </div>
 
                                         <span style={{ marginLeft: '12px' }}>Thang đo</span>
+                                    </div>
+                                </MenuItem>
+                                <MenuItem value={QuestionType.RadioButtonGrid}>
+                                    <div style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
+                                        <div style={{ width: '30px', display: 'flex', alignItems: 'center' }}>
+                                            <DragIndicatorRoundedIcon style={{ fontSize: '24px' }} />
+                                        </div>
+
+                                        <span style={{ marginLeft: '12px' }}>Multiple Choice Grid</span>
                                     </div>
                                 </MenuItem>
                                 <Divider sx={{ my: 0.5 }} />

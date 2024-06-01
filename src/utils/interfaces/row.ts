@@ -1,4 +1,5 @@
 interface RowInterface {
+    id?: string;
     rowContent: string;
 }
 

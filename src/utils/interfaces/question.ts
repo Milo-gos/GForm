@@ -1,4 +1,4 @@
-import ColumnInterface from './column';
+import GColumnInterface from './gcolumn';
 
 import LinearScaleInterface from './linear_scale';
 import OptionInterface from './option';
@@ -29,7 +29,7 @@ interface QuestionInterface {
 
     rows?: RowInterface[];
 
-    columns?: ColumnInterface[];
+    gcolumns?: GColumnInterface[];
     options?: OptionInterface[];
     isHasOther?: boolean;
 }
