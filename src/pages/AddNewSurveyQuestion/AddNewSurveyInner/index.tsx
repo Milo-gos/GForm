@@ -9,6 +9,7 @@ import {
     handleChangeDescription,
     handleChangeTitle,
     handleInsertQuestion,
+    handleSetNewQuestion,
     setNewSurvey,
     setSurvey,
 } from '../../../redux/slice/survey';
@@ -20,6 +21,7 @@ import { useParams } from 'react-router-dom';
 import SurveyInterface from '../../../utils/interfaces/survey';
 import useAutoSave from '../../../hooks/useAutoSave';
 import useChangeSurveyMutation from '../mutation/changeSurvey';
+import useAddFirstQuestionMutation from '../../../components/Question/mutation/addFirstQuestion';
 
 const cx = classNames.bind(style);
 
@@ -29,17 +31,28 @@ const AddNewSurveyQuestionInner = () => {
     const survey = useAppSelector((state) => state.survey);
     const ChangeSurveyMutation = useChangeSurveyMutation();
 
-    // useEffect(() => {
-    //     dispatchApp(setNewSurvey());
-    // }, []);
-
+    const AddFirstQuestionMutation = useAddFirstQuestionMutation();
     const handleAddFirstQuestion = () => {
-        console.log('111');
-        // dispatchApp(
-        //     handleInsertQuestion({
-        //         position: 0,
-        //     }),
-        // );
+        dispatchApp(
+            handleInsertQuestion({
+                position: 0,
+            }),
+        );
+        AddFirstQuestionMutation.mutate(
+            {
+                surveyId: id,
+            },
+            {
+                onSuccess(data, variables, context) {
+                    dispatchApp(
+                        handleSetNewQuestion({
+                            indexQuestion: 0,
+                            newQuestion: data,
+                        }),
+                    );
+                },
+            },
+        );
     };
     useAutoSave(survey.title, () => {
         ChangeSurveyMutation.mutate(

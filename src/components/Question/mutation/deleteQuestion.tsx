@@ -5,16 +5,17 @@ import API from '../../../utils/api';
 import QuestionInterface from '../../../utils/interfaces/question';
 import OptionInterface from '../../../utils/interfaces/option';
 import RowInterface from '../../../utils/interfaces/row';
+import GColumnInterface from '../../../utils/interfaces/gcolumn';
 
-const useDuplicateQuestionMutation = (questionId?: string) => {
+const useDeleteQuestionMutation = (questionId?: string) => {
     return useMutation({
-        mutationKey: [`duplicateQuestion_${questionId}`],
+        mutationKey: [`deleteQuestion_${questionId}`],
         mutationFn: async (body: any) => {
-            const response = await axios.post(`${API.DuplicateQuestion.endPoint}/${questionId}`);
+            const response = await axios.delete(`${API.DeleteQuestion.endPoint}/${questionId}`);
             const question: QuestionInterface = response.data.data;
             return question;
         },
     });
 };
 
-export default useDuplicateQuestionMutation;
+export default useDeleteQuestionMutation;

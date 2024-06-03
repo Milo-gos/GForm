@@ -36,6 +36,7 @@ import {
     handleChangeDescriptionQuestion,
     handleChangeQuestion,
     handleChangeQuestionType,
+    handleDuplicateQuestion,
     handleInsertQuestion,
     handleSetNewQuestion,
     handleSetQuestion,
@@ -54,6 +55,7 @@ import { useParams } from 'react-router-dom';
 import SurveyInterface from '../../utils/interfaces/survey';
 import useChangeQuestionMutation from './mutation/changeQuestion';
 import useAddQuestionMutation from './mutation/addQuestion';
+import useDuplicateQuestionMutation from './mutation/duplicateQuestion';
 
 const cx = classNames.bind(style);
 
@@ -63,9 +65,39 @@ interface Props {
 const Question = ({ index }: Props) => {
     const question = useAppSelector((state) => state.survey.questions[index]);
     const indexActiveQuestion = useAppSelector((state) => state.survey.indexActiveQuestion);
+    const [isDuplicated, setDuplicated] = useState(false);
     const isActiveQuestion = index === indexActiveQuestion;
     const dispatchApp = useAppDispatch();
     const changeQuestion = useChangeQuestionMutation(question?.id || '');
+    const DuplicateQuestionMutation = useDuplicateQuestionMutation(question.id);
+    const handleDuplicateThisQuestion = () => {
+        dispatchApp(
+            handleDuplicateQuestion({
+                indexQuestion: index,
+            }),
+        );
+        setDuplicated(false);
+        DuplicateQuestionMutation.mutateAsync(
+            {
+                questionId: question.id,
+            },
+            {
+                onSuccess: (data, variables, context) => {
+                    dispatchApp(
+                        handleSetNewQuestion({
+                            indexQuestion: index + 1,
+                            newQuestion: data,
+                        }),
+                    );
+                },
+            },
+        );
+    };
+    useEffect(() => {
+        if (isDuplicated) {
+            handleDuplicateThisQuestion();
+        }
+    }, [isDuplicated]);
 
     useAutoSave(question.description, () => {
         changeQuestion.mutate(
@@ -171,6 +203,7 @@ const Question = ({ index }: Props) => {
     const handleChangeDescription = (value: string) => {
         dispatchApp(handleChangeDescriptionQuestion({ indexQuestion: index, description: value }));
     };
+
     return (
         <div className={cx('wrapper')} ref={myRef}>
             {isActiveQuestion && (
@@ -352,7 +385,9 @@ const Question = ({ index }: Props) => {
                     <QuestionRadioButtonGrid isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
 
-                {isActiveQuestion && <BottomQuestion type={question?.questionType} indexQuestion={index} />}
+                {isActiveQuestion && (
+                    <BottomQuestion type={question?.questionType} indexQuestion={index} setDuplicated={setDuplicated} />
+                )}
             </div>
 
             {isActiveQuestion && (

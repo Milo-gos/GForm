@@ -74,6 +74,18 @@ const API = {
         endPoint: `${BE_URL}/question/addQuestion`,
         method: 'post',
     },
+    DuplicateQuestion: {
+        endPoint: `${BE_URL}/question/duplicateQuestion`,
+        method: 'post',
+    },
+    AddFirstQuestion: {
+        endPoint: `${BE_URL}/question/addFirstQuestion`,
+        method: 'post',
+    },
+    DeleteQuestion: {
+        endPoint: `${BE_URL}/question/deleteQuestion`,
+        method: 'delete',
+    },
     DeleteOption: {
         endPoint: `${BE_URL}/option/deleteOption`,
         method: 'delete',
@@ -104,11 +116,6 @@ const API = {
     ChangeSurvey: {
         endPoint: `${BE_URL}/survey/changeSurvey`,
         method: 'patch',
-    },
-
-    DuplicateQuestion: {
-        endPoint: `${BE_URL}/question/duplicateQuestion`,
-        method: 'post',
     },
 };
 

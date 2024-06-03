@@ -33,6 +33,7 @@ const AddNewSurveyQuestionPage = () => {
             const survey: SurveyInterface = response.data.data;
             return survey;
         },
+        refetchOnWindowFocus: false,
     });
     // useEffect(() => {
     //     dispatchApp(setNewSurvey());

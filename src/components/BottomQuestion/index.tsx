@@ -15,15 +15,19 @@ import {
     handleToggleDescription,
     handleChangeRequired,
     handleDuplicateQuestion,
+    handleSetNewQuestion,
 } from '../../redux/slice/survey';
 import useCurrentSurvey from '../../hooks/useCurrentSurvey';
 import useChangeQuestionMutation from '../Question/mutation/changeQuestion';
+import useDeleteQuestionMutation from '../Question/mutation/deleteQuestion';
+import useDuplicateQuestionMutation from '../Question/mutation/duplicateQuestion';
 const cx = classNames.bind(style);
 interface Props {
     type?: QuestionType;
     indexQuestion: number;
+    setDuplicated: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const BottomQuestion = ({ type, indexQuestion }: Props) => {
+const BottomQuestion = ({ type, indexQuestion, setDuplicated }: Props) => {
     const dispatchApp = useAppDispatch();
     const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -51,6 +55,7 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
         );
     };
 
+    const DeleteQuestionMutation = useDeleteQuestionMutation(question.id);
     const handleClickRemoveQuestion = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         dispatchApp(
@@ -58,6 +63,7 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
                 indexQuestion,
             }),
         );
+        DeleteQuestionMutation.mutate({});
     };
     const changeQuestion = useChangeQuestionMutation(question.id || '');
     const handleSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,18 +86,11 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
             },
         );
     };
-    const handleDuplicateThisQuestion = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.stopPropagation();
-        dispatchApp(
-            handleDuplicateQuestion({
-                indexQuestion,
-            }),
-        );
-    };
+
     return (
         <div className={cx('wrapper')}>
             <Tooltip title="Nhân bản">
-                <IconButton style={{ padding: '12px' }} onClick={handleDuplicateThisQuestion}>
+                <IconButton style={{ padding: '12px' }} onClick={() => setDuplicated(true)}>
                     <ContentCopyIcon style={{ fontSize: '28px' }} />
                 </IconButton>
             </Tooltip>
