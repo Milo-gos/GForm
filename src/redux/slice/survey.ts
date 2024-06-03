@@ -162,6 +162,10 @@ const surveySlice = createSlice({
             state.questions[indexQuestion] = { ...state.questions[indexQuestion], ...newQuestion };
             resetQuestion2(state, indexQuestion, questionType, newQuestion);
         },
+        handleSetNewQuestion: (state, action) => {
+            const { indexQuestion, newQuestion } = action.payload;
+            state.questions[indexQuestion] = { ...state.questions[indexQuestion], ...newQuestion };
+        },
         handleChangeLinear: (state, action) => {
             const { min, max, indexQuestion, leftLabel, rightLabel } = action.payload;
 
@@ -350,6 +354,7 @@ export const {
     handleSetHasOther,
     handleChangeRequired,
     handleSetQuestion,
+    handleSetNewQuestion,
     handleChangeLinear,
     handleChangeRowContent,
     handleChangeGColumnContent,

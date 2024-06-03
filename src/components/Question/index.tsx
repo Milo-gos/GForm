@@ -37,6 +37,7 @@ import {
     handleChangeQuestion,
     handleChangeQuestionType,
     handleInsertQuestion,
+    handleSetNewQuestion,
     handleSetQuestion,
 } from '../../redux/slice/survey';
 import ShortTextIcon from '@mui/icons-material/ShortText';
@@ -52,6 +53,7 @@ import QuestionInterface from '../../utils/interfaces/question';
 import { useParams } from 'react-router-dom';
 import SurveyInterface from '../../utils/interfaces/survey';
 import useChangeQuestionMutation from './mutation/changeQuestion';
+import useAddQuestionMutation from './mutation/addQuestion';
 
 const cx = classNames.bind(style);
 
@@ -109,11 +111,30 @@ const Question = ({ index }: Props) => {
     const handleClickAddImageQuestion = () => {
         console.log('qq');
     };
-    const handleInsertNewQuestion = (position: number) => {
+
+    const AddQuestionMutation = useAddQuestionMutation(question.id);
+    const handleInsertNewQuestion = (position: number, position2: 'before' | 'after') => {
         dispatchApp(
             handleInsertQuestion({
                 position,
             }),
+        );
+
+        AddQuestionMutation.mutate(
+            {
+                currentQuestionId: question.id,
+                position: position2,
+            },
+            {
+                onSuccess(data, variables, context) {
+                    dispatchApp(
+                        handleSetNewQuestion({
+                            indexQuestion: position,
+                            newQuestion: data,
+                        }),
+                    );
+                },
+            },
         );
     };
     const heading = question?.questionType !== QuestionType.Description ? 'Câu hỏi' : 'Tiêu đề';
@@ -153,7 +174,7 @@ const Question = ({ index }: Props) => {
     return (
         <div className={cx('wrapper')} ref={myRef}>
             {isActiveQuestion && (
-                <div className={cx('add', 'before')} onClick={() => handleInsertNewQuestion(index)}>
+                <div className={cx('add', 'before')} onClick={() => handleInsertNewQuestion(index, 'before')}>
                     <div className={cx('separate')}></div>
                     <IoIosAddCircleOutline className={cx('icon')} />
                     <div className={cx('separate')}></div>
@@ -335,7 +356,7 @@ const Question = ({ index }: Props) => {
             </div>
 
             {isActiveQuestion && (
-                <div className={cx('add', 'after')} onClick={() => handleInsertNewQuestion(index + 1)}>
+                <div className={cx('add', 'after')} onClick={() => handleInsertNewQuestion(index + 1, 'after')}>
                     <div className={cx('separate')}></div>
                     <IoIosAddCircleOutline className={cx('icon')} />
                     <div className={cx('separate')}></div>

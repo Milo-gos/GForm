@@ -70,6 +70,10 @@ const API = {
         endPoint: `${BE_URL}/gcolumn/addGColumn`,
         method: 'post',
     },
+    AddQuestion: {
+        endPoint: `${BE_URL}/question/addQuestion`,
+        method: 'post',
+    },
     DeleteOption: {
         endPoint: `${BE_URL}/option/deleteOption`,
         method: 'delete',
