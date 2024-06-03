@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import style from './forgotpassword.module.scss';
 import classNames from 'classnames/bind';
-import { MyButton, TextInput } from '../../components';
+import { MyButton, NormalTextInput } from '../../components';
 import { Google, ImageSignin, Logo } from '../../assets/images';
 import { Link } from 'react-router-dom';
 import { string, z } from 'zod';
@@ -62,7 +62,10 @@ const ForgotPasswordPage = () => {
             <h2>Quên mật khẩu</h2>
             <form className={cx('form')} onSubmit={handleSubmit(onsubmit)}>
                 <div>
-                    <TextInput placeholder="Nhập email tài khoản" name="email" register={register}></TextInput>
+                    <NormalTextInput
+                        placeholder="Nhập email tài khoản"
+                        name="email"
+                        register={register}></NormalTextInput>
                     <p
                         style={{
                             marginTop: '4px',

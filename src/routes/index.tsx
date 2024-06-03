@@ -5,14 +5,22 @@ import {
     AddNewSurveyQuestionPage,
     EmailVerificationResultPage,
     ForgotPasswordPage,
+    HomePage,
     ResetPasswordPage,
     ResponseSurveyPage,
     SignInPage,
     SignUpPage,
 } from '../pages';
-import { AuthLayout, SurveyLayout } from '../layouts';
+import { AuthLayout, MainLayout, SurveyLayout } from '../layouts';
 
 const pages = [
+    // Home
+    {
+        path: '/',
+        page: HomePage,
+        layout: MainLayout,
+    },
+
     // AUTH UI
     {
         path: '/signin',

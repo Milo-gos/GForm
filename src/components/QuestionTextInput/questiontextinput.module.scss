@@ -1,0 +1,99 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    transition: $transition;
+    position: relative;
+    &.isTitleForm input::placeholder {
+        color: $textColor;
+        font-weight: 400;
+        opacity: 1;
+    }
+    &.isTitleForm input {
+        padding: 8px;
+        font-size: 24px;
+    }
+
+    &.isTitleForm {
+        .border {
+            width: 100% !important;
+        }
+    }
+    input {
+        padding: 6px 8px;
+        background-color: transparent;
+        width: 100%;
+    }
+
+    .obscured {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 8px;
+        .icon {
+            font-size: 24px;
+        }
+    }
+    .border {
+        height: 1px;
+        left: 0;
+        width: 0;
+        position: absolute;
+        bottom: 0;
+        background-color: rgb(224, 224, 218);
+    }
+
+    &.isActiveQuestion:hover {
+        .border {
+            width: 100%;
+        }
+    }
+
+    .inner-border {
+        width: 0;
+        left: 0;
+        height: 1.5px;
+        background-color: $mainColor;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transition: $transition;
+    }
+
+    &.isFocus {
+        .inner-border {
+            width: 100%;
+            left: 0;
+        }
+        .border {
+            width: 0;
+        }
+        background-color: transparent;
+    }
+    &.isQuestionHeading {
+        padding: 6px 4px;
+
+        &:hover {
+            .border {
+                width: 0;
+            }
+        }
+    }
+    &.isQuestionHeading:not(.isActiveQuestion) {
+        padding: 0 0;
+        input {
+            padding-left: 0;
+        }
+        input::placeholder {
+            color: $textColor;
+            font-weight: 400;
+            opacity: 1;
+        }
+    }
+    &.isQuestionHeading.isActiveQuestion:not(.isFocus) {
+        transition: unset;
+        background-color: #f4f4f1;
+        border-radius: 6px;
+    }
+
+    padding: 2px 4px;
+}

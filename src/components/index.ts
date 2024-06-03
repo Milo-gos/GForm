@@ -1,6 +1,8 @@
-import TextInput from './TextInput';
+import NormalTextInput from './NormalTextInput';
+import QuestionTextInput from './QuestionTextInput';
 import MyButton from './MyButton';
 import MyLabel from './MyLabel';
-import QuestionShortAnswer from './QuestionShortAnswer';
+import Question from './Question';
+import MyDialog from './MyDialog';
 
-export { TextInput, MyButton, MyLabel, QuestionShortAnswer };
+export { NormalTextInput, QuestionTextInput, MyButton, MyLabel, Question, MyDialog };

@@ -6,6 +6,7 @@ import EmailVerificationResultPage from './EmailVerificationResult';
 import ResetPasswordPage from './ResetPassword';
 import AddNewSurveyQuestionPage from './AddNewSurveyQuestion';
 import ResponseSurveyPage from './ResponseSurvey';
+import HomePage from './Home';
 
 export {
     SignInPage,
@@ -16,4 +17,5 @@ export {
     ResetPasswordPage,
     AddNewSurveyQuestionPage,
     ResponseSurveyPage,
+    HomePage,
 };

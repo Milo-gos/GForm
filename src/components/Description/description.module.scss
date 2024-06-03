@@ -1,0 +1,10 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    .description {
+        color: rgba(0, 0, 0, 0.6);
+        font-size: 14px;
+        border-bottom: 1px dotted rgba(0, 0, 0, 0.38);
+        width: 85%;
+        padding-bottom: 4px;
+    }
+}

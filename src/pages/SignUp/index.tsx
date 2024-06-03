@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import style from './signup.module.scss';
 import classNames from 'classnames/bind';
-import { MyButton, TextInput } from '../../components';
+import { MyButton, NormalTextInput } from '../../components';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -78,7 +78,10 @@ const SignUpPage = () => {
                     <h2>Đăng ký</h2>
                     <form className={cx('form')} onSubmit={handleSubmit(onbsumit)}>
                         <div>
-                            <TextInput placeholder="Họ và tên" name="fullName" register={register}></TextInput>
+                            <NormalTextInput
+                                placeholder="Họ và tên"
+                                name="fullName"
+                                register={register}></NormalTextInput>
                             <p
                                 style={{
                                     marginTop: '4px',
@@ -89,7 +92,7 @@ const SignUpPage = () => {
                             </p>
                         </div>
                         <div>
-                            <TextInput placeholder="Email" name="email" register={register}></TextInput>
+                            <NormalTextInput placeholder="Email" name="email" register={register}></NormalTextInput>
                             <p
                                 style={{
                                     marginTop: '4px',
@@ -101,11 +104,11 @@ const SignUpPage = () => {
                         </div>
 
                         <div>
-                            <TextInput
+                            <NormalTextInput
                                 placeholder="Mật khẩu"
                                 typePassword={true}
                                 name="password"
-                                register={register}></TextInput>
+                                register={register}></NormalTextInput>
                             <p
                                 style={{
                                     marginTop: '4px',
@@ -116,11 +119,11 @@ const SignUpPage = () => {
                             </p>
                         </div>
                         <div>
-                            <TextInput
+                            <NormalTextInput
                                 placeholder="Nhập lại mật khẩu"
                                 name="confirmPassword"
                                 typePassword={true}
-                                register={register}></TextInput>
+                                register={register}></NormalTextInput>
                             <p
                                 style={{
                                     marginTop: '4px',

@@ -1,9 +1,7 @@
-import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 import API from '../../utils/api';
 import { setLoading } from './global';
-import { error } from 'console';
-import { NavigateFunction } from 'react-router-dom';
 
 interface User {
     fullName: string;

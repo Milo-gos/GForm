@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(style);
 
 const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
-    const [indexTab, setIndexTab] = useState<number>(1);
+    const [indexTab, setIndexTab] = useState<number>(0);
     const navigate = useNavigate();
     const handleClickTab = (indexTab: number) => {
         setIndexTab(indexTab);
@@ -28,11 +28,12 @@ const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
                             <h3 style={{ fontSize: '16px' }}>Survey name</h3>
 
                             <div style={{ marginTop: '4px' }}>
-                                <MyLabel label="Bản nháp" size="big" backgroundColor="#db4437"></MyLabel>
+                                <MyLabel label="Bản nháp" size="big" backgroundColor="#ed6c02"></MyLabel>
                             </div>
                         </div>
                     </div>
                     <div className={cx('right')}>
+                        <MyButton textButton="Lưu"></MyButton>
                         <MyButton textButton="Send"></MyButton>
                         <div className={cx('three-dot', 'item-toolbar')}>
                             <BsThreeDotsVertical size={24} />
@@ -56,7 +57,7 @@ const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
                     </div>
                 </div>
             </div>
-            {children}
+            <div className={cx('children-wrapper')}>{children}</div>
         </div>
     );
 };
