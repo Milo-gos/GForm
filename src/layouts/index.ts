@@ -1,4 +1,5 @@
 import MainLayout from './MainLayout';
 import AuthLayout from './AuthLayout';
 import SurveyLayout from './SurveyLayout';
-export { MainLayout, AuthLayout, SurveyLayout };
+import SubmitLayout from './SubmitLayout';
+export { MainLayout, AuthLayout, SurveyLayout, SubmitLayout };

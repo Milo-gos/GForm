@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import {
     AddNewSurveyPage,
-    AddNewSurveyQuestionPage,
     EmailVerificationResultPage,
     ForgotPasswordPage,
     HomePage,
@@ -10,8 +9,9 @@ import {
     ResponseSurveyPage,
     SignInPage,
     SignUpPage,
+    SubmitFormPage,
 } from '../pages';
-import { AuthLayout, MainLayout, SurveyLayout } from '../layouts';
+import { AuthLayout, MainLayout, SubmitLayout, SurveyLayout } from '../layouts';
 
 const pages = [
     // Home
@@ -52,8 +52,13 @@ const pages = [
     // SURVEY UI
     {
         path: '/surveys/:id/edit',
-        page: AddNewSurveyQuestionPage,
+        page: AddNewSurveyPage,
         layout: SurveyLayout,
+    },
+    {
+        path: '/surveys/:id/viewform',
+        page: SubmitFormPage,
+        layout: SubmitLayout,
     },
     {
         path: '/surveys/:id/response',

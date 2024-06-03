@@ -17,11 +17,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     isTitleForm?: boolean;
 }
 
-const NormalTextInput: React.FC<InputProps> = ({ name, register, typePassword, ...rest }) => {
+const NormalTextInput: React.FC<InputProps> = ({ name, register, typePassword, isFocus, ...rest }) => {
     const [hide, setHide] = useState(!!typePassword);
     const [focus, setFocus] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        if (isFocus) ref.current?.click();
+    }, [isFocus]);
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -43,6 +46,7 @@ const NormalTextInput: React.FC<InputProps> = ({ name, register, typePassword, .
                 isFocus: focus === true,
             })}>
             <input type={hide ? 'password' : 'text'} {...register?.(name)} {...rest} autoFocus={focus}></input>
+
             {typePassword && (
                 <span className={cx('obscured')} onClick={() => setHide((prev) => !prev)}>
                     {hide ? <IoEyeOff className={cx('icon')} /> : <IoEye className={cx('icon')} />}

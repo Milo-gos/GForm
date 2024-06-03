@@ -18,18 +18,7 @@ import { IoIosAddCircleOutline } from 'react-icons/io';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import DragIndicatorRoundedIcon from '@mui/icons-material/DragIndicatorRounded';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
-import {
-    Button,
-    Divider,
-    FormControl,
-    IconButton,
-    Menu,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    alpha,
-} from '@mui/material';
-import { CgArrowsExchangeAlt } from 'react-icons/cg';
+import { Divider, IconButton, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../redux';
 import {
     handleActiveQuestion,
@@ -45,17 +34,11 @@ import ShortTextIcon from '@mui/icons-material/ShortText';
 import NotesIcon from '@mui/icons-material/Notes';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
-import useCurrentSurvey from '../../hooks/useCurrentSurvey';
-import useAutoSave from '../../hooks/useAutoSave';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
-import API from '../../utils/api';
-import QuestionInterface from '../../utils/interfaces/question';
-import { useParams } from 'react-router-dom';
 import SurveyInterface from '../../utils/interfaces/survey';
 import useChangeQuestionMutation from './mutation/changeQuestion';
 import useAddQuestionMutation from './mutation/addQuestion';
 import useDuplicateQuestionMutation from './mutation/duplicateQuestion';
+import useAutoSave from '../../hooks/useAutoSave';
 
 const cx = classNames.bind(style);
 

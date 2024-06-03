@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import style from '../addnewsurveyquestion.module.scss';
+import style from '../addnewsurvey.module.scss';
 import classNames from 'classnames/bind';
 import { Question, QuestionTextInput } from '../../../components';
-import QuestionType from '../../../utils/interfaces/questionType';
 import { useAppDispatch, useAppSelector } from '../../../redux';
 import {
     handleActiveQuestion,
@@ -10,15 +9,9 @@ import {
     handleChangeTitle,
     handleInsertQuestion,
     handleSetNewQuestion,
-    setNewSurvey,
-    setSurvey,
 } from '../../../redux/slice/survey';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import API from '../../../utils/api';
 import { useParams } from 'react-router-dom';
-import SurveyInterface from '../../../utils/interfaces/survey';
 import useAutoSave from '../../../hooks/useAutoSave';
 import useChangeSurveyMutation from '../mutation/changeSurvey';
 import useAddFirstQuestionMutation from '../../../components/Question/mutation/addFirstQuestion';

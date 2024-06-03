@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import style from './pagenotfound.module.scss';
 import classNames from 'classnames/bind';
 import { BiSolidErrorAlt } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+
 const cx = classNames.bind(style);
 
 const PageNotFound = () => {

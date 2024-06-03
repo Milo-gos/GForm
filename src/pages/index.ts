@@ -1,12 +1,12 @@
 import SignInPage from './SignIn';
 import SignUpPage from './SignUp';
 import ForgotPasswordPage from './ForgotPassword';
-import AddNewSurveyPage from './AddNewSurvey';
 import EmailVerificationResultPage from './EmailVerificationResult';
 import ResetPasswordPage from './ResetPassword';
-import AddNewSurveyQuestionPage from './AddNewSurveyQuestion';
 import ResponseSurveyPage from './ResponseSurvey';
 import HomePage from './Home';
+import AddNewSurveyPage from './AddNewSurvey';
+import SubmitFormPage from './SubmitForm';
 
 export {
     SignInPage,
@@ -15,7 +15,7 @@ export {
     AddNewSurveyPage,
     EmailVerificationResultPage,
     ResetPasswordPage,
-    AddNewSurveyQuestionPage,
     ResponseSurveyPage,
     HomePage,
+    SubmitFormPage,
 };
