@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slice/auth';
 import globalReducer from './slice/global';
 import surveyReducer from './slice/survey';
+import submitFormReducer from './slice/submitform';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
         global: globalReducer,
         auth: authReducer,
         survey: surveyReducer,
+        submitForm: submitFormReducer,
     },
 });
 

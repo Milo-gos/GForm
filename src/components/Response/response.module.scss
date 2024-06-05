@@ -9,23 +9,13 @@
 
     border: 1px solid rgb(224, 224, 218);
 
-    &.isErrorForm {
-        border: 1px solid $redColor;
-    }
-
     .question-wrapper {
         .question {
             font-size: 20px;
         }
 
-        .required {
-            color: red;
-            margin-left: 4px;
+        .responses {
+            font-size: 14px;
         }
-    }
-
-    .description {
-        margin-top: 4px;
-        color: #494740;
     }
 }

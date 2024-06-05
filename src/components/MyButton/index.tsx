@@ -10,11 +10,12 @@ interface Props {
     type?: 'button' | 'reset' | 'submit' | undefined;
     backgroundColor?: string;
     textColor?: string;
+    padding?: string;
 }
 const MyButton = (props: Props) => {
     return (
         <button
-            style={{ backgroundColor: props.backgroundColor, color: props.textColor }}
+            style={{ backgroundColor: props.backgroundColor, color: props.textColor, padding: props.padding }}
             className={cx('wrapper', {
                 big: props.size === 'big',
             })}

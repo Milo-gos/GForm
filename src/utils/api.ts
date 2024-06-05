@@ -117,6 +117,11 @@ const API = {
         endPoint: `${BE_URL}/survey/changeSurvey`,
         method: 'patch',
     },
+
+    CreateResponse: {
+        endPoint: `${BE_URL}/response/createResponse`,
+        method: 'post',
+    },
 };
 
 export default API;

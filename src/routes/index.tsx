@@ -10,6 +10,7 @@ import {
     SignInPage,
     SignUpPage,
     SubmitFormPage,
+    SubmitSuccessPage,
 } from '../pages';
 import { AuthLayout, MainLayout, SubmitLayout, SurveyLayout } from '../layouts';
 
@@ -64,6 +65,11 @@ const pages = [
         path: '/surveys/:id/response',
         page: ResponseSurveyPage,
         layout: SurveyLayout,
+    },
+    {
+        path: '/surveys/:id/submitSuccess',
+        page: SubmitSuccessPage,
+        layout: SubmitLayout,
     },
 ];
 

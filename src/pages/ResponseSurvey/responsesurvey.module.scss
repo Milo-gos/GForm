@@ -1,4 +1,51 @@
 @import '../../variableSCSS.scss';
 
 .wrapper {
+    padding-top: 16px;
+    width: 800px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .header {
+        padding: 24px;
+        background: white;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border: 1px solid rgb(224, 224, 218);
+
+        h2 {
+            font-size: 30px;
+            letter-spacing: 1.1px;
+        }
+    }
+
+    .total-response {
+        font-size: 30px;
+    }
+
+    .close-response {
+        display: flex;
+        justify-content: flex-end;
+        padding: 8px 12px;
+
+        border-radius: 8px;
+
+        &.isClosed {
+            background-color: $redColor;
+
+            .label-switch {
+                font-size: 14px;
+                font-weight: 500;
+                color: white;
+            }
+        }
+
+        .label-switch {
+            font-size: 14px;
+        }
+    }
 }

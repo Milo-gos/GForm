@@ -4,17 +4,18 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import classNames from 'classnames/bind';
 import { ImageSignin, Logo } from '../../assets/images';
 import { MyLabel, MyButton } from '../../components';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const cx = classNames.bind(style);
 
 const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
     const [indexTab, setIndexTab] = useState<number>(0);
+    const { id } = useParams();
     const navigate = useNavigate();
     const handleClickTab = (indexTab: number) => {
         setIndexTab(indexTab);
-        if (indexTab === 0) navigate('/surveys/:id/edit');
-        else navigate('/surveys/:id/response');
+        if (indexTab === 0) navigate(`/surveys/${id}/edit`);
+        else navigate(`/surveys/${id}/response`);
     };
     return (
         <div className={cx('wrapper')}>

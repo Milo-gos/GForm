@@ -3,14 +3,29 @@ import style from './answerdropdown.module.scss';
 import classNames from 'classnames/bind';
 import NormalTextInput from '../NormalTextInput';
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import { setOption } from '../../redux/slice/submitform';
 
 const cx = classNames.bind(style);
 
-const AnswerDropdown = () => {
-    const [age, setAge] = React.useState('');
+interface Props {
+    indexQuestion: number;
+}
+const AnswerDropdown = ({ indexQuestion }: Props) => {
+    const question = useAppSelector((state) => state.submitForm.questions[indexQuestion]);
+    const dispatchApp = useAppDispatch();
+    const [value, setValue] = React.useState('');
 
     const handleChange = (event: SelectChangeEvent) => {
-        setAge(event.target.value as string);
+        const value = event.target.value as string;
+        const tmpValue = value.split('/')[1];
+        setValue(value);
+        dispatchApp(
+            setOption({
+                indexQuestion,
+                value: tmpValue,
+            }),
+        );
     };
     return (
         <div className={cx('wrapper')}>
@@ -23,19 +38,16 @@ const AnswerDropdown = () => {
                 <InputLabel>Chọn</InputLabel>
                 <Select
                     id="demo-simple-select"
-                    value={age}
-                    label="Age"
+                    value={value}
                     onChange={handleChange}
                     MenuProps={{ disablePortal: true }}>
-                    <MenuItem value={10} style={{ height: 50 }}>
-                        Ten
-                    </MenuItem>
-                    <MenuItem value={20} style={{ height: 50 }}>
-                        Twenty
-                    </MenuItem>
-                    <MenuItem value={30} style={{ height: 50 }}>
-                        Thirty
-                    </MenuItem>
+                    {question.options?.map((option, index) => {
+                        return (
+                            <MenuItem value={`${option.id}/${option.optionText}`} style={{ height: 50 }} key={index}>
+                                {option.optionText}
+                            </MenuItem>
+                        );
+                    })}
                 </Select>
             </FormControl>
         </div>

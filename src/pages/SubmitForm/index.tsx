@@ -3,34 +3,44 @@ import style from './submitform.module.scss';
 import classNames from 'classnames/bind';
 import { Answer } from '../../components';
 import QuestionType from '../../utils/interfaces/questionType';
+import SubmitFormInner from './SubmitFormInner';
+import { useAppDispatch } from '../../redux';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import API from '../../utils/api';
+import SurveyInterface from '../../utils/interfaces/survey';
+import { setSurveySubmit } from '../../redux/slice/submitform';
 
 const cx = classNames.bind(style);
 
 const SubmitFormPage = () => {
-    return (
-        <div className={cx('wrapper')}>
-            <div className={cx('background')}>
-                <img src="https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg" />
-            </div>
+    const dispatchApp = useAppDispatch();
+    const { id } = useParams();
 
-            <div className={cx('form-header')}>
-                <h2>Title</h2>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sapiente ipsam dolorum laborum quos amet,
-                    reiciendis, assumenda corrupti unde nulla et a, inventore architecto ducimus? Reiciendis sunt
-                    laudantium sit architecto repellat.
-                </p>
-            </div>
+    const { data, isLoading, isError, isSuccess } = useQuery({
+        queryKey: [`getSurveyById_${id}`],
+        queryFn: async () => {
+            const response = await axios.get(`${API.GetSurveyById.endPoint}/${id}`);
+            const survey: SurveyInterface = response.data.data;
+            return survey;
+        },
+        refetchOnWindowFocus: false,
+    });
 
-            <Answer questionType={QuestionType.ShortAnswer} />
-            <Answer questionType={QuestionType.Paragraph} />
-            <Answer questionType={QuestionType.Dropdown} />
-            <Answer questionType={QuestionType.Checkbox} />
-            <Answer questionType={QuestionType.RadioButton} />
-            <Answer questionType={QuestionType.LinearScale} />
-            <Answer questionType={QuestionType.RadioButtonGrid} />
-        </div>
-    );
+    if (isLoading) {
+        return <div>Đang tải survey ......................</div>;
+    }
+    if (isError) return <div>Lỗi ......................</div>;
+    if (data) {
+        dispatchApp(
+            setSurveySubmit({
+                survey: data,
+            }),
+        );
+    }
+
+    return <SubmitFormInner />;
 };
 
 export default SubmitFormPage;

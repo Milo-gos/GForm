@@ -1,7 +1,7 @@
 @import '../../variableSCSS.scss';
 .wrapper {
     padding-top: 16px;
-    width: 700px;
+    width: 740px;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -35,5 +35,10 @@
             font-size: 32px;
             letter-spacing: 1.1px;
         }
+    }
+
+    .url {
+        color: rgb(26, 115, 232);
+        text-decoration: underline;
     }
 }

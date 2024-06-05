@@ -9,7 +9,7 @@ interface SurveyInterface {
     status: string;
 
     questions: QuestionInterface[];
-    indexActiveQuestion: number;
+    indexActiveQuestion?: number;
 }
 
 export default SurveyInterface;

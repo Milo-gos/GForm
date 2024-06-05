@@ -5,5 +5,6 @@ import MyLabel from './MyLabel';
 import Question from './Question';
 import MyDialog from './MyDialog';
 import Answer from './Answer';
+import Response from './Response';
 
-export { NormalTextInput, QuestionTextInput, MyButton, MyLabel, Question, MyDialog, Answer };
+export { NormalTextInput, QuestionTextInput, MyButton, MyLabel, Question, MyDialog, Answer, Response };
