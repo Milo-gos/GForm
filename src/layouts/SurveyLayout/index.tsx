@@ -4,11 +4,17 @@ import { BsThreeDotsVertical } from 'react-icons/bs';
 import classNames from 'classnames/bind';
 import { ImageSignin, Logo } from '../../assets/images';
 import { MyLabel, MyButton } from '../../components';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { useNavigate, useParams } from 'react-router-dom';
+import { IconButton, Tooltip } from '@mui/material';
+import { useAppSelector } from '../../redux';
+import Modal from '../../components/Modal';
 
 const cx = classNames.bind(style);
 
 const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
+    const survey = useAppSelector((state) => state.survey);
+    const [isOpenModalShare, setOpenModalShare] = useState(false);
     const [indexTab, setIndexTab] = useState<number>(0);
     const { id } = useParams();
     const navigate = useNavigate();
@@ -17,6 +23,17 @@ const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
         if (indexTab === 0) navigate(`/surveys/${id}/edit`);
         else navigate(`/surveys/${id}/response`);
     };
+    const handleClickPreview = () => {
+        window.open(`/surveys/${id}/viewform`);
+    };
+
+    const handleClickOpen = () => {
+        setOpenModalShare(true);
+    };
+    const handleClickClose = () => {
+        setOpenModalShare(false);
+    };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
@@ -26,19 +43,19 @@ const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
                             <img className={cx('logo')} src={Logo}></img>
                         </div>
                         <div className={cx('survey-about')}>
-                            <h3 style={{ fontSize: '16px' }}>Survey name</h3>
-
-                            <div style={{ marginTop: '4px' }}>
-                                <MyLabel label="Bản nháp" size="big" backgroundColor="#ed6c02"></MyLabel>
-                            </div>
+                            <h3 style={{ fontSize: '18px' }}>{survey.title}</h3>
                         </div>
                     </div>
                     <div className={cx('right')}>
-                        <MyButton textButton="Lưu"></MyButton>
-                        <MyButton textButton="Send"></MyButton>
-                        <div className={cx('three-dot', 'item-toolbar')}>
+                        <Tooltip title="Xem trước">
+                            <IconButton style={{ padding: '12px' }} onClick={handleClickPreview}>
+                                <RemoveRedEyeOutlinedIcon style={{ fontSize: '28px' }} />
+                            </IconButton>
+                        </Tooltip>
+                        <MyButton textButton="Chia sẻ" onClick={handleClickOpen}></MyButton>
+                        <IconButton style={{ padding: '12px' }}>
                             <BsThreeDotsVertical size={24} />
-                        </div>
+                        </IconButton>
                     </div>
                 </div>
                 <div className={cx('tab-list')}>
@@ -59,6 +76,12 @@ const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
                 </div>
             </div>
             <div className={cx('children-wrapper')}>{children}</div>
+
+            {isOpenModalShare && (
+                <Modal onClickClose={handleClickClose}>
+                    <div>qqq</div>
+                </Modal>
+            )}
         </div>
     );
 };

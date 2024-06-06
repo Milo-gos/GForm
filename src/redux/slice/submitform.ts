@@ -25,6 +25,7 @@ const submitFormSlice = createSlice({
             state.questions = survey.questions;
             state.errorQuestions = state.questions.map((i) => '');
             state.submit = {
+                surveyId: survey.id,
                 answers: state.questions.map((question, index) => {
                     const newAnswer: AnswerInterface = {
                         questionId: question.id || '',

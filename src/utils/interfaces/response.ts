@@ -1,9 +1,11 @@
 import AnswerInterface from './answer';
 import QuestionResponseInterface from './question-response';
+import SurveyInterface from './survey';
 
 interface ResponseInterface {
-    surveyId?: string;
-    questionResponse: QuestionResponseInterface[];
+    survey?: SurveyInterface;
+    quantityOfResponses?: number;
+    questionResponses: QuestionResponseInterface[];
 }
 
 export default ResponseInterface;

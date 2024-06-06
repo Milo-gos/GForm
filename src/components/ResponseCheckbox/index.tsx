@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { PieChart, Pie, Cell, Tooltip } from 'recharts';
-import style from './responseradiobutton.module.scss';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import style from './responsecheckbox.module.scss';
 import classNames from 'classnames/bind';
 import QuestionResponseInterface from '../../utils/interfaces/question-response';
 import CHART_COLOR from '../../utils/functions/chartColors';
-import { Value } from 'sass';
 import { useAppSelector } from '../../redux';
 
 const cx = classNames.bind(style);
@@ -25,10 +24,9 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         </text>
     );
 };
-const ResponseRadioButton = ({ questionResponse }: Props) => {
+const ResponseCheckbox = ({ questionResponse }: Props) => {
     // const question = useAppSelector((state) => state.submitForm.questions[index]);
     // const questionType = question.questionType;
-    const colorsChart = useAppSelector((state) => state.response.colorsChart);
     const data = questionResponse.optionReponses!.map((option) => ({
         name: option.optionContent,
         value: option.quantity,
@@ -72,4 +70,4 @@ const ResponseRadioButton = ({ questionResponse }: Props) => {
     );
 };
 
-export default ResponseRadioButton;
+export default ResponseCheckbox;

@@ -12,8 +12,8 @@ const initialState: Survey = {
     id: '',
     title: '',
     description: '',
-    status: 'draft',
     questions: [],
+    isAccepting: true,
     indexActiveQuestion: 0,
 };
 
@@ -27,12 +27,13 @@ const surveySlice = createSlice({
             state.title = survey.title;
             state.description = survey.description;
             state.questions = survey.questions;
+            state.isAccepting = survey.isAccepting;
             state.indexActiveQuestion = 0;
         },
         setNewSurvey: (state) => {
             state.title = 'Tiêu đề khảo sát';
             state.description = '';
-            state.status = 'draft';
+            state.isAccepting = true;
             state.questions = [
                 {
                     id: new Date().getTime().toString(),

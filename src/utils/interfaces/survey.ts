@@ -6,7 +6,7 @@ interface SurveyInterface {
 
     description: string;
 
-    status: string;
+    isAccepting: boolean;
 
     questions: QuestionInterface[];
     indexActiveQuestion?: number;

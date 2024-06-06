@@ -1,7 +1,7 @@
 import AnswerInterface from './answer';
 
 interface SubmitInterface {
-    id?: string;
+    surveyId: string;
     submissionDate?: Date;
     answers: AnswerInterface[];
 }

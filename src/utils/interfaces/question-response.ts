@@ -6,6 +6,11 @@ interface QuestionResponseInterface {
     questionId?: string;
     questionContent?: string;
     questionType?: QuestionType;
+    numberOfResponses?: number;
+    linearResponses?: {
+        value: number;
+        quantity: number;
+    }[];
     textResponses: string[];
     optionReponses?: {
         optionContent: string;

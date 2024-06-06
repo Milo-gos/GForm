@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import style from './responsedropdown.module.scss';
 import classNames from 'classnames/bind';
+import QuestionResponseInterface from '../../utils/interfaces/question-response';
+import CHART_COLOR from '../../utils/functions/chartColors';
 
 const cx = classNames.bind(style);
 
 interface Props {
-    index: number;
+    questionResponse: QuestionResponseInterface;
 }
 
 const RADIAN = Math.PI / 180;
@@ -21,16 +23,14 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
         </text>
     );
 };
-const ResponseDropdown = () => {
+const ResponseDropdown = ({ questionResponse }: Props) => {
     // const question = useAppSelector((state) => state.submitForm.questions[index]);
     // const questionType = question.questionType;
-    const data = [
-        { name: 'Group A', value: 400 },
-        { name: 'Group B', value: 300 },
-        { name: 'Group C', value: 300 },
-        { name: 'Group D', value: 200 },
-    ];
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+    const data = questionResponse.optionReponses!.map((option) => ({
+        name: option.optionContent,
+        value: option.quantity,
+    }));
+    const COLORS = CHART_COLOR.slice(0, questionResponse.optionReponses?.length);
     return (
         <div className={cx('wrapper')}>
             <PieChart width={260} height={260}>
@@ -47,6 +47,7 @@ const ResponseDropdown = () => {
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                 </Pie>
+                <Tooltip />
             </PieChart>
             <div className={cx('color-wrapper')}>
                 {COLORS.map((color, index) => {
@@ -59,7 +60,7 @@ const ResponseDropdown = () => {
                                     borderRadius: '50%',
                                     backgroundColor: color,
                                 }}></div>
-                            <span>{index}</span>
+                            <span>{data[index].name}</span>
                         </div>
                     );
                 })}

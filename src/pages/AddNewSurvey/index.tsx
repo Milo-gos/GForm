@@ -11,7 +11,6 @@ import AddNewSurveyQuestionInner from './AddNewSurveyInner';
 const AddNewSurveyPage = () => {
     const dispatchApp = useAppDispatch();
     const { id } = useParams();
-
     const { data, isLoading, isError, isSuccess } = useQuery({
         queryKey: [`getSurveyById_${id}`],
         queryFn: async () => {

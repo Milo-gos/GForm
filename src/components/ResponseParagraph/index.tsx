@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 import style from './responseparagraph.module.scss';
 import classNames from 'classnames/bind';
+import QuestionResponseInterface from '../../utils/interfaces/question-response';
 
 const cx = classNames.bind(style);
 
 interface Props {
-    index: number;
+    questionResponse: QuestionResponseInterface;
 }
-const ResponseParagraph = () => {
+const ResponseParagraph = ({ questionResponse }: Props) => {
     // const question = useAppSelector((state) => state.submitForm.questions[index]);
     // const questionType = question.questionType;
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('answer-text')}>
-                <p>ffsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdffsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdffsd</p>
-            </div>
-            <div className={cx('answer-text')}>
-                <p>ffsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdffsdfdsfdsfsdfdsfdsfsdfdsfdsfsdfdsfdsfsdffsd</p>
-            </div>
+            {questionResponse.textResponses.map((text, index) => {
+                return (
+                    <div className={cx('answer-text')} key={index}>
+                        <p>{text}</p>
+                    </div>
+                );
+            })}
         </div>
     );
 };

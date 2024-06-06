@@ -4,7 +4,6 @@ import classNames from 'classnames/bind';
 import { FormControlLabel, IconButton, Menu, MenuItem, Switch } from '@mui/material';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { Question, Response } from '../../../components';
-import QuestionType from '../../../utils/interfaces/questionType';
 import ResponseInterface from '../../../utils/interfaces/response';
 const cx = classNames.bind(style);
 
@@ -31,7 +30,7 @@ const ResponseSurveyInner = ({ data }: Props) => {
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span className={cx('total-response')}>34 phản hồi</span>
+                    <span className={cx('total-response')}>{data?.quantityOfResponses || 0} phản hồi</span>
 
                     <IconButton style={{ padding: '8px' }} onClick={handleClick}>
                         <BsThreeDotsVertical size={24} />
@@ -79,8 +78,8 @@ const ResponseSurveyInner = ({ data }: Props) => {
                 </div>
             </div>
 
-            {data?.questionResponse.map((question, index) => {
-                return <Response questionType={question.questionType} />;
+            {data?.questionResponses?.map((question, index) => {
+                return <Response key={index} questionResponse={question} />;
             })}
         </div>
     );
