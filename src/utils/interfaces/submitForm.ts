@@ -1,6 +1,6 @@
 import AnswerInterface from './answer';
 import QuestionInterface from './question';
-import ResponseInterface from './response';
+import SubmitInterface from './submit';
 
 interface SubmitFormInterface {
     id?: string;
@@ -10,7 +10,7 @@ interface SubmitFormInterface {
     status: string;
     questions: QuestionInterface[];
     errorQuestions: string[];
-    response?: ResponseInterface;
+    submit?: SubmitInterface;
     isSubmit: boolean;
 }
 

@@ -122,6 +122,11 @@ const API = {
         endPoint: `${BE_URL}/response/createResponse`,
         method: 'post',
     },
+
+    GetResponseSurvey: {
+        endPoint: `${BE_URL}/response/getResponseSurvey`,
+        method: 'get',
+    },
 };
 
 export default API;

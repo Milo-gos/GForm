@@ -1,9 +1,9 @@
 import AnswerInterface from './answer';
+import QuestionResponseInterface from './question-response';
 
 interface ResponseInterface {
-    id?: string;
-    submissionDate?: Date;
-    answers: AnswerInterface[];
+    surveyId?: string;
+    questionResponse: QuestionResponseInterface[];
 }
 
 export default ResponseInterface;

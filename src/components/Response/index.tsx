@@ -17,12 +17,14 @@ import ResponseShortAnswer from '../ResponseShortAnswer';
 import ResponseParagraph from '../ResponseParagraph';
 import ResponseRadioButton from '../ResponseRadioButton';
 import ResponseDropdown from '../ResponseDropdown';
+import ResponseLinearScale from '../ResponseLinearScale';
+import ResponseRadioButtonGrid from '../ResponseRadioButtonGrid';
 
 const cx = classNames.bind(style);
 
 interface Props {
     index?: number;
-    questionType: QuestionType;
+    questionType?: QuestionType;
 }
 const Response = ({ questionType }: Props) => {
     // const question = useAppSelector((state) => state.submitForm.questions[index]);
@@ -40,6 +42,8 @@ const Response = ({ questionType }: Props) => {
                 {questionType == QuestionType.Paragraph && <ResponseParagraph />}
                 {questionType == QuestionType.RadioButton && <ResponseRadioButton />}
                 {questionType == QuestionType.Dropdown && <ResponseDropdown />}
+                {questionType == QuestionType.LinearScale && <ResponseLinearScale />}
+                {questionType == QuestionType.RadioButtonGrid && <ResponseRadioButtonGrid />}
             </div>
         </div>
     );

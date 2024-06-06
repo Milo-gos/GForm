@@ -11,13 +11,13 @@ const cx = classNames.bind(style);
 
 const SubmitFormInner = () => {
     const survey = useAppSelector((state) => state.submitForm);
-    const response = useAppSelector((state) => state.submitForm.response);
+    const submit = useAppSelector((state) => state.submitForm.submit);
     const navigate = useNavigate();
     const { id } = useParams();
     const dispatchApp = useAppDispatch();
     const CreateResponseMutation = useCreateResponseMutation();
     const handleClickSubmit = () => {
-        CreateResponseMutation.mutate(response, {
+        CreateResponseMutation.mutate(submit, {
             onSuccess(data, variables, context) {
                 navigate(`/surveys/${id}/submitSuccess`);
             },
