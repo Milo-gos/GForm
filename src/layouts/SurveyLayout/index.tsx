@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { IconButton, Tooltip } from '@mui/material';
 import { useAppSelector } from '../../redux';
 import Modal from '../../components/Modal';
+import ShareInnerModal from './ShareInnerModal';
 
 const cx = classNames.bind(style);
 
@@ -79,7 +80,7 @@ const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
 
             {isOpenModalShare && (
                 <Modal onClickClose={handleClickClose}>
-                    <div>qqq</div>
+                    <ShareInnerModal setOpenModalShare={setOpenModalShare} />
                 </Modal>
             )}
         </div>

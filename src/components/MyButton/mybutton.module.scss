@@ -26,4 +26,13 @@
             font-size: 18px;
         }
     }
+
+    &.noBackground {
+        background-color: transparent;
+        color: $textColor;
+
+        &:hover {
+            background-color: #f9f9f9;
+        }
+    }
 }
