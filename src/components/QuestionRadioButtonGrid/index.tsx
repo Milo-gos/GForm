@@ -30,24 +30,13 @@ const QuestionRadioButtonGrid = ({ isActiveQuestion, indexQuestion }: Props) => 
     const rowLength = question?.rows ? question.rows.length : 0;
     const gcolumnLength = question?.gcolumns ? question.gcolumns.length : 0;
     const dispatchApp = useAppDispatch();
-    // const handleClickAddRow = () => {
-    //     setListRows((prev) => [...prev, 1]);
-    // };
-    // const handleClickRemoveRow = (indexRemove: number) => {
-    //     setListRows((prev) => [...prev].filter((item, index) => index !== indexRemove));
-    // };
-    // const handleClickAddColumns = () => {
-    //     setListColumns((prev) => [...prev, 1]);
-    // };
-    // const handleClickRemoveColumns = (indexRemove: number) => {
-    //     setListColumns((prev) => [...prev].filter((item, index) => index !== indexRemove));
-    // };
 
     const AddRow = useAddRowMutation(question.id);
     const handleClickAddRow = () => {
         dispatchApp(handleAddRow({ indexQuestion }));
         AddRow.mutate(
             {
+                questionId: question.id,
                 rowContent: `Hàng ${question.rows!.length + 1}`,
             },
 
@@ -67,9 +56,7 @@ const QuestionRadioButtonGrid = ({ isActiveQuestion, indexQuestion }: Props) => 
     const handleClickRemoveRow = (indexRow: number, rowId?: string) => {
         dispatchApp(handleRemoveRow({ indexQuestion, indexRow }));
 
-        DeleteRowMutation.mutate({
-            rowId,
-        });
+        DeleteRowMutation.mutate(rowId!);
     };
 
     const AddGColumn = useAddGColumnMutation(question.id);
@@ -77,6 +64,7 @@ const QuestionRadioButtonGrid = ({ isActiveQuestion, indexQuestion }: Props) => 
         dispatchApp(handleAddGColumn({ indexQuestion }));
         AddGColumn.mutate(
             {
+                questionId: question.id,
                 gcolumnContent: `Cột ${question.gcolumns!.length + 1}`,
             },
 
@@ -96,9 +84,7 @@ const QuestionRadioButtonGrid = ({ isActiveQuestion, indexQuestion }: Props) => 
     const handleClickRemoveGColumn = (indexGColumn: number, gcolumnId?: string) => {
         dispatchApp(handleRemoveGColumn({ indexQuestion, indexGColumn }));
 
-        DeleteGColumnMutation.mutate({
-            gcolumnId,
-        });
+        DeleteGColumnMutation.mutate(gcolumnId!);
     };
     return (
         <div className={cx('wrapper')}>

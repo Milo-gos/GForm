@@ -2,8 +2,8 @@ import React, { ReactElement, useState } from 'react';
 import style from './surveylayout.module.scss';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import classNames from 'classnames/bind';
-import { ImageSignin, Logo } from '../../assets/images';
-import { MyLabel, MyButton } from '../../components';
+import { Logo } from '../../assets/images';
+import { MyButton } from '../../components';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IconButton, Tooltip } from '@mui/material';
@@ -40,7 +40,13 @@ const SurveyLayout = ({ children }: { children?: JSX.Element }) => {
             <div className={cx('header')}>
                 <div className={cx('toolbar')}>
                     <div className={cx('left')}>
-                        <div className={cx('logo-wrapper', 'item-toolbar')}>
+                        <div
+                            className={cx('logo-wrapper', 'item-toolbar')}
+                            onClick={() =>
+                                navigate('/', {
+                                    replace: true,
+                                })
+                            }>
                             <img className={cx('logo')} src={Logo}></img>
                         </div>
                         <div className={cx('survey-about')}>

@@ -4,6 +4,7 @@ import globalReducer from './slice/global';
 import surveyReducer from './slice/survey';
 import submitFormReducer from './slice/submitform';
 import responseReducer from './slice/response';
+import surveyManagementReducer from './slice/surveyManagement';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 const store = configureStore({
@@ -13,6 +14,7 @@ const store = configureStore({
         survey: surveyReducer,
         submitForm: submitFormReducer,
         response: responseReducer,
+        surveyManagement: surveyManagementReducer,
     },
 });
 

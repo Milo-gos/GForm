@@ -63,7 +63,7 @@ const BottomQuestion = ({ type, indexQuestion, setDuplicated }: Props) => {
                 indexQuestion,
             }),
         );
-        DeleteQuestionMutation.mutate({});
+        DeleteQuestionMutation.mutate(question.id!);
     };
     const changeQuestion = useChangeQuestionMutation(question.id || '');
     const handleSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {

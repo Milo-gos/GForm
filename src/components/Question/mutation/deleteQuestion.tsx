@@ -6,15 +6,12 @@ import QuestionInterface from '../../../utils/interfaces/question';
 import OptionInterface from '../../../utils/interfaces/option';
 import RowInterface from '../../../utils/interfaces/row';
 import GColumnInterface from '../../../utils/interfaces/gcolumn';
+import { deleteQuestion } from '../../../utils/API/axios';
 
 const useDeleteQuestionMutation = (questionId?: string) => {
     return useMutation({
         mutationKey: [`deleteQuestion_${questionId}`],
-        mutationFn: async (body: any) => {
-            const response = await axios.delete(`${API.DeleteQuestion.endPoint}/${questionId}`);
-            const question: QuestionInterface = response.data.data;
-            return question;
-        },
+        mutationFn: deleteQuestion,
     });
 };
 

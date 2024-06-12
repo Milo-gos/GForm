@@ -85,6 +85,7 @@ const Question = ({ index }: Props) => {
     useAutoSave(question.description, () => {
         changeQuestion.mutate(
             {
+                id: question.id,
                 description: question.description,
             },
 
@@ -98,6 +99,7 @@ const Question = ({ index }: Props) => {
     useAutoSave(question.question, () => {
         changeQuestion.mutate(
             {
+                id: question.id,
                 question: question.question,
             },
 
@@ -164,6 +166,7 @@ const Question = ({ index }: Props) => {
         );
         changeQuestion.mutate(
             {
+                id: question.id,
                 questionType: questionType,
             },
 

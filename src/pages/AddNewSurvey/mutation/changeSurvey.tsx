@@ -4,16 +4,14 @@ import React from 'react';
 import API from '../../../utils/api';
 import QuestionInterface from '../../../utils/interfaces/question';
 import { useParams } from 'react-router-dom';
+import InstanceAxios from '../../../utils/axios/instanceAxios';
+import { changeSurvey } from '../../../utils/API/axios';
 
 const useChangeSurveyMutation = () => {
     const { id } = useParams();
     return useMutation({
-        mutationKey: [`changeQuestion_${id}`],
-        mutationFn: async (body: any) => {
-            const response = await axios.patch(`${API.ChangeSurvey.endPoint}/${id}`, body);
-            const updateQuestion: QuestionInterface = response.data.data;
-            return updateQuestion;
-        },
+        mutationKey: [`changeSurvey${id}`],
+        mutationFn: changeSurvey,
     });
 };
 

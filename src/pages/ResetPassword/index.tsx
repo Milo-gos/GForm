@@ -7,9 +7,11 @@ import { string, z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from '../../redux';
-import { checkExistEmail, resetPassword, verifyLinkResetPassword } from '../../redux/slice/auth';
 import PageNotFound from '../PageNotFound';
 import { FaRegCircleCheck } from 'react-icons/fa6';
+import useVerifyLinkResetPasswordMutation from './mutation/verifyLinkResetPassword';
+import useResetPasswordMutation from './mutation/resetPassword';
+import { setLoading } from '../../redux/slice/global';
 const cx = classNames.bind(style);
 
 const ResetPasswordSchema = z
@@ -39,31 +41,41 @@ const ResetPasswordPage = () => {
         mode: 'onSubmit',
         shouldFocusError: true,
     });
-
+    const VerifyLinkResetPasswordMutation = useVerifyLinkResetPasswordMutation();
     useEffect(() => {
-        const verifyFunction = async (tokenLinkResetPassword: string) => {
-            try {
-                const email = await dispatchApp(verifyLinkResetPassword(tokenLinkResetPassword)).unwrap();
-                setEmail(email);
-                setResult('success');
-            } catch (error) {
-                setResult('failed');
-            }
-        };
-
-        if (tokenLinkResetPassword) verifyFunction(tokenLinkResetPassword);
+        if (tokenLinkResetPassword)
+            VerifyLinkResetPasswordMutation.mutate(tokenLinkResetPassword, {
+                onSuccess(data) {
+                    setEmail(data);
+                    setResult('success');
+                },
+                onError() {
+                    setResult('failed');
+                },
+            });
     }, []);
 
+    const ResetPasswordMutation = useResetPasswordMutation();
     const onsubmit = async ({ password }: ResetPasswordType) => {
-        try {
-            await dispatchApp(resetPassword({ email: email, password: password })).unwrap();
-            setResult('reset-success');
-        } catch (error) {
-            setError('confirmPassword', {
-                type: 'server',
-                message: (error as string) || '',
-            });
-        }
+        dispatchApp(setLoading(true));
+        ResetPasswordMutation.mutate(
+            { email: email, password: password },
+            {
+                onSuccess() {
+                    dispatchApp(setLoading(false));
+
+                    setResult('reset-success');
+                },
+                onError(error: any) {
+                    dispatchApp(setLoading(false));
+
+                    setError('confirmPassword', {
+                        type: 'server',
+                        message: error.response.data.message,
+                    });
+                },
+            },
+        );
     };
     return (
         <div className={cx('wrapper')}>

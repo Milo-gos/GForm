@@ -19,6 +19,7 @@ const GColumnComponent = ({ indexQuestion, indexGColumn, isActiveQuestion }: Pro
     useAutoSave(gcolumn.gcolumnContent, () => {
         ChangeGColumn.mutate(
             {
+                id: gcolumn.id,
                 gcolumnContent: gcolumn.gcolumnContent,
             },
 

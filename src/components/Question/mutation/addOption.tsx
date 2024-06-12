@@ -4,15 +4,12 @@ import React from 'react';
 import API from '../../../utils/api';
 import QuestionInterface from '../../../utils/interfaces/question';
 import OptionInterface from '../../../utils/interfaces/option';
+import { addOPtion } from '../../../utils/API/axios';
 
 const useAddOptionMutation = (questionId?: string) => {
     return useMutation({
         mutationKey: [`addOption_${questionId}`],
-        mutationFn: async (body: any) => {
-            const response = await axios.post(`${API.AddOption.endPoint}/${questionId}`, body);
-            const option: OptionInterface = response.data.data;
-            return option;
-        },
+        mutationFn: addOPtion,
     });
 };
 

@@ -1,36 +1,88 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './home.module.scss';
 import classNames from 'classnames/bind';
-import { MyButton } from '../../components';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
-import API from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
-import SurveyInterface from '../../utils/interfaces/survey';
+import { MyButton, Survey } from '../../components';
+import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useAppDispatch, useAppSelector } from '../../redux';
+import { setLoading } from '../../redux/slice/global';
+import { getSurveysOfCurrentUser } from '../../utils/API/axios';
+import { MoonLoader } from 'react-spinners';
+import { Value } from 'sass';
 
 const cx = classNames.bind(style);
 const HomePage = () => {
     const navigate = useNavigate();
-    const createNewSurveyMutation = useMutation({
-        mutationKey: ['createSurvey'],
-        mutationFn: async (body) => {
-            const response = await axios.post(API.CreateSurvey.endPoint, body);
-            const newSurvey: SurveyInterface = response.data.data;
-            return newSurvey;
-        },
-    });
-    const handleCreateNewSurvey = () => {
-        createNewSurveyMutation.mutate(undefined, {
-            onSuccess(data, variables, context) {
-                navigate(`/surveys/${data.id}/edit`);
-            },
-        });
+    const searchString = useAppSelector((state) => state.surveyManagement.searchString);
+    const [value, setValue] = useState('0');
+    const handleChangeFilter = (e: SelectChangeEvent) => {
+        const value = e.target.value;
+        setValue(value);
     };
+    const { data, isLoading, isError, isSuccess, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } =
+        useInfiniteQuery({
+            queryKey: [`getSurveyOfCurrentUser`, searchString, value],
+            queryFn: getSurveysOfCurrentUser,
+            refetchOnWindowFocus: false,
+            initialPageParam: 0,
+            getNextPageParam: (lastPage) => lastPage.nextCursor,
+        });
+
+    const ref = useRef<HTMLDivElement>(null);
+
     return (
         <div className={cx('wrapper')}>
-            HOME PAGE
-            <MyButton textButton="Tạo mới khảo sát" onClick={handleCreateNewSurvey} />
-            {createNewSurveyMutation.isPending && <div>Đang tạo khảo sát...</div>}
+            <div className={cx('filter')}>
+                <span style={{ fontSize: '18px' }}>Trạng thái: </span>
+                <FormControl
+                    sx={{
+                        m: 1,
+                        minWidth: 65,
+                        '& fieldset': {
+                            border: 'none',
+                        },
+                    }}
+                    size="small">
+                    <Select
+                        onChange={handleChangeFilter}
+                        size="medium"
+                        MenuProps={{ disablePortal: true }}
+                        defaultValue="0">
+                        <MenuItem value={0}>
+                            <div style={{ padding: '4px 0px' }}>Tất cả</div>
+                        </MenuItem>
+                        <MenuItem value={1}>
+                            <div style={{ padding: '4px 0px' }}>Đang nhận phản hồi</div>
+                        </MenuItem>
+                        <MenuItem value={2}>
+                            <div style={{ padding: '4px 0px' }}>Ngừng nhận phản hồi</div>
+                        </MenuItem>
+                    </Select>
+                </FormControl>
+            </div>
+            {isLoading ? (
+                <div>Loading</div>
+            ) : (
+                <div className={cx('list-surveys')}>
+                    {data?.pages.map((page, index) => {
+                        return (
+                            <div key={index} className={cx('sectionData')}>
+                                {page.surveys.map((survey) => {
+                                    return <Survey key={survey.id} survey={survey} />;
+                                })}
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
+
+            {hasNextPage && (
+                <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+                    {isFetchingNextPage && <MoonLoader color="#fcc934" size={30} />}
+                    <MyButton textButton="Tải thêm" onClick={() => fetchNextPage()} />
+                </div>
+            )}
         </div>
     );
 };

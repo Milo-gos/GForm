@@ -13,6 +13,9 @@ import { useParams } from 'react-router-dom';
 import ResponseInterface from '../../utils/interfaces/response';
 import { useAppDispatch } from '../../redux';
 import survey, { setSurvey } from '../../redux/slice/survey';
+import { setLoading } from '../../redux/slice/global';
+import PageError from '../PageError';
+import { getResponseSurvey } from '../../utils/API/axios';
 const cx = classNames.bind(style);
 
 const ResponseSurveyPage = () => {
@@ -20,18 +23,20 @@ const ResponseSurveyPage = () => {
     const dispatchApp = useAppDispatch();
     const { data, isLoading, isError, isSuccess } = useQuery({
         queryKey: [`getResponseSurvey_${id}`],
-        queryFn: async () => {
-            const response = await axios.get(`${API.GetResponseSurvey.endPoint}/${id}`);
-            const t: ResponseInterface = response.data.data;
-            return t;
-        },
+        queryFn: () => getResponseSurvey(id!),
         refetchOnWindowFocus: false,
     });
 
     if (isLoading) {
-        return <div>Đang tải survey ......................</div>;
+        dispatchApp(setLoading(true));
     }
-    if (isError) return <div>Lỗi ......................</div>;
+    if (isError) {
+        dispatchApp(setLoading(false));
+        return <PageError />;
+    }
+    if (isSuccess) {
+        dispatchApp(setLoading(false));
+    }
     if (data) {
         dispatchApp(
             setSurvey({

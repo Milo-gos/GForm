@@ -18,7 +18,7 @@ const SubmitFormInner = () => {
     const CreateResponseMutation = useCreateResponseMutation();
     const handleClickSubmit = () => {
         CreateResponseMutation.mutate(submit, {
-            onSuccess(data, variables, context) {
+            onSuccess() {
                 navigate(`/surveys/${id}/submitSuccess`);
             },
         });
@@ -35,11 +35,9 @@ const SubmitFormInner = () => {
             </div>
             {survey.questions?.map((quesiton, index) => <Answer key={quesiton.id} index={index} />)}
 
-            {survey.status !== 'draft' && (
-                <div style={{ width: '120px', marginTop: '8px' }}>
-                    <MyButton textButton="Submit" padding="12px 0" onClick={handleClickSubmit} />
-                </div>
-            )}
+            <div style={{ width: '120px', marginTop: '8px' }}>
+                <MyButton textButton="Submit" padding="12px 0" onClick={handleClickSubmit} />
+            </div>
         </div>
     );
 };

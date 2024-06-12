@@ -4,26 +4,26 @@ import classNames from 'classnames/bind';
 import { FaRegCircleCheck } from 'react-icons/fa6';
 import { Link, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux';
-import { verifyEmail } from '../../redux/slice/auth';
 import PageNotFound from '../PageNotFound';
+import useVerifyEmailMutation from './mutation/verifyEmail';
 const cx = classNames.bind(style);
 
 const EmailVerificationResultPage = () => {
     const dispatch = useAppDispatch();
     const { tokenLink } = useParams();
     const [result, setResult] = useState('');
-
+    const VerifyEmailMutation = useVerifyEmailMutation();
     useEffect(() => {
-        const verifyFunction = async (tokenLink: string) => {
-            try {
-                await dispatch(verifyEmail(tokenLink)).unwrap();
-                setResult('success');
-            } catch (error) {
-                setResult('failed');
-            }
-        };
-
-        if (tokenLink) verifyFunction(tokenLink);
+        if (tokenLink) {
+            VerifyEmailMutation.mutate(tokenLink, {
+                onSuccess() {
+                    setResult('success');
+                },
+                onError() {
+                    setResult('failed');
+                },
+            });
+        }
     }, []);
 
     return (

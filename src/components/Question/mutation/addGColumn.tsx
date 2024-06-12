@@ -6,15 +6,12 @@ import QuestionInterface from '../../../utils/interfaces/question';
 import OptionInterface from '../../../utils/interfaces/option';
 import RowInterface from '../../../utils/interfaces/row';
 import GColumnInterface from '../../../utils/interfaces/gcolumn';
+import { addGColumn } from '../../../utils/API/axios';
 
 const useAddGColumnMutation = (questionId?: string) => {
     return useMutation({
         mutationKey: [`addGColumn_${questionId}`],
-        mutationFn: async (body: any) => {
-            const response = await axios.post(`${API.AddGColumn.endPoint}/${questionId}`, body);
-            const gcolumn: GColumnInterface = response.data.data;
-            return gcolumn;
-        },
+        mutationFn: addGColumn,
     });
 };
 

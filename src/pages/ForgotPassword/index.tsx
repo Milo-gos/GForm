@@ -8,7 +8,8 @@ import { string, z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from '../../redux';
-import { checkExistEmail } from '../../redux/slice/auth';
+import useCheckExistEmailMutation from './mutation/checkExistEmail';
+import { setLoading } from '../../redux/slice/global';
 const cx = classNames.bind(style);
 
 const object = z.object({
@@ -36,6 +37,7 @@ const ForgotPasswordPage = () => {
     if (minute === '0' && second === '00') {
         clearInterval(refId.current);
     }
+    const CheckExistEmailMutation = useCheckExistEmailMutation();
     useEffect(() => {
         if (showNotification) {
             refId.current = setInterval(() => {
@@ -47,15 +49,23 @@ const ForgotPasswordPage = () => {
         };
     }, [showNotification]);
     const onsubmit = async ({ email }: { email: string }) => {
-        try {
-            await dispatchApp(checkExistEmail(email)).unwrap();
-            setShowNotification(true);
-        } catch (error) {
-            setError('email', {
-                type: 'server',
-                message: (error as string) || '',
-            });
-        }
+        dispatchApp(setLoading(true));
+
+        CheckExistEmailMutation.mutate(email, {
+            onSuccess() {
+                dispatchApp(setLoading(false));
+
+                setShowNotification(true);
+            },
+            onError(error: any) {
+                dispatchApp(setLoading(false));
+
+                setError('email', {
+                    type: 'server',
+                    message: error.response.data.message,
+                });
+            },
+        });
     };
     return (
         <div className={cx('wrapper')}>

@@ -19,6 +19,7 @@ const OptionComponent = ({ indexQuestion, indexOption, isActiveQuestion }: Props
     useAutoSave(option.optionText, () => {
         ChangeOption.mutate(
             {
+                id: option.id,
                 optionText: option.optionText,
             },
 

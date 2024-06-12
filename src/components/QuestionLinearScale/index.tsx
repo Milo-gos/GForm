@@ -28,6 +28,7 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
             }),
         );
         ChangeLinearMutation.mutate({
+            id: linearScale?.id,
             min: e.target.value,
         });
     };

@@ -1,11 +1,6 @@
 import { Draft, PayloadAction, createSlice } from '@reduxjs/toolkit';
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import API from '../../utils/api';
-import { setLoading } from './global';
 import Survey from '../../utils/interfaces/survey';
 import QuestionType from '../../utils/interfaces/questionType';
-import { useMutation } from '@tanstack/react-query';
-import useChangeQuestionMutation from '../../components/Question/mutation/changeQuestion';
 import QuestionInterface from '../../utils/interfaces/question';
 
 const initialState: Survey = {
@@ -38,7 +33,7 @@ const surveySlice = createSlice({
                 {
                     id: new Date().getTime().toString(),
                     isHasDescription: false,
-                    question: '',
+                    question: 'Câu hỏi',
                     description: '',
                     isRequired: false,
                     questionType: QuestionType.ShortAnswer,
@@ -55,7 +50,7 @@ const surveySlice = createSlice({
             state.questions.splice(position, 0, {
                 id: new Date().getTime().toString(),
                 isHasDescription: false,
-                question: '',
+                question: 'Câu hỏi',
                 description: '',
                 isRequired: false,
                 questionType: QuestionType.ShortAnswer,

@@ -7,24 +7,30 @@ import API from '../../utils/api';
 import { useParams } from 'react-router-dom';
 import SurveyInterface from '../../utils/interfaces/survey';
 import AddNewSurveyQuestionInner from './AddNewSurveyInner';
+import InstanceAxios from '../../utils/axios/instanceAxios';
+import { setLoading } from '../../redux/slice/global';
+import PageError from '../PageError';
+import { getSurveyById } from '../../utils/API/axios';
 
 const AddNewSurveyPage = () => {
     const dispatchApp = useAppDispatch();
     const { id } = useParams();
     const { data, isLoading, isError, isSuccess } = useQuery({
         queryKey: [`getSurveyById_${id}`],
-        queryFn: async () => {
-            const response = await axios.get(`${API.GetSurveyById.endPoint}/${id}`);
-            const survey: SurveyInterface = response.data.data;
-            return survey;
-        },
+        queryFn: () => getSurveyById(id!),
         refetchOnWindowFocus: false,
     });
 
     if (isLoading) {
-        return <div>Đang tải survey ......................</div>;
+        dispatchApp(setLoading(true));
     }
-    if (isError) return <div>Lỗi ......................</div>;
+    if (isError) {
+        dispatchApp(setLoading(false));
+        return <PageError />;
+    }
+    if (isSuccess) {
+        dispatchApp(setLoading(false));
+    }
     if (data) {
         dispatchApp(
             setSurvey({

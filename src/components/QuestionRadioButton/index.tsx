@@ -59,6 +59,7 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
         dispatchApp(handleAddOption({ indexQuestion }));
         AddOption.mutate(
             {
+                questionId: question.id,
                 optionText: `Lựa chọn ${question.options!.length + 1}`,
             },
 
@@ -78,9 +79,7 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
     const handleRemove = (indexOption: number, optionId?: string) => {
         dispatchApp(handleRemoveOption({ indexQuestion, indexOption }));
 
-        DeleteOptionMutation.mutate({
-            optionId,
-        });
+        DeleteOptionMutation.mutate(optionId!);
     };
 
     return (
