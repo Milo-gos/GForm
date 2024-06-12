@@ -11,12 +11,14 @@ import MailTab from './MailTab';
 import LinkTab from './LinkTab';
 import { FacebookShareButton } from 'react-share';
 import { useAppSelector } from '../../../redux';
+import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind(style);
 interface Props {
     setOpenModalShare?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const ShareInnerModal = ({ setOpenModalShare }: Props) => {
+    const { id } = useParams();
     const survey = useAppSelector((state) => state.survey);
     const [indexTab, setIndexTab] = useState<number>(0);
 
@@ -51,11 +53,7 @@ const ShareInnerModal = ({ setOpenModalShare }: Props) => {
                     </div>
                 </div>
                 <div className={cx('social')}>
-                    <FacebookShareButton
-                        url={
-                            'https://docs.google.com/forms/d/e/1FAIpQLScKTukBEy-c2UVNQRSMNzt6Pdi1NxX4RACohRvjhO5Trihhqw/viewform?usp=sf_link'
-                        }
-                        hashtag={`#${survey.title}`}>
+                    <FacebookShareButton url={`${window.location.origin}/${id}/viewform`} hashtag={`#${survey.title}`}>
                         <Tooltip
                             title="Chia sẻ qua Facebook"
                             PopperProps={{

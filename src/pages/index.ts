@@ -8,6 +8,7 @@ import HomePage from './Home';
 import AddNewSurveyPage from './AddNewSurvey';
 import SubmitFormPage from './SubmitForm';
 import SubmitSuccessPage from './SubmitForm/SubmitSuccess';
+import SharedSurveyPage from './SharedSurvey';
 
 export {
     SignInPage,
@@ -20,4 +21,5 @@ export {
     HomePage,
     SubmitFormPage,
     SubmitSuccessPage,
+    SharedSurveyPage,
 };

@@ -12,10 +12,12 @@ interface Props {
     textColor?: string;
     padding?: string;
     noBackground?: boolean;
+    form?: string;
 }
 const MyButton = (props: Props) => {
     return (
         <button
+            form={props.form}
             style={{
                 backgroundColor: props.backgroundColor,
                 color: props.textColor,

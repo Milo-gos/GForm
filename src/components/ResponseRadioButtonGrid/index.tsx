@@ -43,11 +43,6 @@ const ResponseRadioButtonGrid = ({ questionResponse }: Props) => {
                     <YAxis type="number" interval={0} allowDecimals={false} />
                     <Tooltip />
                     <Legend />
-                    {/* {data![0].gcolumns
-                        .map((i) => i.gcolumnContent)
-                        .map((content, index) => {
-                            return <Bar dataKey={content} fill="#82ca9d" key={index} />;
-                        })} */}
                     {columns.map((item, index) => {
                         return (
                             <Bar dataKey={`${columns[index].gcolumnContent}`} fill={CHART_COLOR[index]} key={index} />

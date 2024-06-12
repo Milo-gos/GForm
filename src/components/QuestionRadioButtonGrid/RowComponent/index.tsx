@@ -19,6 +19,7 @@ const RowComponent = ({ indexQuestion, indexRow, isActiveQuestion }: Props) => {
     useAutoSave(row.rowContent, () => {
         ChangeRow.mutate(
             {
+                id: row.id,
                 rowContent: row.rowContent,
             },
 

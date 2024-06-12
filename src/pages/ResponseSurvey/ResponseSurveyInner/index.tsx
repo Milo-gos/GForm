@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from '../responsesurvey.module.scss';
 import classNames from 'classnames/bind';
 import { FormControlLabel, IconButton, Menu, MenuItem, Switch } from '@mui/material';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { Question, Response } from '../../../components';
 import ResponseInterface from '../../../utils/interfaces/response';
+import useChangeSurveyMutation from '../../AddNewSurvey/mutation/changeSurvey';
+import survey from '../../../redux/slice/survey';
 const cx = classNames.bind(style);
 
 interface Props {
@@ -13,7 +15,8 @@ interface Props {
 
 const ResponseSurveyInner = ({ data }: Props) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [isOpening, setOpening] = useState(true);
+
+    const [isOpening, setOpening] = useState(false);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -21,11 +24,26 @@ const ResponseSurveyInner = ({ data }: Props) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const ChangeSurveyMutation = useChangeSurveyMutation();
     const handleSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const isOpening = event.target.checked;
+        ChangeSurveyMutation.mutate(
+            {
+                id: survey.bind,
+                isAccepting: isOpening,
+            },
+
+            {
+                onError(error, variables, context) {
+                    console.log(error);
+                },
+            },
+        );
         setOpening(isOpening);
     };
-
+    useEffect(() => {
+        if (data?.survey?.isAccepting !== undefined) setOpening(data?.survey?.isAccepting);
+    }, [data?.survey?.isAccepting]);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
@@ -54,28 +72,30 @@ const ResponseSurveyInner = ({ data }: Props) => {
                         <MenuItem onClick={handleClose}>Đi đến phần chỉ định dựa vào câu trả lời</MenuItem>
                     </Menu>
                 </div>
-                <div
-                    className={cx('close-response', {
-                        isClosed: isOpening === false,
-                    })}>
-                    <div>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    color="warning"
-                                    sx={{ color: 'error' }}
-                                    checked={isOpening}
-                                    onChange={handleSwitch}></Switch>
-                            }
-                            labelPlacement="start"
-                            label={
-                                <span className={cx('label-switch')}>
-                                    {isOpening ? 'Đang nhận phản hồi' : 'Đã ngừng nhận phản hồi'}
-                                </span>
-                            }
-                        />
+                {data && (
+                    <div
+                        className={cx('close-response', {
+                            isClosed: isOpening === false,
+                        })}>
+                        <div>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        color="warning"
+                                        sx={{ color: 'error' }}
+                                        checked={isOpening}
+                                        onChange={handleSwitch}></Switch>
+                                }
+                                labelPlacement="start"
+                                label={
+                                    <span className={cx('label-switch')}>
+                                        {isOpening ? 'Đang nhận phản hồi' : 'Đã ngừng nhận phản hồi'}
+                                    </span>
+                                }
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
 
             {data?.questionResponses?.map((question, index) => {

@@ -5,15 +5,12 @@ import API from '../../../utils/api';
 import QuestionInterface from '../../../utils/interfaces/question';
 import OptionInterface from '../../../utils/interfaces/option';
 import RowInterface from '../../../utils/interfaces/row';
+import { addRow } from '../../../utils/API/axios';
 
 const useAddRowMutation = (questionId?: string) => {
     return useMutation({
         mutationKey: [`addOption_${questionId}`],
-        mutationFn: async (body: any) => {
-            const response = await axios.post(`${API.AddRow.endPoint}/${questionId}`, body);
-            const row: RowInterface = response.data.data;
-            return row;
-        },
+        mutationFn: addRow,
     });
 };
 

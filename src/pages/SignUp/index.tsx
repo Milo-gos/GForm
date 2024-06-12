@@ -7,16 +7,34 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../redux';
-import { registerUser } from '../../redux/slice/auth';
 import { MdOutlineMarkEmailRead } from 'react-icons/md';
+import useSignUpMutation from './mutation/signUp';
+import { setLoading } from '../../redux/slice/global';
 const cx = classNames.bind(style);
 
 const SignUpSchema = z
     .object({
-        fullName: z.string().nonempty('Vui lòng nhập họ tên'),
-        email: z.string().nonempty('Vui lòng nhập email').email('Vui lòng nhập đúng định dạng email'),
-        password: z.string().nonempty('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
-        confirmPassword: z.string().nonempty('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
+        fullName: z.string().min(1, {
+            message: 'Vui lòng nhập họ tên',
+        }),
+        email: z
+            .string()
+            .min(1, {
+                message: 'Vui lòng nhập email',
+            })
+            .email('Vui lòng nhập đúng định dạng email'),
+        password: z
+            .string()
+            .min(1, {
+                message: 'Vui lòng nhập mật khẩu',
+            })
+            .min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
+        confirmPassword: z
+            .string()
+            .min(1, {
+                message: 'Vui lòng nhập mật khẩu',
+            })
+            .min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: 'Mật khẩu không trùng khớp',
@@ -54,16 +72,22 @@ const SignUpPage = () => {
         }, 1000);
         navigate('/signup#successfully');
     };
+    const SignUpMutation = useSignUpMutation();
     const onbsumit = async (user: SignUpSchemaType) => {
-        try {
-            await dispatchApp(registerUser(user)).unwrap();
-            handleSignUpSuccessfully();
-        } catch (error) {
-            setError('email', {
-                type: 'server',
-                message: (error as string) || '',
-            });
-        }
+        dispatchApp(setLoading(true));
+        SignUpMutation.mutate(user, {
+            onSuccess() {
+                handleSignUpSuccessfully();
+                dispatchApp(setLoading(false));
+            },
+            onError(error: any) {
+                dispatchApp(setLoading(false));
+                setError('email', {
+                    type: 'server',
+                    message: error.response.data.message,
+                });
+            },
+        });
     };
     useEffect(() => {
         return () => {

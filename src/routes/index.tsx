@@ -7,22 +7,17 @@ import {
     HomePage,
     ResetPasswordPage,
     ResponseSurveyPage,
+    SharedSurveyPage,
     SignInPage,
     SignUpPage,
     SubmitFormPage,
     SubmitSuccessPage,
 } from '../pages';
 import { AuthLayout, MainLayout, SubmitLayout, SurveyLayout } from '../layouts';
+import AuthRoutes from './AuthRoutes';
+import ProtectedRoutes from './ProtectedRoutes';
 
-const pages = [
-    // Home
-    {
-        path: '/',
-        page: HomePage,
-        layout: MainLayout,
-    },
-
-    // AUTH UI
+const authPages = [
     {
         path: '/signin',
         page: SignInPage,
@@ -32,6 +27,19 @@ const pages = [
         path: '/signup',
         page: SignUpPage,
         layout: AuthLayout,
+    },
+];
+
+const publicPages = [
+    {
+        path: '/',
+        page: HomePage,
+        layout: MainLayout,
+    },
+    {
+        path: '/shared-survey',
+        page: SharedSurveyPage,
+        layout: MainLayout,
     },
     {
         path: '/email-verification-result/:tokenLink',
@@ -49,22 +57,10 @@ const pages = [
         page: ResetPasswordPage,
         layout: AuthLayout,
     },
-
-    // SURVEY UI
-    {
-        path: '/surveys/:id/edit',
-        page: AddNewSurveyPage,
-        layout: SurveyLayout,
-    },
     {
         path: '/surveys/:id/viewform',
         page: SubmitFormPage,
         layout: SubmitLayout,
-    },
-    {
-        path: '/surveys/:id/response',
-        page: ResponseSurveyPage,
-        layout: SurveyLayout,
     },
     {
         path: '/surveys/:id/submitSuccess',
@@ -72,23 +68,68 @@ const pages = [
         layout: SubmitLayout,
     },
 ];
+const protectedPages = [
+    {
+        path: '/surveys/:id/edit',
+        page: AddNewSurveyPage,
+        layout: SurveyLayout,
+    },
+
+    {
+        path: '/surveys/:id/response',
+        page: ResponseSurveyPage,
+        layout: SurveyLayout,
+    },
+];
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
-        children: pages.map((page) => {
-            const Layout = page.layout;
-            const Page = page.page;
-            return {
-                path: page.path,
-                element: (
-                    <Layout>
-                        <Page />
-                    </Layout>
-                ),
-            };
-        }),
+        children: [
+            ...publicPages.map((page) => {
+                const Layout = page.layout;
+                const Page = page.page;
+                return {
+                    path: page.path,
+                    element: (
+                        <Layout>
+                            <Page />
+                        </Layout>
+                    ),
+                };
+            }),
+            {
+                element: <AuthRoutes />,
+                children: authPages.map((page) => {
+                    const Layout = page.layout;
+                    const Page = page.page;
+                    return {
+                        path: page.path,
+                        element: (
+                            <Layout>
+                                <Page />
+                            </Layout>
+                        ),
+                    };
+                }),
+            },
+            {
+                element: <ProtectedRoutes />,
+                children: protectedPages.map((page) => {
+                    const Layout = page.layout;
+                    const Page = page.page;
+                    return {
+                        path: page.path,
+                        element: (
+                            <Layout>
+                                <Page />
+                            </Layout>
+                        ),
+                    };
+                }),
+            },
+        ],
     },
 ]);
 export default router;

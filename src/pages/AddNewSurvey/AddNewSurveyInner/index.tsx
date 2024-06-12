@@ -50,6 +50,7 @@ const AddNewSurveyQuestionInner = () => {
     useAutoSave(survey.title, () => {
         ChangeSurveyMutation.mutate(
             {
+                id: survey.id,
                 title: survey.title,
             },
 
@@ -63,6 +64,7 @@ const AddNewSurveyQuestionInner = () => {
     useAutoSave(survey.description, () => {
         ChangeSurveyMutation.mutate(
             {
+                id: survey.id,
                 description: survey.description,
             },
 
