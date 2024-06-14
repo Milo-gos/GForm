@@ -12,6 +12,8 @@ interface Props {
 }
 const Description = ({ isActiveQuestion, indexQuestion }: Props) => {
     const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
+    const isEdit = useAppSelector((state) => state.survey.isEdit);
+
     const dispatchApp = useAppDispatch();
 
     return (
@@ -21,11 +23,12 @@ const Description = ({ isActiveQuestion, indexQuestion }: Props) => {
                     {isActiveQuestion ? (
                         <QuestionTextInput
                             value={question.description}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                                if (!isEdit) return;
                                 dispatchApp(
                                     handleChangeDescriptionQuestion({ indexQuestion, description: e.target.value }),
-                                )
-                            }
+                                );
+                            }}
                             placeholder="Mô tả (tùy chọn)"
                             isActiveQuestion={isActiveQuestion}></QuestionTextInput>
                     ) : (

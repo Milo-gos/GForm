@@ -10,6 +10,9 @@ interface SurveyInterface {
 
     questions: QuestionInterface[];
     indexActiveQuestion?: number;
+    isOwner: boolean;
+    isShareEdit: boolean;
+    isEdit: boolean;
 }
 
 export default SurveyInterface;

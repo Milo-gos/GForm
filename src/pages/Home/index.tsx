@@ -6,7 +6,6 @@ import { MyButton, Survey } from '../../components';
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAppDispatch, useAppSelector } from '../../redux';
-import { setLoading } from '../../redux/slice/global';
 import { getSurveysOfCurrentUser } from '../../utils/API/axios';
 import { MoonLoader } from 'react-spinners';
 import { Value } from 'sass';
@@ -20,16 +19,13 @@ const HomePage = () => {
         const value = e.target.value;
         setValue(value);
     };
-    const { data, isLoading, isError, isSuccess, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } =
-        useInfiniteQuery({
-            queryKey: [`getSurveyOfCurrentUser`, searchString, value],
-            queryFn: getSurveysOfCurrentUser,
-            refetchOnWindowFocus: false,
-            initialPageParam: 0,
-            getNextPageParam: (lastPage) => lastPage.nextCursor,
-        });
-
-    const ref = useRef<HTMLDivElement>(null);
+    const { data, isLoading, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery({
+        queryKey: [`getSurveyOfCurrentUser`, searchString, value],
+        queryFn: getSurveysOfCurrentUser,
+        refetchOnWindowFocus: false,
+        initialPageParam: 0,
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+    });
 
     return (
         <div className={cx('wrapper')}>

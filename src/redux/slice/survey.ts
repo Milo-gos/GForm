@@ -10,6 +10,9 @@ const initialState: Survey = {
     questions: [],
     isAccepting: true,
     indexActiveQuestion: 0,
+    isOwner: false,
+    isShareEdit: false,
+    isEdit: false,
 };
 
 const surveySlice = createSlice({
@@ -24,6 +27,9 @@ const surveySlice = createSlice({
             state.questions = survey.questions;
             state.isAccepting = survey.isAccepting;
             state.indexActiveQuestion = 0;
+            state.isOwner = survey.isOwner;
+            state.isShareEdit = survey.isShareEdit;
+            state.isEdit = survey.isOwner || survey.isShareEdit;
         },
         setNewSurvey: (state) => {
             state.title = 'Tiêu đề khảo sát';

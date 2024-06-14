@@ -1,4 +1,4 @@
-import React, { MutableRefObject, RefObject, useEffect, useRef, useState } from 'react';
+import React, { MutableRefObject, RefObject, memo, useEffect, useRef, useState } from 'react';
 import style from './question.module.scss';
 import classNames from 'classnames/bind';
 import BottomQuestion from '../BottomQuestion';
@@ -34,7 +34,6 @@ import ShortTextIcon from '@mui/icons-material/ShortText';
 import NotesIcon from '@mui/icons-material/Notes';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
-import SurveyInterface from '../../utils/interfaces/survey';
 import useChangeQuestionMutation from './mutation/changeQuestion';
 import useAddQuestionMutation from './mutation/addQuestion';
 import useDuplicateQuestionMutation from './mutation/duplicateQuestion';
@@ -48,11 +47,13 @@ interface Props {
 const Question = ({ index }: Props) => {
     const question = useAppSelector((state) => state.survey.questions[index]);
     const indexActiveQuestion = useAppSelector((state) => state.survey.indexActiveQuestion);
+    const isEdit = useAppSelector((state) => state.survey.isEdit);
     const [isDuplicated, setDuplicated] = useState(false);
     const isActiveQuestion = index === indexActiveQuestion;
     const dispatchApp = useAppDispatch();
     const changeQuestion = useChangeQuestionMutation(question?.id || '');
     const DuplicateQuestionMutation = useDuplicateQuestionMutation(question.id);
+
     const handleDuplicateThisQuestion = () => {
         dispatchApp(
             handleDuplicateQuestion({
@@ -131,6 +132,7 @@ const Question = ({ index }: Props) => {
 
     const AddQuestionMutation = useAddQuestionMutation(question.id);
     const handleInsertNewQuestion = (position: number, position2: 'before' | 'after') => {
+        if (!isEdit) return;
         dispatchApp(
             handleInsertQuestion({
                 position,
@@ -157,6 +159,7 @@ const Question = ({ index }: Props) => {
     const heading = question?.questionType !== QuestionType.Description ? 'Câu hỏi' : 'Tiêu đề';
 
     const handleChangeNewQuestionType = (e: SelectChangeEvent) => {
+        if (!isEdit) return;
         const questionType = e.target.value as QuestionType;
         dispatchApp(
             handleChangeQuestionType({
@@ -209,14 +212,15 @@ const Question = ({ index }: Props) => {
                         <div style={{ flex: '1' }}>
                             <QuestionTextInput
                                 value={question.question}
-                                onChange={(e) =>
+                                onChange={(e) => {
+                                    if (!isEdit) return;
                                     dispatchApp(
                                         handleChangeQuestion({
                                             indexQuestion: index,
                                             question: e.target.value,
                                         }),
-                                    )
-                                }
+                                    );
+                                }}
                                 placeholder={heading}
                                 isActiveQuestion={isActiveQuestion}
                                 isQuestionHeading={true}></QuestionTextInput>
@@ -345,7 +349,10 @@ const Question = ({ index }: Props) => {
                     <QuestionTextInput
                         placeholder={'Mô tả'}
                         value={question.description}
-                        onChange={(e) => handleChangeDescription(e.target.value)}
+                        onChange={(e) => {
+                            if (!isEdit) return;
+                            handleChangeDescription(e.target.value);
+                        }}
                         isActiveQuestion={isActiveQuestion}></QuestionTextInput>
                 )}
 
@@ -387,4 +394,4 @@ const Question = ({ index }: Props) => {
     );
 };
 
-export default Question;
+export default memo(Question);

@@ -36,6 +36,7 @@ const Header = () => {
 
     const handleClickSetting = () => {
         setAnchorEl(null);
+        navigate('/my-profile');
     };
     const handleClickLogout = () => {
         setAnchorEl(null);

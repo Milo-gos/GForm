@@ -18,9 +18,13 @@ interface Props {
 const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
     const dispatchApp = useAppDispatch();
     const linearScale = useAppSelector((state) => state.survey.questions[indexQuestion].linearScale);
+    const isEdit = useAppSelector((state) => state.survey.isEdit);
+
     const ChangeLinearMutation = useChangeLinearScaleMutation(linearScale?.id);
 
     const handleChangeSelectLeft = (e: SelectChangeEvent) => {
+        if (!isEdit) return;
+
         dispatchApp(
             handleChangeLinear({
                 min: e.target.value,
@@ -33,6 +37,8 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
         });
     };
     const handleChangeSelectRight = (e: SelectChangeEvent) => {
+        if (!isEdit) return;
+
         dispatchApp(
             handleChangeLinear({
                 max: Number(e.target.value),
@@ -109,14 +115,15 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
                         padding="8px 0"
                         placeholder="Nhãn trái (tùy chọn)"
                         value={linearScale?.leftLabel}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                            if (!isEdit) return;
                             dispatchApp(
                                 handleChangeLinear({
                                     indexQuestion,
                                     leftLabel: e.target.value,
                                 }),
-                            )
-                        }
+                            );
+                        }}
                     />
                 </div>
             </div>
@@ -127,14 +134,15 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
                         padding="8px 0"
                         placeholder="Nhãn phải (tùy chọn)"
                         value={linearScale?.rightLabel}
-                        onChange={(e) =>
+                        onChange={(e) => {
+                            if (!isEdit) return;
                             dispatchApp(
                                 handleChangeLinear({
                                     indexQuestion,
                                     rightLabel: e.target.value,
                                 }),
-                            )
-                        }
+                            );
+                        }}
                     />
                 </div>
             </div>

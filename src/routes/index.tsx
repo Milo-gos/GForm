@@ -5,6 +5,7 @@ import {
     EmailVerificationResultPage,
     ForgotPasswordPage,
     HomePage,
+    ProfilePage,
     ResetPasswordPage,
     ResponseSurveyPage,
     SharedSurveyPage,
@@ -13,7 +14,7 @@ import {
     SubmitFormPage,
     SubmitSuccessPage,
 } from '../pages';
-import { AuthLayout, MainLayout, SubmitLayout, SurveyLayout } from '../layouts';
+import { AuthLayout, HomeLayout, NormalLayout, SurveyLayout } from '../layouts';
 import AuthRoutes from './AuthRoutes';
 import ProtectedRoutes from './ProtectedRoutes';
 
@@ -31,16 +32,6 @@ const authPages = [
 ];
 
 const publicPages = [
-    {
-        path: '/',
-        page: HomePage,
-        layout: MainLayout,
-    },
-    {
-        path: '/shared-survey',
-        page: SharedSurveyPage,
-        layout: MainLayout,
-    },
     {
         path: '/email-verification-result/:tokenLink',
         page: EmailVerificationResultPage,
@@ -60,15 +51,25 @@ const publicPages = [
     {
         path: '/surveys/:id/viewform',
         page: SubmitFormPage,
-        layout: SubmitLayout,
+        layout: NormalLayout,
     },
     {
         path: '/surveys/:id/submitSuccess',
         page: SubmitSuccessPage,
-        layout: SubmitLayout,
+        layout: NormalLayout,
     },
 ];
 const protectedPages = [
+    {
+        path: '/',
+        page: HomePage,
+        layout: HomeLayout,
+    },
+    {
+        path: '/shared-survey',
+        page: SharedSurveyPage,
+        layout: HomeLayout,
+    },
     {
         path: '/surveys/:id/edit',
         page: AddNewSurveyPage,
@@ -79,6 +80,18 @@ const protectedPages = [
         path: '/surveys/:id/response',
         page: ResponseSurveyPage,
         layout: SurveyLayout,
+    },
+
+    {
+        path: '/surveys/:id/response',
+        page: ResponseSurveyPage,
+        layout: SurveyLayout,
+    },
+
+    {
+        path: '/my-profile',
+        page: ProfilePage,
+        layout: NormalLayout,
     },
 ];
 

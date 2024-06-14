@@ -14,6 +14,7 @@ interface Props {
 const OptionComponent = ({ indexQuestion, indexOption, isActiveQuestion }: Props) => {
     const dispatchApp = useAppDispatch();
     const option = useAppSelector((state) => state.survey.questions![indexQuestion]?.options![indexOption]);
+    const isEdit = useAppSelector((state) => state.survey.isEdit);
     const ChangeOption = useChangeOptionMutation(option.id);
 
     useAutoSave(option.optionText, () => {
@@ -36,6 +37,8 @@ const OptionComponent = ({ indexQuestion, indexOption, isActiveQuestion }: Props
             isActiveQuestion={isActiveQuestion}
             value={option.optionText}
             onChange={(e) => {
+                if (!isEdit) return;
+
                 dispatchApp(
                     handleChangeOptionText({
                         indexQuestion,

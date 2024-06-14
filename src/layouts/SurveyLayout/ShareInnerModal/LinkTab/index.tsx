@@ -16,7 +16,7 @@ const LinkTab = ({ setOpenModalShare }: Props) => {
     const handleChangeChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
     };
-    const copyLink = `${window.location.origin}/${id}/viewform`;
+    const copyLink = `${window.location.origin}/surveys/${id}/viewform`;
     const handleClickCancel = () => {
         setOpenModalShare!(false);
     };

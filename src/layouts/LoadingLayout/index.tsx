@@ -1,6 +1,8 @@
 import React from 'react';
 import { HashLoader } from 'react-spinners';
 import { useAppSelector } from '../../redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoadingLayout = ({ children }: { children: JSX.Element }) => {
     const isLoading = useAppSelector((state) => state.global.isLoading);
@@ -23,6 +25,14 @@ const LoadingLayout = ({ children }: { children: JSX.Element }) => {
                 }}
             />
             {children}
+            <ToastContainer
+                position="top-right"
+                style={{ zIndex: '10009' }}
+                autoClose={1000}
+                hideProgressBar={true}
+                theme={'light'}
+                draggable={false}
+            />
         </div>
     );
 };

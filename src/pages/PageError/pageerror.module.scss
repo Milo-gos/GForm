@@ -1,13 +1,17 @@
 @import '../../variableSCSS.scss';
 
 .wrapper {
-    .body {
-        width: 60%;
-    }
+    height: 100%;
+    // .body {
+    //     width: 60%;
+    // }
 
     h2 {
         font-size: 36px;
         margin-bottom: 48px;
         text-align: center;
     }
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }

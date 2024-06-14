@@ -20,7 +20,7 @@ interface Props {
 }
 const QuestionDropDown = ({ isActiveQuestion, indexQuestion }: Props) => {
     const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
-
+    const isEdit = useAppSelector((state) => state.survey.isEdit);
     const optionsLength = question?.options ? question.options.length : 0;
     const dispatchApp = useAppDispatch();
 
@@ -28,6 +28,7 @@ const QuestionDropDown = ({ isActiveQuestion, indexQuestion }: Props) => {
 
     const AddOption = useAddOptionMutation(question.id);
     const handleAdd = () => {
+        if (!isEdit) return;
         dispatchApp(handleAddOption({ indexQuestion }));
         AddOption.mutate(
             {
@@ -49,6 +50,7 @@ const QuestionDropDown = ({ isActiveQuestion, indexQuestion }: Props) => {
     };
     const DeleteOptionMutation = useDeleteOptionMutation();
     const handleRemove = (indexOption: number, optionId?: string) => {
+        if (!isEdit) return;
         dispatchApp(handleRemoveOption({ indexQuestion, indexOption }));
 
         DeleteOptionMutation.mutate(optionId!);

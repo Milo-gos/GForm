@@ -19,6 +19,7 @@ const AddNewSurveyPage = () => {
         queryKey: [`getSurveyById_${id}`],
         queryFn: () => getSurveyById(id!),
         refetchOnWindowFocus: false,
+        retry: 0,
     });
 
     if (isLoading) {
@@ -26,7 +27,7 @@ const AddNewSurveyPage = () => {
     }
     if (isError) {
         dispatchApp(setLoading(false));
-        return <PageError />;
+        window.location.href = '/';
     }
     if (isSuccess) {
         dispatchApp(setLoading(false));
@@ -44,7 +45,8 @@ const AddNewSurveyPage = () => {
         );
     }
 
-    return <AddNewSurveyQuestionInner />;
+    if (isSuccess) return <AddNewSurveyQuestionInner />;
+    return <></>;
 };
 
 export default AddNewSurveyPage;

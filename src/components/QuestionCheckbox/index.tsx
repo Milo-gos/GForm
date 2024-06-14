@@ -26,6 +26,7 @@ interface Props {
 
 const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
     const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
+    const isEdit = useAppSelector((state) => state.survey.isEdit);
     const optionsLength = question.options ? question.options.length : 0;
     const isHasOther = question.isHasOther;
     const dispatchApp = useAppDispatch();
@@ -33,6 +34,7 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
     //////////////////////////////////
     const ChangeQuestion = useChangeQuestionMutation(question.id || '');
     const handleAddOther = () => {
+        if (!isEdit) return;
         if (isHasOther) return;
         dispatchApp(
             handleSetHasOther({
@@ -45,6 +47,7 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
         });
     };
     const handleRemoveOther = () => {
+        if (!isEdit) return;
         dispatchApp(
             handleSetHasOther({
                 indexQuestion,
@@ -58,6 +61,7 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
 
     const AddOption = useAddOptionMutation(question.id);
     const handleAdd = () => {
+        if (!isEdit) return;
         dispatchApp(handleAddOption({ indexQuestion }));
         AddOption.mutate(
             {
@@ -79,6 +83,7 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
     };
     const DeleteOptionMutation = useDeleteOptionMutation();
     const handleRemove = (indexOption: number, optionId?: string) => {
+        if (!isEdit) return;
         dispatchApp(handleRemoveOption({ indexQuestion, indexOption }));
 
         DeleteOptionMutation.mutate(optionId!);

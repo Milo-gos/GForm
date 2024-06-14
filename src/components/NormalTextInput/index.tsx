@@ -15,9 +15,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     isFocus?: boolean;
     boldPlaceHolder?: boolean;
     isTitleForm?: boolean;
+    disbaled?: boolean;
 }
 
-const NormalTextInput: React.FC<InputProps> = ({ name, register, typePassword, isFocus, ...rest }) => {
+const NormalTextInput: React.FC<InputProps> = ({ name, register, typePassword, isFocus, disabled, ...rest }) => {
     const [hide, setHide] = useState(!!typePassword);
     const [focus, setFocus] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
@@ -45,7 +46,12 @@ const NormalTextInput: React.FC<InputProps> = ({ name, register, typePassword, i
             className={cx('wrapper', {
                 isFocus: focus === true,
             })}>
-            <input type={hide ? 'password' : 'text'} {...register?.(name)} {...rest} autoFocus={focus}></input>
+            <input
+                type={hide ? 'password' : 'text'}
+                {...register?.(name)}
+                {...rest}
+                autoFocus={focus}
+                disabled={disabled}></input>
 
             {typePassword && (
                 <span className={cx('obscured')} onClick={() => setHide((prev) => !prev)}>

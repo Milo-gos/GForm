@@ -9,6 +9,7 @@ import RowInterface from '../interfaces/row';
 import GColumnInterface from '../interfaces/gcolumn';
 import SubmitFormInterface from '../interfaces/submitForm';
 import ResponseInterface from '../interfaces/response';
+import SharedSurveyData from '../interfaces/sharedSurveyData';
 
 const BE_URL = process.env.REACT_APP_BE_URL;
 
@@ -69,6 +70,19 @@ const getSurveysOfCurrentUser = async ({ pageParam, queryKey }: { pageParam: num
     );
     const { surveys, nextCursor }: { surveys: SurveyData[]; nextCursor: number } = response.data.data;
     return { surveys, nextCursor };
+};
+
+const getSharedSurveysOfCurrentUser = async ({ pageParam, queryKey }: { pageParam: number; queryKey: string[] }) => {
+    const [, searchString, value] = queryKey;
+    const searchParams = new URLSearchParams();
+    searchParams.append('page', pageParam.toString());
+    searchParams.append('status', value);
+    searchParams.append('searchString', searchString);
+    const response = await InstanceAxios.get(
+        `${BE_URL}/api/survey-share/getSharedSurveysOfCurrentUser/?${searchParams.toString()}`,
+    );
+    const { sharedSurveys, nextCursor }: { sharedSurveys: SharedSurveyData[]; nextCursor: number } = response.data.data;
+    return { sharedSurveys, nextCursor };
 };
 
 const changeQuestion = async (body: any) => {
@@ -183,6 +197,26 @@ const shareWithEmail = async (body: any) => {
     await InstanceAxios.post(`${BE_URL}/api/survey-share/shareWithEmail`, body);
 };
 
+const changeUserAvatar = async (body: any) => {
+    const response = await InstanceAxios.patch(`${BE_URL}/api/user/changeUserAvatar`, body, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    const urlImage: string = response.data.data;
+    return urlImage;
+};
+
+const changeUsername = async (body: any) => {
+    await InstanceAxios.patch(`${BE_URL}/api/user/changeUsername`, body);
+};
+
+const changeUserPassword = async (body: any) => {
+    const response = await InstanceAxios.patch(`${BE_URL}/api/auth/changeUserPassword`, body);
+    const { accessToken, refreshToken } = response.data.data;
+    return { accessToken, refreshToken };
+};
+
 export {
     getCurrentUser,
     signUp,
@@ -194,6 +228,7 @@ export {
     createSurvey,
     getSurveyById,
     getSurveysOfCurrentUser,
+    getSharedSurveysOfCurrentUser,
     changeQuestion,
     changeOption,
     addOPtion,
@@ -213,4 +248,7 @@ export {
     createResponse,
     getResponseSurvey,
     shareWithEmail,
+    changeUserAvatar,
+    changeUsername,
+    changeUserPassword,
 };

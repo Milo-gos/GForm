@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useShareWithEmailMutation from './mutation/shareWithEmail';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(style);
 
@@ -39,19 +40,32 @@ const MailTab = ({ setOpenModalShare }: Props) => {
     const {
         register,
         handleSubmit,
+        setError,
+        reset,
         formState: { errors },
     } = useForm<FormValue>({
         resolver: zodResolver(FormValueSchema),
     });
     const ShareWithEmailMutation = useShareWithEmailMutation();
     const onSubmit = (data: FormValue) => {
-        const body = { ...data, isEdit, surveyId: id };
+        const linkEditSurvey = `${window.location.origin}/surveys/${id}/edit`;
+        const body = { ...data, isEdit, surveyId: id, linkEditSurvey };
         ShareWithEmailMutation.mutate(body, {
-            onSuccess(data) {
-                console.log(data);
+            onSuccess() {
+                toast.success('Gửi lời mời thành công!');
+                setEdit(false);
+                reset({
+                    email: '',
+                    title: '',
+                    message: '',
+                });
             },
-            onError(error) {
+            onError(error: any) {
                 console.log(error);
+                setError('email', {
+                    type: 'server',
+                    message: error.response.data.message,
+                });
             },
         });
     };
@@ -104,6 +118,7 @@ const MailTab = ({ setOpenModalShare }: Props) => {
                 control={
                     <Checkbox
                         onChange={(e) => handleChangeChecked(e)}
+                        checked={isEdit}
                         sx={{
                             '& .MuiSvgIcon-root': { fontSize: 28 },
                             color: '#5c6468',

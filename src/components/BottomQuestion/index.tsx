@@ -30,6 +30,7 @@ interface Props {
 const BottomQuestion = ({ type, indexQuestion, setDuplicated }: Props) => {
     const dispatchApp = useAppDispatch();
     const question = useAppSelector((state) => state.survey.questions[indexQuestion]);
+    const isEdit = useAppSelector((state) => state.survey.isEdit);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -41,6 +42,7 @@ const BottomQuestion = ({ type, indexQuestion, setDuplicated }: Props) => {
     const isHasDescription = question?.isHasDescription;
     const handleClickDescription = () => {
         setAnchorEl(null);
+        if (!isEdit) return;
         dispatchApp(handleToggleDescription({ indexQuestion }));
         changeQuestion.mutate(
             {
@@ -58,6 +60,7 @@ const BottomQuestion = ({ type, indexQuestion, setDuplicated }: Props) => {
     const DeleteQuestionMutation = useDeleteQuestionMutation(question.id);
     const handleClickRemoveQuestion = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
+        if (!isEdit) return;
         dispatchApp(
             handleDeleteQuestion({
                 indexQuestion,
@@ -68,6 +71,7 @@ const BottomQuestion = ({ type, indexQuestion, setDuplicated }: Props) => {
     const changeQuestion = useChangeQuestionMutation(question.id || '');
     const handleSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const isRequired = event.target.checked;
+        if (!isEdit) return;
         dispatchApp(
             handleChangeRequired({
                 indexQuestion: indexQuestion,
@@ -90,7 +94,12 @@ const BottomQuestion = ({ type, indexQuestion, setDuplicated }: Props) => {
     return (
         <div className={cx('wrapper')}>
             <Tooltip title="Nhân bản">
-                <IconButton style={{ padding: '12px' }} onClick={() => setDuplicated(true)}>
+                <IconButton
+                    style={{ padding: '12px' }}
+                    onClick={() => {
+                        if (!isEdit) return;
+                        setDuplicated(true);
+                    }}>
                     <ContentCopyIcon style={{ fontSize: '28px' }} />
                 </IconButton>
             </Tooltip>

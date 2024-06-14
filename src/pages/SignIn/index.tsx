@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
 import style from './signin.module.scss';
 import { z } from 'zod';
-import { AxiosError } from 'axios';
 import classNames from 'classnames/bind';
 import { MyButton, NormalTextInput } from '../../components';
 import { Google } from '../../assets/images';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAppDispatch, useAppSelector } from '../../redux';
-import { setCurrentUser } from '../../redux/slice/auth';
+import { useAppDispatch } from '../../redux';
 import useSignInMutation from './mutation/signIn';
 import { setLoading } from '../../redux/slice/global';
 const cx = classNames.bind(style);
