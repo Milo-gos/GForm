@@ -1,14 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import API from '../../utils/api';
-import { setLoading } from './global';
+import { createSlice } from '@reduxjs/toolkit';
 import UserInterface from '../../utils/interfaces/user';
-
-interface UserRequest {
-    fullName: string;
-    email: string;
-    password: string;
-}
 
 interface InitState {
     currentUser: UserInterface | null;

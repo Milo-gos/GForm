@@ -1,32 +1,30 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import {
-    AddNewSurveyPage,
-    EmailVerificationResultPage,
-    ForgotPasswordPage,
-    HomePage,
-    ProfilePage,
-    ResetPasswordPage,
-    ResponseSurveyPage,
-    SharedSurveyPage,
-    SignInPage,
-    SignUpPage,
-    SubmitFormPage,
-    SubmitSuccessPage,
+    EmailVerificationResult,
+    ForgotPassword,
+    UserSurveyManagement,
+    Profile,
+    ResetPassword,
+    MySurvey,
+    SignIn,
+    SignUp,
+    FillSubmit,
+    SubmitSuccess,
 } from '../pages';
-import { AuthLayout, HomeLayout, NormalLayout, SurveyLayout } from '../layouts';
+import { AuthLayout, NormalLayout, UnitSurveyLayout, UserSurveyManagementLayout } from '../layouts';
 import AuthRoutes from './AuthRoutes';
 import ProtectedRoutes from './ProtectedRoutes';
 
 const authPages = [
     {
         path: '/signin',
-        page: SignInPage,
+        page: SignIn,
         layout: AuthLayout,
     },
     {
         path: '/signup',
-        page: SignUpPage,
+        page: SignUp,
         layout: AuthLayout,
     },
 ];
@@ -34,63 +32,46 @@ const authPages = [
 const publicPages = [
     {
         path: '/email-verification-result/:tokenLink',
-        page: EmailVerificationResultPage,
+        page: EmailVerificationResult,
         layout: AuthLayout,
     },
     {
         path: '/forgot-password',
-        page: ForgotPasswordPage,
+        page: ForgotPassword,
         layout: AuthLayout,
     },
 
     {
         path: '/reset-password/:tokenLinkResetPassword',
-        page: ResetPasswordPage,
+        page: ResetPassword,
         layout: AuthLayout,
     },
     {
         path: '/surveys/:id/viewform',
-        page: SubmitFormPage,
+        page: FillSubmit,
         layout: NormalLayout,
     },
     {
         path: '/surveys/:id/submitSuccess',
-        page: SubmitSuccessPage,
+        page: SubmitSuccess,
         layout: NormalLayout,
     },
 ];
 const protectedPages = [
     {
-        path: '/',
-        page: HomePage,
-        layout: HomeLayout,
-    },
-    {
-        path: '/shared-survey',
-        page: SharedSurveyPage,
-        layout: HomeLayout,
+        path: '/user-survey-management',
+        page: UserSurveyManagement,
+        layout: UserSurveyManagementLayout,
     },
     {
         path: '/surveys/:id/edit',
-        page: AddNewSurveyPage,
-        layout: SurveyLayout,
-    },
-
-    {
-        path: '/surveys/:id/response',
-        page: ResponseSurveyPage,
-        layout: SurveyLayout,
-    },
-
-    {
-        path: '/surveys/:id/response',
-        page: ResponseSurveyPage,
-        layout: SurveyLayout,
+        page: MySurvey,
+        layout: UnitSurveyLayout,
     },
 
     {
         path: '/my-profile',
-        page: ProfilePage,
+        page: Profile,
         layout: NormalLayout,
     },
 ];

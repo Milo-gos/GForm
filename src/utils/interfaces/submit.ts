@@ -1,9 +1,9 @@
 import AnswerInterface from './answer';
 
-interface SubmitInterface {
+interface InfoSubmitInterface {
     surveyId: string;
     submissionDate?: Date;
     answers: AnswerInterface[];
 }
 
-export default SubmitInterface;
+export default InfoSubmitInterface;

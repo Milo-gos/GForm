@@ -177,7 +177,7 @@ const changeGColumn = async (body: any) => {
 
 const changeSurvey = async (body: any) => {
     const response = await InstanceAxios.patch(`${BE_URL}/api/survey/changeSurvey`, body);
-    const updateQuestion: QuestionInterface = response.data.data;
+    const updateQuestion: SurveyInterface = response.data.data;
     return updateQuestion;
 };
 

@@ -1,5 +1,4 @@
-import { Props } from '@dnd-kit/core/dist/components/DragOverlay';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface InitInterface {
     colorsChart: string[];

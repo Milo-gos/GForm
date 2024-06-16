@@ -1,11 +1,8 @@
 import NormalTextInput from './NormalTextInput';
-import QuestionTextInput from './QuestionTextInput';
 import MyButton from './MyButton';
 import MyLabel from './MyLabel';
-import Question from './Question';
 import MyDialog from './MyDialog';
-import Answer from './Answer';
-import Response from './Response';
-import Survey from './Survey';
+import Modal from './Modal';
+import Search from './Search';
 
-export { NormalTextInput, QuestionTextInput, MyButton, MyLabel, Question, MyDialog, Answer, Response, Survey };
+export { NormalTextInput, MyButton, MyLabel, MyDialog, Modal, Search };

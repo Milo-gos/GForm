@@ -1,5 +1,4 @@
-import { Draft, createSlice } from '@reduxjs/toolkit';
-import SurveyInterface from '../../utils/interfaces/survey';
+import { createSlice } from '@reduxjs/toolkit';
 import SubmitFormInterface from '../../utils/interfaces/submitForm';
 import AnswerInterface from '../../utils/interfaces/answer';
 
@@ -7,10 +6,9 @@ const initialState: SubmitFormInterface = {
     id: '',
     title: '',
     description: '',
-    status: 'draft',
     questions: [],
     errorQuestions: [],
-    submit: undefined,
+    infoSubmit: undefined,
     isSubmit: false,
 };
 const submitFormSlice = createSlice({
@@ -24,7 +22,7 @@ const submitFormSlice = createSlice({
             state.description = survey.description;
             state.questions = survey.questions;
             state.errorQuestions = state.questions.map((i) => '');
-            state.submit = {
+            state.infoSubmit = {
                 surveyId: survey.id,
                 answers: state.questions.map((question, index) => {
                     const newAnswer: AnswerInterface = {
@@ -44,54 +42,54 @@ const submitFormSlice = createSlice({
         },
         setChangeAnswerText: (state, action) => {
             const { indexQuestion, answerText } = action.payload;
-            state.submit!.answers[indexQuestion].answerText = answerText;
+            state.infoSubmit!.answers[indexQuestion].answerText = answerText;
         },
         setOption: (state, action) => {
             const { indexQuestion, value } = action.payload;
             if (value !== 'Other') {
-                state.submit!.answers[indexQuestion].singleOption = value;
-            } else state.submit!.answers[indexQuestion].isChooseOther = true;
+                state.infoSubmit!.answers[indexQuestion].singleOption = value;
+            } else state.infoSubmit!.answers[indexQuestion].isChooseOther = true;
         },
         setLinearValue: (state, action) => {
             const { indexQuestion, value } = action.payload;
-            state.submit!.answers[indexQuestion].linearValue = Number(value);
+            state.infoSubmit!.answers[indexQuestion].linearValue = Number(value);
         },
         setOtherText: (state, action) => {
             const { indexQuestion, otherText } = action.payload;
-            state.submit!.answers[indexQuestion].otherText = otherText;
+            state.infoSubmit!.answers[indexQuestion].otherText = otherText;
         },
         setMultipleOption: (state, action) => {
             const { indexQuestion, value } = action.payload;
-            if (!state.submit!.answers[indexQuestion].multiChooseOption) {
-                state.submit!.answers[indexQuestion].multiChooseOption = [];
+            if (!state.infoSubmit!.answers[indexQuestion].multiChooseOption) {
+                state.infoSubmit!.answers[indexQuestion].multiChooseOption = [];
             }
-            const listOptionId = state.submit!.answers[indexQuestion].multiChooseOption?.map((i) => i);
+            const listOptionId = state.infoSubmit!.answers[indexQuestion].multiChooseOption?.map((i) => i);
             if (!listOptionId?.includes(value)) {
-                state.submit!.answers[indexQuestion].multiChooseOption?.push(value);
+                state.infoSubmit!.answers[indexQuestion].multiChooseOption?.push(value);
             } else
-                state.submit!.answers[indexQuestion].multiChooseOption = state.submit!.answers[
+                state.infoSubmit!.answers[indexQuestion].multiChooseOption = state.infoSubmit!.answers[
                     indexQuestion
                 ].multiChooseOption?.filter((i) => i !== value);
         },
         setChooseOther: (state, action) => {
             const { indexQuestion } = action.payload;
-            const isChooseOther = state.submit!.answers[indexQuestion].isChooseOther ?? false;
+            const isChooseOther = state.infoSubmit!.answers[indexQuestion].isChooseOther ?? false;
             const nextState = !isChooseOther;
-            state.submit!.answers[indexQuestion].isChooseOther = nextState;
+            state.infoSubmit!.answers[indexQuestion].isChooseOther = nextState;
             if (nextState == false) {
-                state.submit!.answers[indexQuestion].otherText = '';
+                state.infoSubmit!.answers[indexQuestion].otherText = '';
             }
         },
         setMultiChooseGColumn: (state, action) => {
             const { indexQuestion, indexRow, value } = action.payload;
-            if (!state.submit!.answers[indexQuestion].multiChooseGrid) {
-                state.submit!.answers[indexQuestion].multiChooseGrid = state.questions[indexQuestion].rows?.map(
+            if (!state.infoSubmit!.answers[indexQuestion].multiChooseGrid) {
+                state.infoSubmit!.answers[indexQuestion].multiChooseGrid = state.questions[indexQuestion].rows?.map(
                     (i) => ({
                         row: i.rowContent,
                     }),
                 );
             }
-            state.submit!.answers[indexQuestion].multiChooseGrid![indexRow].gcolumn = value;
+            state.infoSubmit!.answers[indexQuestion].multiChooseGrid![indexRow].gcolumn = value;
         },
     },
 });
