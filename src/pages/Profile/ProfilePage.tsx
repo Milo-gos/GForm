@@ -4,13 +4,12 @@ import classNames from 'classnames/bind';
 import style from './profile.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
 import { MyButton, NormalTextInput } from '../../components';
-import { IconButton, Tooltip } from '@mui/material';
+import { Avatar, IconButton, Tooltip } from '@mui/material';
 import useChangeUserAvatarMutation from './mutation/changeUserAvatar';
 import { MoonLoader } from 'react-spinners';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCurrentUser } from '../../utils/API/axios';
 import UserInterface from '../../utils/interfaces/user';
-import { Toast } from 'react-toastify/dist/components';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -19,7 +18,8 @@ import useChangeUsernameMutation from './mutation/changeUsername copy';
 import useChangeUserPasswordMutation from './mutation/changeUserPassword';
 import { useAppDispatch } from '../../redux';
 import { setLoading } from '../../redux/slice/global';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import stringAvatar from '../../utils/functions/stringAvatar';
 
 const cx = classNames.bind(style);
 const ChangePassWordSchema = z
@@ -57,6 +57,7 @@ type ChangeNameType = z.infer<typeof ChangeUserNameSchema>;
 
 const ProfilePage = () => {
     const dispatchApp = useAppDispatch();
+    const navigate = useNavigate();
     const [isChangePassword, setChangePassword] = useState(false);
     const [isChangeName, setChangeName] = useState(false);
     const [isLoadAvatar, setLoadAvatar] = useState(false);
@@ -179,7 +180,11 @@ const ProfilePage = () => {
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
                 <div className={cx('avatar')}>
-                    <img src={user?.avatar} />
+                    {user?.avatar ? (
+                        <Avatar src={user?.avatar} sx={{ width: '100%', height: '100%' }} />
+                    ) : (
+                        <Avatar {...stringAvatar(user?.fullName || '')} sx={{ width: '100%', height: '100%' }} />
+                    )}
                     <div className={cx('edit-wrapper')} onClick={() => ref.current?.click()}>
                         {!isLoadAvatar ? (
                             <>
@@ -359,9 +364,9 @@ const ProfilePage = () => {
                 </div>
             </div>
 
-            <Link to="/" className={cx('back')}>
-                Về trang chủ
-            </Link>
+            <div onClick={() => navigate(-1)} className={cx('back')}>
+                Quay về
+            </div>
         </div>
     );
 };

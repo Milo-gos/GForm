@@ -5,7 +5,8 @@ import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Tooltip } from '@mui/material';
+import { Avatar, Tooltip } from '@mui/material';
+import stringAvatar from '../../../../../../utils/functions/stringAvatar';
 
 const cx = classNames.bind(style);
 
@@ -61,7 +62,14 @@ const SharedSurvey = ({ index, sharedSurvey }: Props) => {
                 <span>Người tạo</span>
                 <Tooltip title={sharedSurvey?.ownerName}>
                     <div className={cx('avatar')}>
-                        <img src={sharedSurvey?.ownerAvatar} />
+                        {sharedSurvey?.ownerAvatar ? (
+                            <Avatar src={sharedSurvey?.ownerAvatar} sx={{ width: '100%', height: '100%' }} />
+                        ) : (
+                            <Avatar
+                                {...stringAvatar(sharedSurvey?.ownerName || '')}
+                                sx={{ width: '100%', height: '100%' }}
+                            />
+                        )}
                     </div>
                 </Tooltip>
             </div>

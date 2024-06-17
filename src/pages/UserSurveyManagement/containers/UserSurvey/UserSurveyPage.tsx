@@ -19,7 +19,7 @@ const UserSurveyPage = () => {
         const value = e.target.value;
         setValue(value);
     };
-    const { data, isLoading, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery({
+    const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
         queryKey: [`getSurveyOfCurrentUser`, searchString, value],
         queryFn: getSurveysOfCurrentUser,
         refetchOnWindowFocus: false,
@@ -58,7 +58,9 @@ const UserSurveyPage = () => {
                 </FormControl>
             </div>
             {isLoading ? (
-                <div>Loading</div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <MoonLoader color="#fcc934" size={30} />
+                </div>
             ) : (
                 <div className={cx('list-surveys')}>
                     {data?.pages.map((page, index) => {

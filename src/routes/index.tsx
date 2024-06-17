@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { Fragment } from 'react';
 import App from '../App';
 import {
     EmailVerificationResult,
@@ -11,6 +12,8 @@ import {
     SignUp,
     FillSubmit,
     SubmitSuccess,
+    PageNotFound,
+    Home,
 } from '../pages';
 import { AuthLayout, NormalLayout, UnitSurveyLayout, UserSurveyManagementLayout } from '../layouts';
 import AuthRoutes from './AuthRoutes';
@@ -30,6 +33,11 @@ const authPages = [
 ];
 
 const publicPages = [
+    {
+        path: '/',
+        page: Home,
+        layout: null,
+    },
     {
         path: '/email-verification-result/:tokenLink',
         page: EmailVerificationResult,
@@ -54,6 +62,12 @@ const publicPages = [
     {
         path: '/surveys/:id/submitSuccess',
         page: SubmitSuccess,
+        layout: NormalLayout,
+    },
+
+    {
+        path: '/page404',
+        page: PageNotFound,
         layout: NormalLayout,
     },
 ];
@@ -82,7 +96,7 @@ const router = createBrowserRouter([
         element: <App />,
         children: [
             ...publicPages.map((page) => {
-                const Layout = page.layout;
+                const Layout = page.layout ?? Fragment;
                 const Page = page.page;
                 return {
                     path: page.path,
@@ -96,7 +110,7 @@ const router = createBrowserRouter([
             {
                 element: <AuthRoutes />,
                 children: authPages.map((page) => {
-                    const Layout = page.layout;
+                    const Layout = page.layout ?? Fragment;
                     const Page = page.page;
                     return {
                         path: page.path,
@@ -111,7 +125,7 @@ const router = createBrowserRouter([
             {
                 element: <ProtectedRoutes />,
                 children: protectedPages.map((page) => {
-                    const Layout = page.layout;
+                    const Layout = page.layout ?? Fragment;
                     const Page = page.page;
                     return {
                         path: page.path,

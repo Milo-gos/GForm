@@ -8,6 +8,8 @@ import MySurvey from './UnitSurvey';
 import SubmitSuccess from './SubmitSuccess';
 import FillSubmit from './FillSubmit';
 import Profile from './Profile';
+import PageNotFound from './PageNotFound';
+import Home from './Home';
 
 export {
     SignIn,
@@ -20,4 +22,6 @@ export {
     FillSubmit,
     SubmitSuccess,
     Profile,
+    PageNotFound,
+    Home,
 };

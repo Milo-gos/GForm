@@ -35,6 +35,7 @@ const AnswerDropdown = ({ indexQuestion }: Props) => {
                 <Select
                     id="demo-simple-select"
                     value={value}
+                    label="Chọn"
                     onChange={handleChange}
                     MenuProps={{ disablePortal: true }}>
                     {question.options?.map((option, index) => {

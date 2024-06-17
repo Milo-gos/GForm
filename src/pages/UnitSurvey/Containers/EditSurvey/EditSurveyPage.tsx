@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './editsurvey.module.scss';
 import classNames from 'classnames/bind';
 import { useAppDispatch, useAppSelector } from '../../../../redux';
@@ -9,26 +9,36 @@ import {
     handleInsertQuestion,
     handleSetNewQuestion,
     setSurvey,
-} from '../../../../redux/slice/survey';
+} from '../../../../redux/slice/unitSurvey';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useAutoSave from '../../../../hooks/useAutoSave';
 import useChangeSurveyMutation from '../../mutation/changeSurvey';
-import { setLoading } from '../../../../redux/slice/global';
-import { useQuery } from '@tanstack/react-query';
+import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getSurveyById } from '../../../../utils/API/axios';
-import useAddFirstQuestionMutation from './components/Question/mutation/addFirstQuestion';
+import useAddFirstQuestionMutation from '../../mutation/addFirstQuestion';
 import QuestionTextInput from './components/QuestionTextInput';
 import Question from './components/Question';
+import { Snackbar } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import { MoonLoader } from 'react-spinners';
+import useChangeBackgroundSurveyMutation from '../../mutation/changeBackgroundSurvey';
+import SurveyInterface from '../../../../utils/interfaces/survey';
 
 const cx = classNames.bind(style);
 
 const EditSurveyPage = () => {
     const dispatchApp = useAppDispatch();
     const { id } = useParams();
+    const navigate = useNavigate();
+    const inputImage = useRef<HTMLInputElement>(null);
+    const [isLoadBackground, setLoadBackground] = useState(false);
+    const queryClient = useQueryClient();
     const survey = useAppSelector((state) => state.survey);
+    const isEdit = useAppSelector((state) => state.survey.isEdit);
 
-    const { data, isLoading, isError, isSuccess } = useQuery({
+    const { data, isLoading, isError, isSuccess, error } = useQuery({
         queryKey: [`getSurveyById_${id}`],
         queryFn: () => getSurveyById(id!),
         refetchOnWindowFocus: false,
@@ -41,8 +51,12 @@ const EditSurveyPage = () => {
         }
         if (isSuccess || isError) {
             dispatchApp(setLoading(false));
+            if (isError) {
+                navigate('/page404');
+            }
         }
     }, [isLoading, isError, isSuccess, dispatchApp]);
+
     useEffect(() => {
         if (data) {
             dispatchApp(
@@ -111,15 +125,76 @@ const EditSurveyPage = () => {
             },
         );
     };
+    const ChangeBackgroundSurveyMutation = useChangeBackgroundSurveyMutation();
+    const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = (e.target as HTMLInputElement).files;
+        if (files?.[0]) {
+            const formData = new FormData();
+            formData.append('file', files[0]);
+            formData.append('currentBackgroundUrl', survey.backgroundImage);
 
+            setLoadBackground(true);
+            ChangeBackgroundSurveyMutation.mutate(
+                {
+                    formData,
+                    surveyId: id,
+                },
+                {
+                    onSuccess(data) {
+                        queryClient.setQueryData([`getSurveyById_${id}`], (oldData: SurveyInterface) => {
+                            return oldData
+                                ? {
+                                      ...oldData,
+                                      backgroundImage: data,
+                                  }
+                                : oldData;
+                        });
+
+                        setLoadBackground(false);
+                    },
+                    onError() {
+                        setLoadBackground(false);
+                    },
+                },
+            );
+        }
+    };
     if (!data) return <></>;
-    console.log(survey.isAccepting);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('inner')}>
                 <div className={cx('background')}>
-                    <img src="https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg" />
+                    {survey.backgroundImage && <img src={survey.backgroundImage} />}
+                    <div
+                        className={cx('edit-wrapper')}
+                        onClick={() => {
+                            if (!isEdit) {
+                                dispatchApp(
+                                    setOpenSnackbar({
+                                        value: true,
+                                        message: 'Bạn không có quyền chỉnh sửa',
+                                    }),
+                                );
+                                return;
+                            }
+                            inputImage.current?.click();
+                        }}>
+                        {!isLoadBackground ? (
+                            <>
+                                <input
+                                    type="file"
+                                    accept="image/png, image/jpeg"
+                                    className={cx('input-image')}
+                                    ref={inputImage}
+                                    onChange={handleChangeImage}
+                                />
+                                <EditIcon className={cx('icon')} />
+                            </>
+                        ) : (
+                            <MoonLoader color="#fff" size={15} />
+                        )}
+                    </div>
                 </div>
                 <div
                     className={cx('container', 'active', 'form-header')}
@@ -132,14 +207,34 @@ const EditSurveyPage = () => {
                     }>
                     <QuestionTextInput
                         value={survey.title}
-                        onChange={(e) => dispatchApp(handleChangeTitle({ title: e.target.value }))}
+                        onChange={(e) => {
+                            if (!isEdit) {
+                                dispatchApp(
+                                    setOpenSnackbar({
+                                        value: true,
+                                        message: 'Bạn không có quyền chỉnh sửa',
+                                    }),
+                                );
+                                return;
+                            }
+                            dispatchApp(handleChangeTitle({ title: e.target.value }));
+                        }}
                         isTitleForm={true}></QuestionTextInput>
                     <QuestionTextInput
                         placeholder="Mô tả khảo sát"
                         value={survey.description}
-                        onChange={(e) =>
-                            dispatchApp(handleChangeDescription({ description: e.target.value }))
-                        }></QuestionTextInput>
+                        onChange={(e) => {
+                            if (!isEdit) {
+                                dispatchApp(
+                                    setOpenSnackbar({
+                                        value: true,
+                                        message: 'Bạn không có quyền chỉnh sửa',
+                                    }),
+                                );
+                                return;
+                            }
+                            dispatchApp(handleChangeDescription({ description: e.target.value }));
+                        }}></QuestionTextInput>
                 </div>
                 {survey.questions?.length == 0 && (
                     <div className={cx('add')} onClick={handleAddFirstQuestion}>

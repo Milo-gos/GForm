@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from './usmheader.module.scss';
 import classNames from 'classnames/bind';
-import { IconButton, Menu, MenuItem } from '@mui/material';
+import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useQuery } from '@tanstack/react-query';
@@ -12,6 +12,7 @@ import { getCurrentUser } from '../../../../utils/API/axios';
 import { Search } from '../../../../components';
 import { useAppDispatch } from '../../../../redux';
 import { setSearchString } from '../../../../redux/slice/surveyManagement';
+import stringAvatar from '../../../../utils/functions/stringAvatar';
 
 const cx = classNames.bind(style);
 
@@ -53,9 +54,11 @@ const USMHeader = () => {
         refetchOnWindowFocus: false,
     });
 
+    if (!user) return <></>;
+
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('logo-wrapper')}>
+            <div className={cx('logo-wrapper')} onClick={() => navigate('/')}>
                 <img className={cx('logo')} src={Logo}></img>
                 <span>GSurvey</span>
             </div>
@@ -65,10 +68,12 @@ const USMHeader = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ fontSize: '18px', fontWeight: '500' }}>{user?.fullName}</span>
                 <IconButton style={{ padding: '1px' }} onClick={handleClick}>
-                    <div className={cx('account-wrapper')}>
-                        <div className={cx('avatar')}>
-                            <img src={user?.avatar} />
-                        </div>
+                    <div className={cx('avatar')}>
+                        {user?.avatar ? (
+                            <Avatar src={user?.avatar} sx={{ width: '100%', height: '100%' }} />
+                        ) : (
+                            <Avatar {...stringAvatar(user?.fullName || '')} sx={{ width: '100%', height: '100%' }} />
+                        )}
                     </div>
                 </IconButton>
             </div>

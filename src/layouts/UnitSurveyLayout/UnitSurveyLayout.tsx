@@ -29,7 +29,7 @@ const UnitSurveyLayout = ({ children }: { children?: JSX.Element }) => {
         setOpenModalShare(false);
     };
     const location = useLocation();
-    const indexTab = location.hash === '#response' ? 1 : 0;
+    const indexTab = location.hash === '#response' ? 1 : location.hash === '#setting' ? 2 : 0;
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header')}>
@@ -55,14 +55,12 @@ const UnitSurveyLayout = ({ children }: { children?: JSX.Element }) => {
                             </IconButton>
                         </Tooltip>
                         <MyButton textButton="Chia sẻ" onClick={handleClickOpen}></MyButton>
-                        <IconButton style={{ padding: '12px' }}>
-                            <BsThreeDotsVertical size={24} />
-                        </IconButton>
                     </div>
                 </div>
                 <div className={cx('tab-list')}>
                     <Link
                         to={`/surveys/${id}/edit`}
+                        replace={true}
                         className={cx('tab', {
                             active: indexTab === 0,
                         })}>
@@ -70,10 +68,19 @@ const UnitSurveyLayout = ({ children }: { children?: JSX.Element }) => {
                     </Link>
                     <Link
                         to={'#response'}
+                        replace={true}
                         className={cx('tab', {
                             active: indexTab === 1,
                         })}>
                         <a>Phản hồi</a>
+                    </Link>
+                    <Link
+                        to={'#setting'}
+                        replace={true}
+                        className={cx('tab', {
+                            active: indexTab === 2,
+                        })}>
+                        <a>Cài đặt</a>
                     </Link>
                 </div>
             </div>

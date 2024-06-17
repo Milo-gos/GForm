@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../../redux';
-import useChangeOptionMutation from '../Question/mutation/changeOptionText';
+import useChangeOptionMutation from '../../../../mutation/changeOptionText';
 import useAutoSave from '../../../../../../hooks/useAutoSave';
 import QuestionTextInput from '../QuestionTextInput';
-import { handleChangeOptionText } from '../../../../../../redux/slice/survey';
+import { handleChangeOptionText } from '../../../../../../redux/slice/unitSurvey';
+import { setOpenSnackbar } from '../../../../../../redux/slice/global';
 
 interface Props {
     isActiveQuestion?: boolean;
@@ -36,7 +37,15 @@ const OptionComponent = ({ indexQuestion, indexOption, isActiveQuestion }: Props
             isActiveQuestion={isActiveQuestion}
             value={option.optionText}
             onChange={(e) => {
-                if (!isEdit) return;
+                if (!isEdit) {
+                    dispatchApp(
+                        setOpenSnackbar({
+                            value: true,
+                            message: 'Bạn không có quyền chỉnh sửa',
+                        }),
+                    );
+                    return;
+                }
 
                 dispatchApp(
                     handleChangeOptionText({

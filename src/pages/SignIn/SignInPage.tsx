@@ -50,7 +50,9 @@ const SignInPage = () => {
                 dispatchApp(setLoading(false));
                 localStorage.setItem('accessToken', data.accessToken!);
                 localStorage.setItem('refreshToken', data.refreshToken!);
-                navigate('/');
+                navigate('/', {
+                    replace: true,
+                });
             },
             onError(error: any) {
                 dispatchApp(setLoading(false));

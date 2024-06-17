@@ -1,0 +1,57 @@
+@import '../../../../variableSCSS.scss';
+
+.wrapper {
+    padding-top: 16px;
+    width: 800px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .section {
+        padding: 24px;
+        background: white;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border: 1px solid rgb(224, 224, 218);
+    }
+
+    .title {
+        font-size: 20px;
+        font-weight: 400;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #dddcda;
+    }
+
+    .body {
+        padding-left: 24px;
+        padding-top: 12px;
+    }
+
+    .label {
+        font-weight: 600;
+    }
+
+    .member-survey {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .mem-wrapper {
+        padding-left: 15px;
+        padding-top: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .separate {
+        // style={{ borderTop: '1px solid #C8C8C8' }}
+
+        border-top: 1px solid #dddcda;
+        margin-top: 4px;
+    }
+}

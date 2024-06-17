@@ -1,4 +1,4 @@
-import React, { MutableRefObject, RefObject, memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import style from './question.module.scss';
 import classNames from 'classnames/bind';
 import BottomQuestion from '../BottomQuestion';
@@ -17,27 +17,35 @@ import { IoIosAddCircleOutline } from 'react-icons/io';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import DragIndicatorRoundedIcon from '@mui/icons-material/DragIndicatorRounded';
 import LinearScaleIcon from '@mui/icons-material/LinearScale';
-import { Divider, IconButton, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Divider, IconButton, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import {
     handleActiveQuestion,
     handleChangeDescriptionQuestion,
+    handleChangeImageQuestion,
     handleChangeQuestion,
     handleChangeQuestionType,
-    handleDuplicateQuestion,
     handleInsertQuestion,
+    handleRemoveImageQuestion,
     handleSetNewQuestion,
     handleSetQuestion,
-} from '../../../../../../redux/slice/survey';
+} from '../../../../../../redux/slice/unitSurvey';
 import ShortTextIcon from '@mui/icons-material/ShortText';
 import NotesIcon from '@mui/icons-material/Notes';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
-import useChangeQuestionMutation from './mutation/changeQuestion';
-import useAddQuestionMutation from './mutation/addQuestion';
-import useDuplicateQuestionMutation from './mutation/duplicateQuestion';
+import useChangeQuestionMutation from '../../../../mutation/changeQuestion';
+import useAddQuestionMutation from '../../../../mutation/addQuestion';
+import useDuplicateQuestionMutation from '../../../../mutation/duplicateQuestion';
 import { useAppDispatch, useAppSelector } from '../../../../../../redux';
 import useAutoSave from '../../../../../../hooks/useAutoSave';
 import QuestionType from '../../../../../../utils/interfaces/questionType';
+import useChangeImageQuestionMutation from '../../../../mutation/changeImageQuestion';
+import { useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import { MoonLoader } from 'react-spinners';
+import useRemoveImageQuestionMutation from '../../../../mutation/removeImageQuestion';
+import { setOpenSnackbar } from '../../../../../../redux/slice/global';
 
 const cx = classNames.bind(style);
 
@@ -45,43 +53,19 @@ interface Props {
     index: number;
 }
 const Question = ({ index }: Props) => {
+    const { id } = useParams();
     const question = useAppSelector((state) => state.survey.questions[index]);
     const indexActiveQuestion = useAppSelector((state) => state.survey.indexActiveQuestion);
     const isEdit = useAppSelector((state) => state.survey.isEdit);
-    const [isDuplicated, setDuplicated] = useState(false);
+
+    const [isLoadImage, setLoadImage] = useState(false);
+    const queryClient = useQueryClient();
+
     const isActiveQuestion = index === indexActiveQuestion;
     const dispatchApp = useAppDispatch();
-    const changeQuestion = useChangeQuestionMutation(question?.id || '');
-    const DuplicateQuestionMutation = useDuplicateQuestionMutation(question.id);
+    const inputImage = useRef<HTMLInputElement>(null);
 
-    const handleDuplicateThisQuestion = () => {
-        dispatchApp(
-            handleDuplicateQuestion({
-                indexQuestion: index,
-            }),
-        );
-        setDuplicated(false);
-        DuplicateQuestionMutation.mutateAsync(
-            {
-                questionId: question.id,
-            },
-            {
-                onSuccess: (data, variables, context) => {
-                    dispatchApp(
-                        handleSetNewQuestion({
-                            indexQuestion: index + 1,
-                            newQuestion: data,
-                        }),
-                    );
-                },
-            },
-        );
-    };
-    useEffect(() => {
-        if (isDuplicated) {
-            handleDuplicateThisQuestion();
-        }
-    }, [isDuplicated]);
+    const changeQuestion = useChangeQuestionMutation(question?.id || '');
 
     useAutoSave(question.description, () => {
         changeQuestion.mutate(
@@ -126,13 +110,17 @@ const Question = ({ index }: Props) => {
         dispatchApp(handleActiveQuestion({ indexQuestion: index }));
     };
 
-    const handleClickAddImageQuestion = () => {
-        console.log('qq');
-    };
-
     const AddQuestionMutation = useAddQuestionMutation(question.id);
     const handleInsertNewQuestion = (position: number, position2: 'before' | 'after') => {
-        if (!isEdit) return;
+        if (!isEdit) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
         dispatchApp(
             handleInsertQuestion({
                 position,
@@ -159,7 +147,15 @@ const Question = ({ index }: Props) => {
     const heading = question?.questionType !== QuestionType.Description ? 'Câu hỏi' : 'Tiêu đề';
 
     const handleChangeNewQuestionType = (e: SelectChangeEvent) => {
-        if (!isEdit) return;
+        if (!isEdit) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
         const questionType = e.target.value as QuestionType;
         dispatchApp(
             handleChangeQuestionType({
@@ -193,6 +189,55 @@ const Question = ({ index }: Props) => {
         dispatchApp(handleChangeDescriptionQuestion({ indexQuestion: index, description: value }));
     };
 
+    const handleClickAddImageQuestion = () => {
+        inputImage.current?.click();
+    };
+
+    const ChangeImageQuestionMutation = useChangeImageQuestionMutation();
+    const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const files = (e.target as HTMLInputElement).files;
+        if (files?.[0]) {
+            const formData = new FormData();
+            formData.append('file', files[0]);
+            formData.append('currentImageQuestionUrl', question.image || '');
+
+            setLoadImage(true);
+            ChangeImageQuestionMutation.mutate(
+                {
+                    formData,
+                    questionId: question.id,
+                },
+                {
+                    onSuccess(data) {
+                        dispatchApp(
+                            handleChangeImageQuestion({
+                                indexQuestion: index,
+                                image: data,
+                            }),
+                        );
+
+                        setLoadImage(false);
+                    },
+                    onError() {
+                        setLoadImage(false);
+                    },
+                },
+            );
+        }
+    };
+
+    const RemoveImageQuestionMutation = useRemoveImageQuestionMutation();
+    const handleClickRemoveImageQuestion = () => {
+        dispatchApp(
+            handleRemoveImageQuestion({
+                indexQuestion: index,
+            }),
+        );
+        RemoveImageQuestionMutation.mutate({
+            questionId: question.id,
+        });
+    };
+
     return (
         <div className={cx('wrapper')} ref={myRef}>
             {isActiveQuestion && (
@@ -213,7 +258,15 @@ const Question = ({ index }: Props) => {
                             <QuestionTextInput
                                 value={question.question}
                                 onChange={(e) => {
-                                    if (!isEdit) return;
+                                    if (!isEdit) {
+                                        dispatchApp(
+                                            setOpenSnackbar({
+                                                value: true,
+                                                message: 'Bạn không có quyền chỉnh sửa',
+                                            }),
+                                        );
+                                        return;
+                                    }
                                     dispatchApp(
                                         handleChangeQuestion({
                                             indexQuestion: index,
@@ -226,9 +279,18 @@ const Question = ({ index }: Props) => {
                                 isQuestionHeading={true}></QuestionTextInput>
                         </div>
                         {isActiveQuestion && (
-                            <IconButton style={{ padding: '12px' }} onClick={handleClickAddImageQuestion}>
-                                <ImageOutlinedIcon style={{ fontSize: '28px' }} />
-                            </IconButton>
+                            <div className={cx('input-image-wrapper')}>
+                                <input
+                                    type="file"
+                                    accept="image/png, image/jpeg"
+                                    className={cx('input-image')}
+                                    ref={inputImage}
+                                    onChange={handleChangeImage}
+                                />
+                                <IconButton style={{ padding: '12px' }} onClick={handleClickAddImageQuestion}>
+                                    <ImageOutlinedIcon style={{ fontSize: '28px' }} />
+                                </IconButton>
+                            </div>
                         )}
                     </div>
 
@@ -350,10 +412,43 @@ const Question = ({ index }: Props) => {
                         placeholder={'Mô tả'}
                         value={question.description}
                         onChange={(e) => {
-                            if (!isEdit) return;
+                            if (!isEdit) {
+                                dispatchApp(
+                                    setOpenSnackbar({
+                                        value: true,
+                                        message: 'Bạn không có quyền chỉnh sửa',
+                                    }),
+                                );
+                                return;
+                            }
                             handleChangeDescription(e.target.value);
                         }}
                         isActiveQuestion={isActiveQuestion}></QuestionTextInput>
+                )}
+
+                {(question.image || isLoadImage) && (
+                    <div className={cx('image-question')}>
+                        {isLoadImage ? (
+                            <>
+                                <MoonLoader color="#ed6c02" size={30} />
+                            </>
+                        ) : (
+                            <>
+                                <img src={question.image} />
+                                {isActiveQuestion && (
+                                    <div className={cx('remove-image-button')}>
+                                        <Tooltip title="Xóa ảnh">
+                                            <IconButton
+                                                onClick={handleClickRemoveImageQuestion}
+                                                style={{ background: '#ed6c02' }}>
+                                                <CloseIcon style={{ color: 'white' }} />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </div>
                 )}
 
                 {question?.questionType === QuestionType.ShortAnswer && <QuestionShortAnswer indexQuestion={index} />}
@@ -378,9 +473,7 @@ const Question = ({ index }: Props) => {
                     <QuestionRadioButtonGrid isActiveQuestion={isActiveQuestion} indexQuestion={index} />
                 )}
 
-                {isActiveQuestion && (
-                    <BottomQuestion type={question?.questionType} indexQuestion={index} setDuplicated={setDuplicated} />
-                )}
+                {isActiveQuestion && <BottomQuestion type={question?.questionType} indexQuestion={index} />}
             </div>
 
             {isActiveQuestion && (

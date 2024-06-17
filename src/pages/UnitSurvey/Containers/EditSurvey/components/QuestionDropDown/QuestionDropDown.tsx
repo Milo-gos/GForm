@@ -3,11 +3,12 @@ import style from './questiondropdown.module.scss';
 import classNames from 'classnames/bind';
 import CloseIcon from '@mui/icons-material/Close';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import useAddOptionMutation from '../Question/mutation/addOption';
-import useDeleteOptionMutation from '../Question/mutation/deleteOption';
+import useAddOptionMutation from '../../../../mutation/addOption';
+import useDeleteOptionMutation from '../../../../mutation/deleteOption';
 import { useAppDispatch, useAppSelector } from '../../../../../../redux';
-import { handleAddOption, handleRemoveOption, handleSetOption } from '../../../../../../redux/slice/survey';
+import { handleAddOption, handleRemoveOption, handleSetOption } from '../../../../../../redux/slice/unitSurvey';
 import OptionComponent from '../OptionComponent';
+import { setOpenSnackbar } from '../../../../../../redux/slice/global';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -23,7 +24,15 @@ const QuestionDropDown = ({ isActiveQuestion, indexQuestion }: Props) => {
 
     const AddOption = useAddOptionMutation(question.id);
     const handleAdd = () => {
-        if (!isEdit) return;
+        if (!isEdit) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
         dispatchApp(handleAddOption({ indexQuestion }));
         AddOption.mutate(
             {
@@ -45,7 +54,15 @@ const QuestionDropDown = ({ isActiveQuestion, indexQuestion }: Props) => {
     };
     const DeleteOptionMutation = useDeleteOptionMutation();
     const handleRemove = (indexOption: number, optionId?: string) => {
-        if (!isEdit) return;
+        if (!isEdit) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
         dispatchApp(handleRemoveOption({ indexQuestion, indexOption }));
 
         DeleteOptionMutation.mutate(optionId!);

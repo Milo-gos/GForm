@@ -9,6 +9,10 @@
 
     padding-bottom: 0px;
     align-items: center;
+
+    &.isOpenSnackbar {
+        display: none;
+    }
     .item-toolbar {
         padding: 8px;
         border-radius: 50%;

@@ -32,6 +32,11 @@ const Answer = ({ index }: Props) => {
                 {question.isRequired && <span className={cx('required')}>*</span>}
             </div>
             {question.isHasDescription && <div className={cx('description')}>{question.description}</div>}
+            {question.image && (
+                <div className={cx('image-question')}>
+                    <img src={question.image} />
+                </div>
+            )}
 
             <div style={{ marginTop: '24px' }}>
                 {questionType === QuestionType.ShortAnswer && <AnswerShortAnswer indexQuestion={index} />}

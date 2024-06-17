@@ -86,8 +86,11 @@ const SharedSurveyPage = () => {
                     </FormControl>
                 </div> */}
             </div>
+
             {isLoading ? (
-                <div>Loading</div>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <MoonLoader color="#fcc934" size={30} />
+                </div>
             ) : (
                 <div className={cx('list-surveys')}>
                     {data?.pages.map((page, index) => {

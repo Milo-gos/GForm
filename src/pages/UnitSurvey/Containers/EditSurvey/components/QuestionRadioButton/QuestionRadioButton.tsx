@@ -10,11 +10,12 @@ import {
     handleRemoveOption,
     handleSetHasOther,
     handleSetOption,
-} from '../../../../../../redux/slice/survey';
+} from '../../../../../../redux/slice/unitSurvey';
 import OptionComponent from '../OptionComponent';
-import useAddOptionMutation from '../Question/mutation/addOption';
-import useDeleteOptionMutation from '../Question/mutation/deleteOption';
-import useChangeQuestionMutation from '../Question/mutation/changeQuestion';
+import useAddOptionMutation from '../../../../mutation/addOption';
+import useDeleteOptionMutation from '../../../../mutation/deleteOption';
+import useChangeQuestionMutation from '../../../../mutation/changeQuestion';
+import { setOpenSnackbar } from '../../../../../../redux/slice/global';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -29,7 +30,15 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
     const isHasOther = question.isHasOther;
     const dispatchApp = useAppDispatch();
     const handleAddOther = () => {
-        if (!isEdit) return;
+        if (!isEdit) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
         if (isHasOther) return;
         dispatchApp(
             handleSetHasOther({
@@ -42,7 +51,15 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
         });
     };
     const handleRemoveOther = () => {
-        if (!isEdit) return;
+        if (!isEdit) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
         dispatchApp(
             handleSetHasOther({
                 indexQuestion,
@@ -56,7 +73,15 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
 
     const AddOption = useAddOptionMutation(question.id);
     const handleAdd = () => {
-        if (!isEdit) return;
+        if (!isEdit) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
         dispatchApp(handleAddOption({ indexQuestion }));
         AddOption.mutate(
             {
@@ -78,7 +103,15 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
     };
     const DeleteOptionMutation = useDeleteOptionMutation();
     const handleRemove = (indexOption: number, optionId?: string) => {
-        if (!isEdit) return;
+        if (!isEdit) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
         dispatchApp(handleRemoveOption({ indexQuestion, indexOption }));
 
         DeleteOptionMutation.mutate(optionId!);

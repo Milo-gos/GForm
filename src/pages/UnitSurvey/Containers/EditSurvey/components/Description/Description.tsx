@@ -3,7 +3,8 @@ import style from './description.module.scss';
 import classNames from 'classnames/bind';
 import QuestionTextInput from '../QuestionTextInput';
 import { useAppDispatch, useAppSelector } from '../../../../../../redux';
-import { handleChangeDescriptionQuestion } from '../../../../../../redux/slice/survey';
+import { handleChangeDescriptionQuestion } from '../../../../../../redux/slice/unitSurvey';
+import { setOpenSnackbar } from '../../../../../../redux/slice/global';
 
 const cx = classNames.bind(style);
 interface Props {
@@ -24,7 +25,15 @@ const Description = ({ isActiveQuestion, indexQuestion }: Props) => {
                         <QuestionTextInput
                             value={question.description}
                             onChange={(e) => {
-                                if (!isEdit) return;
+                                if (!isEdit) {
+                                    dispatchApp(
+                                        setOpenSnackbar({
+                                            value: true,
+                                            message: 'Bạn không có quyền chỉnh sửa',
+                                        }),
+                                    );
+                                    return;
+                                }
                                 dispatchApp(
                                     handleChangeDescriptionQuestion({ indexQuestion, description: e.target.value }),
                                 );

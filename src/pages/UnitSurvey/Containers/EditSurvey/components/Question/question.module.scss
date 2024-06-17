@@ -58,4 +58,33 @@
     .icon {
         font-size: 100px;
     }
+
+    .input-image-wrapper {
+        input {
+            display: none;
+        }
+    }
+
+    .image-question {
+        width: 360px;
+        height: 360px;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-image-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+        }
+    }
 }

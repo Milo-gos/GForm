@@ -1,11 +1,28 @@
 import React from 'react';
 import { HashLoader } from 'react-spinners';
-import { useAppSelector } from '../../redux';
+import { useAppDispatch, useAppSelector } from '../../redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Snackbar } from '@mui/material';
+import { setOpenSnackbar } from '../../redux/slice/global';
 
 const LoadingLayout = ({ children }: { children: JSX.Element }) => {
     const isLoading = useAppSelector((state) => state.global.isLoading);
+    const isOpenSnackbar = useAppSelector((state) => state.global.isOpenSnackbar);
+    const messageSnackbar = useAppSelector((state) => state.global.messageSnackbar);
+    const dispatchApp = useAppDispatch();
+    const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        dispatchApp(
+            setOpenSnackbar({
+                value: false,
+                message: '',
+            }),
+        );
+    };
     return (
         <div>
             <HashLoader
@@ -32,6 +49,12 @@ const LoadingLayout = ({ children }: { children: JSX.Element }) => {
                 hideProgressBar={true}
                 theme={'light'}
                 draggable={false}
+            />
+            <Snackbar
+                open={isOpenSnackbar}
+                autoHideDuration={2000}
+                onClose={handleCloseSnackbar}
+                message={messageSnackbar}
             />
         </div>
     );

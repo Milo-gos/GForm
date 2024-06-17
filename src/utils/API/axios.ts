@@ -10,6 +10,7 @@ import GColumnInterface from '../interfaces/gcolumn';
 import SubmitFormInterface from '../interfaces/submitForm';
 import ResponseInterface from '../interfaces/response';
 import SharedSurveyData from '../interfaces/sharedSurveyData';
+import SharedUserInterface from '../interfaces/sharedUserInterface';
 
 const BE_URL = process.env.REACT_APP_BE_URL;
 
@@ -68,8 +69,9 @@ const getSurveysOfCurrentUser = async ({ pageParam, queryKey }: { pageParam: num
     const response = await InstanceAxios.get(
         `${BE_URL}/api/survey/getSurveysOfCurrentUser/?${searchParams.toString()}`,
     );
-    const { surveys, nextCursor }: { surveys: SurveyData[]; nextCursor: number } = response.data.data;
-    return { surveys, nextCursor };
+    const { surveys, nextCursor, totalSurveys }: { surveys: SurveyData[]; nextCursor: number; totalSurveys: number } =
+        response.data.data;
+    return { surveys, nextCursor, totalSurveys };
 };
 
 const getSharedSurveysOfCurrentUser = async ({ pageParam, queryKey }: { pageParam: number; queryKey: string[] }) => {
@@ -188,13 +190,20 @@ const createResponse = async (body: any) => {
 };
 
 const getResponseSurvey = async (id: string) => {
-    const response = await axios.get(`${BE_URL}/api/response/getResponseSurvey/${id}`);
+    const response = await InstanceAxios.get(`${BE_URL}/api/response/getResponseSurvey/${id}`);
     const t: ResponseInterface = response.data.data;
     return t;
 };
 
+const getSharedUserSurvey = async (id: string) => {
+    const response = await InstanceAxios.get(`${BE_URL}/api/survey/getSharedUserSurvey/${id}`);
+    const t: SharedUserInterface = response.data.data;
+    return t;
+};
+
 const shareWithEmail = async (body: any) => {
-    await InstanceAxios.post(`${BE_URL}/api/survey-share/shareWithEmail`, body);
+    const response = await InstanceAxios.post(`${BE_URL}/api/survey-share/shareWithEmail`, body);
+    return response.data.data;
 };
 
 const changeUserAvatar = async (body: any) => {
@@ -207,6 +216,33 @@ const changeUserAvatar = async (body: any) => {
     return urlImage;
 };
 
+const changeBackgroundSurvey = async (body: any) => {
+    const { surveyId, formData } = body;
+    const response = await InstanceAxios.patch(`${BE_URL}/api/survey/${surveyId}/changeBackgroundSurvey`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    const urlImage: string = response.data.data;
+    return urlImage;
+};
+
+const changeImageQuestion = async (body: any) => {
+    const { questionId, formData } = body;
+    const response = await InstanceAxios.patch(`${BE_URL}/api/question/${questionId}/changeImageQuestion`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    const urlImage: string = response.data.data;
+    return urlImage;
+};
+
+const removeImageQuestion = async (body: any) => {
+    const { questionId } = body;
+    await InstanceAxios.patch(`${BE_URL}/api/question/${questionId}/removeImageQuestion`);
+};
+
 const changeUsername = async (body: any) => {
     await InstanceAxios.patch(`${BE_URL}/api/user/changeUsername`, body);
 };
@@ -215,6 +251,21 @@ const changeUserPassword = async (body: any) => {
     const response = await InstanceAxios.patch(`${BE_URL}/api/auth/changeUserPassword`, body);
     const { accessToken, refreshToken } = response.data.data;
     return { accessToken, refreshToken };
+};
+
+const changeEditSharedUser = async (body: any) => {
+    const { sharedId, isEdit, surveyId } = body;
+    const response = await InstanceAxios.patch(`${BE_URL}/api/survey-share/${sharedId}/changeEditSharedUser`, {
+        isEdit,
+        surveyId,
+    });
+    const data: { shareId: string; isEdit: boolean } = response.data.data;
+    return data;
+};
+
+const deleteSharedUser = async (body: any) => {
+    const { sharedId, surveyId } = body;
+    await InstanceAxios.delete(`${BE_URL}/api/survey-share/survey/${surveyId}/deleteSharedSurvey/${sharedId}`);
 };
 
 export {
@@ -230,6 +281,8 @@ export {
     getSurveysOfCurrentUser,
     getSharedSurveysOfCurrentUser,
     changeQuestion,
+    changeImageQuestion,
+    removeImageQuestion,
     changeOption,
     addOPtion,
     addRow,
@@ -245,10 +298,14 @@ export {
     changeRow,
     changeGColumn,
     changeSurvey,
+    changeBackgroundSurvey,
     createResponse,
     getResponseSurvey,
     shareWithEmail,
     changeUserAvatar,
     changeUsername,
     changeUserPassword,
+    getSharedUserSurvey,
+    changeEditSharedUser,
+    deleteSharedUser,
 };

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import style from './responsesurvey.module.scss';
 import classNames from 'classnames/bind';
-import { FormControlLabel, IconButton, Menu, MenuItem, Switch } from '@mui/material';
+import { FormControlLabel, IconButton, Menu, MenuItem, Snackbar, Switch } from '@mui/material';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import useChangeSurveyMutation from '../../mutation/changeSurvey';
-import { useParams } from 'react-router-dom';
-import { useAppDispatch } from '../../../../redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../../redux';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getResponseSurvey } from '../../../../utils/API/axios';
-import { setLoading } from '../../../../redux/slice/global';
+import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
 import ResponseInterface from '../../../../utils/interfaces/response';
 import Response from './components/Response';
 const cx = classNames.bind(style);
@@ -16,6 +16,21 @@ const cx = classNames.bind(style);
 const ResponseSurveyPage = () => {
     const { id } = useParams();
     const dispatchApp = useAppDispatch();
+    const navigate = useNavigate();
+    const survey = useAppSelector((state) => state.survey);
+    const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        dispatchApp(
+            setOpenSnackbar({
+                value: false,
+                message: '',
+            }),
+        );
+    };
+
     const { data, isLoading, isError, isSuccess, isFetching } = useQuery({
         queryKey: [`getResponseSurvey_${id}`],
         queryFn: () => getResponseSurvey(id!),
@@ -30,6 +45,9 @@ const ResponseSurveyPage = () => {
         }
         if (isSuccess || isError) {
             dispatchApp(setLoading(false));
+            if (isError) {
+                navigate('/page404');
+            }
         }
     }, [isLoading, isError, isSuccess, dispatchApp]);
 
@@ -45,6 +63,15 @@ const ResponseSurveyPage = () => {
     const ChangeSurveyMutation = useChangeSurveyMutation();
     const handleSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (isFetching) return;
+        if (!(data?.isOwner || data?.isShareEdit)) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
         const isOpening = event.target.checked;
         ChangeSurveyMutation.mutate(
             {

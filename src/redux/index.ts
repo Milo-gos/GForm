@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slice/auth';
 import globalReducer from './slice/global';
-import surveyReducer from './slice/survey';
+import surveyReducer from './slice/unitSurvey';
 import submitFormReducer from './slice/submitform';
 import responseReducer from './slice/response';
 import surveyManagementReducer from './slice/surveyManagement';

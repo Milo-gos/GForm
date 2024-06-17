@@ -7,8 +7,10 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useShareWithEmailMutation from './mutation/shareWithEmail';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useQueryClient } from '@tanstack/react-query';
+import SharedUserInterface from '../../../../utils/interfaces/sharedUserInterface';
 
 const cx = classNames.bind(style);
 
@@ -28,6 +30,7 @@ const FormValueSchema = z.object({
 
 type FormValue = z.infer<typeof FormValueSchema>;
 const MailTab = ({ setOpenModalShare }: Props) => {
+    const location = useLocation();
     const [isEdit, setEdit] = useState<boolean>(false);
     const { id } = useParams();
     const handleChangeChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,12 +49,24 @@ const MailTab = ({ setOpenModalShare }: Props) => {
     } = useForm<FormValue>({
         resolver: zodResolver(FormValueSchema),
     });
+    const queryClient = useQueryClient();
     const ShareWithEmailMutation = useShareWithEmailMutation();
     const onSubmit = (data: FormValue) => {
-        const linkEditSurvey = `${window.location.origin}/surveys/${id}/edit`;
+        const linkEditSurvey = `${window.location.origin}/user-survey-management#shared`;
         const body = { ...data, isEdit, surveyId: id, linkEditSurvey };
         ShareWithEmailMutation.mutate(body, {
-            onSuccess() {
+            onSuccess(data) {
+                if (location.hash === '#setting') {
+                    console.log(data);
+                    queryClient.setQueryData([`getSharedUserSurvey_${id}`], (oldData: SharedUserInterface) => {
+                        return oldData
+                            ? {
+                                  ...oldData,
+                                  sharedUsers: [...oldData.sharedUsers!, data],
+                              }
+                            : oldData;
+                    });
+                }
                 toast.success('Gửi lời mời thành công!');
                 setEdit(false);
                 reset({

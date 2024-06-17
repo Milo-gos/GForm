@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../../redux';
-import useChangeRowMutation from '../Question/mutation/changeRowContent copy';
 import useAutoSave from '../../../../../../hooks/useAutoSave';
 import QuestionTextInput from '../QuestionTextInput';
-import { handleChangeRowContent } from '../../../../../../redux/slice/survey';
+import { handleChangeRowContent } from '../../../../../../redux/slice/unitSurvey';
+import useChangeRowMutation from '../../../../mutation/changeRowContent';
+import { setOpenSnackbar } from '../../../../../../redux/slice/global';
 
 interface Props {
     isActiveQuestion?: boolean;
@@ -13,6 +14,8 @@ interface Props {
 const RowComponent = ({ indexQuestion, indexRow, isActiveQuestion }: Props) => {
     const dispatchApp = useAppDispatch();
     const row = useAppSelector((state) => state.survey.questions![indexQuestion]?.rows![indexRow]);
+    const isEdit = useAppSelector((state) => state.survey.isEdit);
+
     const ChangeRow = useChangeRowMutation(row.id);
 
     useAutoSave(row.rowContent, () => {
@@ -23,7 +26,7 @@ const RowComponent = ({ indexQuestion, indexRow, isActiveQuestion }: Props) => {
             },
 
             {
-                onError(error, variables, context) {
+                onError(error) {
                     console.log(error);
                 },
             },
@@ -35,6 +38,15 @@ const RowComponent = ({ indexQuestion, indexRow, isActiveQuestion }: Props) => {
             isActiveQuestion={isActiveQuestion}
             value={row.rowContent}
             onChange={(e) => {
+                if (!isEdit) {
+                    dispatchApp(
+                        setOpenSnackbar({
+                            value: true,
+                            message: 'Bạn không có quyền chỉnh sửa',
+                        }),
+                    );
+                    return;
+                }
                 dispatchApp(
                     handleChangeRowContent({
                         indexQuestion,

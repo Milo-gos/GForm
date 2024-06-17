@@ -4,9 +4,10 @@ import classNames from 'classnames/bind';
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import QuestionTextInput from '../QuestionTextInput';
 import { useAppDispatch, useAppSelector } from '../../../../../../redux';
-import { handleChangeLinear } from '../../../../../../redux/slice/survey';
-import useChangeLinearScaleMutation from '../Question/mutation/changeLinearScale';
+import { handleChangeLinear } from '../../../../../../redux/slice/unitSurvey';
+import useChangeLinearScaleMutation from '../../../../mutation/changeLinearScale';
 import useAutoSave from '../../../../../../hooks/useAutoSave';
+import { setOpenSnackbar } from '../../../../../../redux/slice/global';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -20,7 +21,15 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
     const ChangeLinearMutation = useChangeLinearScaleMutation(linearScale?.id);
 
     const handleChangeSelectLeft = (e: SelectChangeEvent) => {
-        if (!isEdit) return;
+        if (!isEdit) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
 
         dispatchApp(
             handleChangeLinear({
@@ -34,7 +43,15 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
         });
     };
     const handleChangeSelectRight = (e: SelectChangeEvent) => {
-        if (!isEdit) return;
+        if (!isEdit) {
+            dispatchApp(
+                setOpenSnackbar({
+                    value: true,
+                    message: 'Bạn không có quyền chỉnh sửa',
+                }),
+            );
+            return;
+        }
 
         dispatchApp(
             handleChangeLinear({
@@ -113,7 +130,15 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
                         placeholder="Nhãn trái (tùy chọn)"
                         value={linearScale?.leftLabel}
                         onChange={(e) => {
-                            if (!isEdit) return;
+                            if (!isEdit) {
+                                dispatchApp(
+                                    setOpenSnackbar({
+                                        value: true,
+                                        message: 'Bạn không có quyền chỉnh sửa',
+                                    }),
+                                );
+                                return;
+                            }
                             dispatchApp(
                                 handleChangeLinear({
                                     indexQuestion,
@@ -132,7 +157,15 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
                         placeholder="Nhãn phải (tùy chọn)"
                         value={linearScale?.rightLabel}
                         onChange={(e) => {
-                            if (!isEdit) return;
+                            if (!isEdit) {
+                                dispatchApp(
+                                    setOpenSnackbar({
+                                        value: true,
+                                        message: 'Bạn không có quyền chỉnh sửa',
+                                    }),
+                                );
+                                return;
+                            }
                             dispatchApp(
                                 handleChangeLinear({
                                     indexQuestion,
