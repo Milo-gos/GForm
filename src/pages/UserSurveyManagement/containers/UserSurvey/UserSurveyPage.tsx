@@ -6,7 +6,7 @@ import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { MoonLoader } from 'react-spinners';
 import { useAppSelector } from '../../../../redux';
-import { getSurveysOfCurrentUser } from '../../../../utils/API/axios';
+import { getSurveysOfCurrentUser } from '../../../../API/axios';
 import SurveyComponent from './components/SurveyComponent';
 import { MyButton } from '../../../../components';
 

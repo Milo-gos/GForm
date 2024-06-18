@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import style from './responsedropdown.module.scss';
 import classNames from 'classnames/bind';
 import QuestionResponseInterface from '../../../../../../utils/interfaces/question-response';
-import CHART_COLOR from '../../../../../../utils/functions/chartColors';
+import CHART_COLOR from '../../../../../../constants/chartColors';
 
 const cx = classNames.bind(style);
 

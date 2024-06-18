@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { deleteSharedUser } from '../../../utils/API/axios';
+import { deleteSharedUser } from '../../../API/axios';
 
 const useDeleteSharedUserMutation = () => {
     return useMutation({

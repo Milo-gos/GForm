@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { duplicateQuestion } from '../../../utils/API/axios';
+import { duplicateQuestion } from '../../../API/axios';
 
 const useDuplicateQuestionMutation = (questionId?: string) => {
     return useMutation({

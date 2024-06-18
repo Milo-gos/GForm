@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { verifyLinkResetPassword } from '../../../utils/API/axios';
+import { verifyLinkResetPassword } from '../../../API/axios';
 
 const useVerifyLinkResetPasswordMutation = () => {
     return useMutation({

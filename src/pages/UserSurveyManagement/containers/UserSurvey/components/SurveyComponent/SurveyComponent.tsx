@@ -3,7 +3,7 @@ import style from './surveycomponent.module.scss';
 import classNames from 'classnames/bind';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import { useNavigate } from 'react-router-dom';
-import convertDate from '../../../../../../utils/functions/convertDate';
+import convertDate from '../../../../../../utils/convertDate';
 
 const cx = classNames.bind(style);
 

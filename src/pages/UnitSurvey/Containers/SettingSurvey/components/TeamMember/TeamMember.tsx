@@ -1,20 +1,20 @@
 import classNames from 'classnames/bind';
 
 import styles from './teammember.module.scss';
-import { useState } from 'react';
-
-import { IoSquareOutline, IoCheckboxSharp } from 'react-icons/io5';
 import CloseIcon from '@mui/icons-material/Close';
 import { Avatar, Checkbox, FormControlLabel, IconButton, Tooltip } from '@mui/material';
-import { MyLabel } from '../../../../../../components';
+import { Modal, MyButton, MyLabel } from '../../../../../../components';
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import useChangeEditSharedUserMutation from '../../../../mutation/changeEditSharedUser';
 import { useParams } from 'react-router-dom';
 import SharedUserInterface from '../../../../../../utils/interfaces/sharedUserInterface';
-import useDeleteSharedUserMutation from '../../../../mutation/deleteSharedUser copy';
-import stringAvatar from '../../../../../../utils/functions/stringAvatar';
+import useDeleteSharedUserMutation from '../../../../mutation/deleteSharedUse';
+import stringAvatar from '../../../../../../utils/stringAvatar';
 import { useAppDispatch } from '../../../../../../redux';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
+import { useState } from 'react';
+import { MoonLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -42,6 +42,9 @@ function TeamMember({ owner, sharedUser, isOwner, surveyId }: Props) {
     const queryClient = useQueryClient();
     const user = owner || sharedUser;
     const dispatchApp = useAppDispatch();
+    const [isOpenModal, setOpenModal] = useState(false);
+    const [isLoadingDelete, setLoadingDelete] = useState(false);
+
     const ChangeEditSharedUserMutation = useChangeEditSharedUserMutation();
     const handleChangeChecked = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!isOwner) return;
@@ -89,8 +92,13 @@ function TeamMember({ owner, sharedUser, isOwner, surveyId }: Props) {
         );
     };
 
+    const handleClickClose = () => {
+        setOpenModal(false);
+    };
+
     const DeleteSharedUserMutation = useDeleteSharedUserMutation();
     const handleClickRemoveSharedUser = () => {
+        setLoadingDelete(true);
         DeleteSharedUserMutation.mutate(
             {
                 sharedId: sharedUser?.sharedId,
@@ -114,6 +122,13 @@ function TeamMember({ owner, sharedUser, isOwner, surveyId }: Props) {
                             message: 'Đã xóa thành viên',
                         }),
                     );
+                    setOpenModal(false);
+                    setLoadingDelete(false);
+                },
+                onError() {
+                    setLoadingDelete(false);
+                    setOpenModal(false);
+                    toast.error('Đã có lỗi xảy ra');
                 },
             },
         );
@@ -171,12 +186,27 @@ function TeamMember({ owner, sharedUser, isOwner, surveyId }: Props) {
                 </div>
                 {sharedUser && isOwner && (
                     <Tooltip title="Xóa thành viên">
-                        <IconButton onClick={handleClickRemoveSharedUser}>
+                        <IconButton onClick={() => setOpenModal(true)}>
                             <CloseIcon />
                         </IconButton>
                     </Tooltip>
                 )}
             </div>
+            {isOpenModal && (
+                <Modal onClickClose={handleClickClose}>
+                    <div className={cx('inner-modal')}>
+                        <div>Bạn có chắc muốn xóa khảo sát?</div>
+                        <div className={cx('button-wrapper')}>
+                            {isLoadingDelete ? (
+                                <MoonLoader color="#ed6c02" size={30} />
+                            ) : (
+                                <MyButton textButton="Xóa" onClick={handleClickRemoveSharedUser} />
+                            )}
+                            <MyButton textButton="Hủy" onClick={handleClickClose} />
+                        </div>
+                    </div>
+                </Modal>
+            )}
         </div>
     );
 }

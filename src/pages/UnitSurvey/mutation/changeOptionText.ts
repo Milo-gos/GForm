@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { changeOption } from '../../../utils/API/axios';
+import { changeOption } from '../../../API/axios';
 
 const useChangeOptionMutation = (optionId?: string) => {
     return useMutation({

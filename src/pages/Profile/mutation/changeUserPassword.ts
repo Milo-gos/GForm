@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { changeUserPassword, changeUsername } from '../../../utils/API/axios';
+import { changeUserPassword, changeUsername } from '../../../API/axios';
 
 const useChangeUserPasswordMutation = () => {
     return useMutation({

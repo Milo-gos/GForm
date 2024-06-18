@@ -3,7 +3,7 @@ import { z } from 'zod';
 import classNames from 'classnames/bind';
 import NormalTextInput from '../../../../components/NormalTextInput';
 import { useAppDispatch, useAppSelector } from '../../../../redux';
-import { createSchema } from '../../../../utils/functions/validationZod';
+import { createSchema } from '../../../../utils/validationZod';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { setChangeAnswerText, setErrorQuestion } from '../../../../redux/slice/submitform';

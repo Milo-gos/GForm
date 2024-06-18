@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { shareWithEmail } from '../../../../../utils/API/axios';
+import { shareWithEmail } from '../../../../../API/axios';
 
 const useShareWithEmailMutation = () => {
     return useMutation({

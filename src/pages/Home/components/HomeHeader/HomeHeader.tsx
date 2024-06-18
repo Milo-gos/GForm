@@ -6,8 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Logo } from '../../../../assets/images';
 import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
-import stringAvatar from '../../../../utils/functions/stringAvatar';
-import { getCurrentUser } from '../../../../utils/API/axios';
+import stringAvatar from '../../../../utils/stringAvatar';
+import { getCurrentUser } from '../../../../API/axios';
 import { useQuery } from '@tanstack/react-query';
 
 const cx = classNames.bind(style);

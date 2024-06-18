@@ -1,5 +1,4 @@
 import axios from 'axios';
-import API from '../api';
 const BE_URL = process.env.REACT_APP_BE_URL;
 
 const headers = {

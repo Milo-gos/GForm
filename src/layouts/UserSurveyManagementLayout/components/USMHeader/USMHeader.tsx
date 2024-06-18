@@ -8,11 +8,11 @@ import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'react-autosave';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../../../../assets/images';
-import { getCurrentUser } from '../../../../utils/API/axios';
+import { getCurrentUser } from '../../../../API/axios';
 import { Search } from '../../../../components';
 import { useAppDispatch } from '../../../../redux';
 import { setSearchString } from '../../../../redux/slice/surveyManagement';
-import stringAvatar from '../../../../utils/functions/stringAvatar';
+import stringAvatar from '../../../../utils/stringAvatar';
 
 const cx = classNames.bind(style);
 

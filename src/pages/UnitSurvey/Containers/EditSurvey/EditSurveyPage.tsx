@@ -16,7 +16,7 @@ import useAutoSave from '../../../../hooks/useAutoSave';
 import useChangeSurveyMutation from '../../mutation/changeSurvey';
 import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getSurveyById } from '../../../../utils/API/axios';
+import { getSurveyById } from '../../../../API/axios';
 import useAddFirstQuestionMutation from '../../mutation/addFirstQuestion';
 import QuestionTextInput from './components/QuestionTextInput';
 import Question from './components/Question';

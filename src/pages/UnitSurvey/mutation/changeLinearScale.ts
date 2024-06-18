@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { changeLinearScale } from '../../../utils/API/axios';
+import { changeLinearScale } from '../../../API/axios';
 
 const useChangeLinearScaleMutation = (linearScaleId?: string) => {
     return useMutation({

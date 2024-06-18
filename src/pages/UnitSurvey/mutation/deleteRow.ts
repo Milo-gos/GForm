@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { deleteRow } from '../../../utils/API/axios';
+import { deleteRow } from '../../../API/axios';
 
 const useDeleteRowMutation = (rowId?: string) => {
     return useMutation({

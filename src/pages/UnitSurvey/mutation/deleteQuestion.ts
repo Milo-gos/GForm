@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { deleteQuestion } from '../../../utils/API/axios';
+import { deleteQuestion } from '../../../API/axios';
 
 const useDeleteQuestionMutation = (questionId?: string) => {
     return useMutation({

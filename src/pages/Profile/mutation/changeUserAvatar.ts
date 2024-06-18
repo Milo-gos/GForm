@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { changeUserAvatar } from '../../../utils/API/axios';
+import { changeUserAvatar } from '../../../API/axios';
 
 const useChangeUserAvatarMutation = () => {
     return useMutation({

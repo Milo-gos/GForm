@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { createResponse } from '../../../utils/API/axios';
+import { createResponse } from '../../../API/axios';
 
 const useCreateResponseMutation = () => {
     return useMutation({
