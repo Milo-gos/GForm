@@ -1,0 +1,51 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    transition: $transition;
+    position: relative;
+
+    input {
+        padding: 6px 8px;
+        background-color: transparent;
+        width: 100%;
+    }
+
+    .obscured {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 8px;
+        .icon {
+            font-size: 24px;
+        }
+    }
+
+    .border {
+        height: 1px;
+        left: 0;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        background-color: rgb(224, 224, 218);
+    }
+    .inner-border {
+        width: 0;
+        left: 0;
+        height: 1.5px;
+        background-color: $mainColor;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transition: $transition;
+    }
+
+    &.isFocus {
+        .inner-border {
+            width: 100%;
+            left: 0;
+        }
+        background-color: transparent;
+    }
+
+    padding: 2px 4px;
+}

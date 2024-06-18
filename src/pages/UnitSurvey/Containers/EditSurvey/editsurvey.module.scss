@@ -1,0 +1,97 @@
+@import '../../../../variableSCSS.scss';
+
+.wrapper {
+    .inner {
+        padding-top: 16px;
+        width: 770px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .background {
+        height: 200px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        border: 1px solid rgb(218, 220, 224);
+        position: relative;
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            object-fit: cover;
+            transform-origin: center;
+        }
+    }
+    .container {
+        padding: 24px 16px;
+        background: white;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border: 1px solid rgb(224, 224, 218);
+    }
+    .container.active {
+        border-left: 6px solid $redColor;
+
+        border-color: transparent;
+    }
+    .container.form-header {
+        border-top: 12px solid $mainColor;
+    }
+    .container.active.form-header {
+        border-left: unset;
+    }
+
+    .add {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        .icon {
+            font-size: 28px;
+            color: #ccc;
+            transition: $transition;
+        }
+        .separate {
+            transition: $transition;
+            border: 1px dotted #ccc;
+            flex: 1;
+        }
+        &:hover {
+            .separate {
+                border-color: $orangeColor;
+            }
+            .icon {
+                color: $orangeColor;
+            }
+        }
+    }
+
+    .edit-wrapper {
+        cursor: pointer;
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $redColor;
+        bottom: 0;
+        right: 0;
+        transform: translate(25%, 25%);
+
+        .icon {
+            font-size: 20px;
+            color: white;
+        }
+
+        .input-image {
+            display: none;
+        }
+    }
+}

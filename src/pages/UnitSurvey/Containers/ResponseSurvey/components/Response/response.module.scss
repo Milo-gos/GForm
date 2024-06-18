@@ -1,0 +1,21 @@
+@import '../../../../../../variableSCSS.scss';
+
+.wrapper {
+    padding: 24px 24px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid rgb(224, 224, 218);
+
+    .question-wrapper {
+        .question {
+            font-size: 20px;
+        }
+
+        .responses {
+            font-size: 14px;
+        }
+    }
+}

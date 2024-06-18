@@ -1,0 +1,106 @@
+@import '../../variableSCSS.scss';
+
+.wrapper {
+    width: 700px;
+    margin: 0 auto;
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 2px #ccc;
+    padding-bottom: 30px;
+
+    .header {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        background-color: $mainColor;
+        height: 100px;
+        padding: 20px;
+        position: relative;
+
+        .avatar {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+
+            left: 50%;
+            bottom: 0;
+            transform: translate(-50%, 25%);
+        }
+
+        .edit-wrapper {
+            cursor: pointer;
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: $redColor;
+            bottom: 0;
+            right: -8px;
+
+            .icon {
+                font-size: 20px;
+                color: white;
+            }
+
+            .input-image {
+                display: none;
+            }
+        }
+    }
+
+    .body {
+        background-color: white;
+        padding: 60px 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    .section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .field {
+        .label {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .separate {
+            flex: 1;
+            height: 1px;
+            background-color: #ccc;
+        }
+
+        .title {
+            font-size: 18px;
+        }
+    }
+
+    .back {
+        text-align: center;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+            color: $mainColor;
+        }
+    }
+}

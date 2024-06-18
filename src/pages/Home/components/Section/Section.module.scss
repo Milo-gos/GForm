@@ -1,0 +1,45 @@
+// @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+
+.wrapper {
+    width: 100%;
+    height: 100vh;
+
+    background: linear-gradient(245.59deg, #fcc934 0%, #ebba26 28.53%, #e4bf07 75.52%);
+
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15%;
+    align-items: center;
+
+    .image-section {
+        margin-top: 100px;
+        width: 400px;
+    }
+
+    .content {
+        margin-top: 60px;
+        color: #fff;
+        h5 {
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 60px;
+            line-height: 1;
+            margin: 0 0 40px;
+        }
+
+        h4 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 40px;
+        }
+    }
+}

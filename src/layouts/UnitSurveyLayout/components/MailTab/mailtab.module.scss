@@ -1,0 +1,23 @@
+.wrapper {
+    margin-top: 28px;
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+    .form-control {
+        .label {
+            font-size: 12px;
+            color: rgb(112, 117, 122);
+            display: block;
+            margin-bottom: 4px;
+        }
+    }
+
+    .bottom {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+    }
+}

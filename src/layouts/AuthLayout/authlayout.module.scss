@@ -1,0 +1,68 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+    .left-side {
+        width: 36%;
+        position: relative;
+        background-color: $mainColor;
+        .app {
+            margin-top: 32px;
+            margin-left: 32px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            cursor: pointer;
+
+            span {
+                font-size: 48px;
+                font-weight: 700;
+                color: white;
+            }
+        }
+        .logo-container {
+            background-color: white;
+            width: 72px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            padding-left: 12px;
+            padding-right: 16px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            img {
+                width: 56px;
+            }
+        }
+
+        .imageSignup {
+            width: 450px;
+            object-fit: cover;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: -140px;
+        }
+    }
+
+    .right-side {
+        background-color: $mainColor;
+        flex: 1;
+    }
+
+    .inner {
+        background-color: white;
+        height: 100%;
+        border-top-left-radius: 40px;
+        border-bottom-left-radius: 40px;
+        display: flex;
+        justify-content: center;
+        padding-top: 100px;
+
+        .body {
+            width: 60%;
+        }
+    }
+}

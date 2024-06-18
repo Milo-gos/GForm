@@ -1,0 +1,26 @@
+.wrapper {
+    padding: 0 16px;
+    .list-surveys {
+        margin-top: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .sectionData {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .filter {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .filter-wrapper {
+        display: flex;
+        gap: 20px;
+    }
+}
