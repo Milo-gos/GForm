@@ -48,6 +48,7 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
         );
         ChangeQuestion.mutate({
             isHasOther: true,
+            id: question.id,
         });
     };
     const handleRemoveOther = () => {
@@ -68,6 +69,7 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
         );
         ChangeQuestion.mutate({
             isHasOther: false,
+            id: question.id,
         });
     };
 

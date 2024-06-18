@@ -106,7 +106,7 @@ const SignInPage = () => {
                 </div>
                 <MyButton textButton="Đăng nhập" size="big" type="submit"></MyButton>
             </form>
-            <div className={cx('separate')}>
+            {/* <div className={cx('separate')}>
                 <div></div>
                 <span>hoặc</span>
                 <div></div>
@@ -114,7 +114,7 @@ const SignInPage = () => {
             <div className={cx('login-google')}>
                 <img src={Google} />
                 <span>Đăng nhập với Google</span>
-            </div>
+            </div> */}
             <div className={cx('confirm-not-have-account')}>
                 <span>Bạn chưa có tài khoản?</span>
 

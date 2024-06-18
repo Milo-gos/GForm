@@ -7,6 +7,7 @@ import UserSurveyManagement from './UserSurveyManagement';
 import MySurvey from './UnitSurvey';
 import SubmitSuccess from './SubmitSuccess';
 import FillSubmit from './FillSubmit';
+import ClosedForm from './ClosedForm';
 import Profile from './Profile';
 import PageNotFound from './PageNotFound';
 import Home from './Home';
@@ -20,6 +21,7 @@ export {
     MySurvey,
     UserSurveyManagement,
     FillSubmit,
+    ClosedForm,
     SubmitSuccess,
     Profile,
     PageNotFound,

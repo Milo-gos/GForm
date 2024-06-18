@@ -131,7 +131,7 @@ const EditSurveyPage = () => {
         if (files?.[0]) {
             const formData = new FormData();
             formData.append('file', files[0]);
-            formData.append('currentBackgroundUrl', survey.backgroundImage);
+            formData.append('currentBackgroundUrl', survey.backgroundImage ?? '');
 
             setLoadBackground(true);
             ChangeBackgroundSurveyMutation.mutate(

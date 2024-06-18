@@ -74,7 +74,7 @@ const ProfilePage = () => {
         if (files?.[0]) {
             const formData = new FormData();
             formData.append('file', files[0]);
-            if (user?.avatar) formData.append('avatar', user?.avatar);
+            if (user?.avatar) formData.append('avatar', user?.avatar ?? '');
             setLoadAvatar(true);
             ChangeUserAvatarMutation.mutate(formData, {
                 onSuccess(data) {

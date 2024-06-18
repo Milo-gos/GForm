@@ -19,9 +19,7 @@ const AnswerShortAnswer = ({ indexQuestion }: Props) => {
     const [stateValidation, setStateValidation] = useState({
         type: 'length',
         conditions: {
-            isRequired: true,
-            // // minLength: 4,
-            // // errorMessage: `Chuỗi phải có độ dài tối đa là 4`,
+            isRequired: question.isRequired,
         },
     });
     const AnswerShortAnswerSchema = useMemo(() => {
@@ -42,7 +40,7 @@ const AnswerShortAnswer = ({ indexQuestion }: Props) => {
     });
 
     useEffect(() => {
-        if (question.isRequired || question.isValidation) {
+        if (question.isRequired) {
             if (errors.answer) {
                 dispatchApp(
                     setErrorQuestion({

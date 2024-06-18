@@ -18,7 +18,7 @@ const AnswerParagraph = ({ indexQuestion }: Props) => {
     const [stateValidation, setStateValidation] = useState({
         type: 'length',
         conditions: {
-            isRequired: true,
+            isRequired: question.isRequired,
             // // minLength: 4,
             // // errorMessage: `Chuỗi phải có độ dài tối đa là 4`,
         },

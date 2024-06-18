@@ -14,6 +14,7 @@ import {
     SubmitSuccess,
     PageNotFound,
     Home,
+    ClosedForm,
 } from '../pages';
 import { AuthLayout, NormalLayout, UnitSurveyLayout, UserSurveyManagementLayout } from '../layouts';
 import AuthRoutes from './AuthRoutes';
@@ -57,6 +58,11 @@ const publicPages = [
     {
         path: '/surveys/:id/viewform',
         page: FillSubmit,
+        layout: NormalLayout,
+    },
+    {
+        path: '/surveys/:id/closedForm',
+        page: ClosedForm,
         layout: NormalLayout,
     },
     {

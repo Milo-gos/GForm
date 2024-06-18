@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import NormalTextInput from '../../../../components/NormalTextInput';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../redux';
-import { setChooseOther, setMultipleOption, setOtherText } from '../../../../redux/slice/submitform';
+import { setChooseOtherCheckbox, setMultipleOption, setOtherText } from '../../../../redux/slice/submitform';
 
 interface Props {
     indexQuestion: number;
@@ -22,7 +22,7 @@ const AnswerCheckbox = ({ indexQuestion }: Props) => {
     };
     const handleChooseOther = () => {
         dispatchApp(
-            setChooseOther({
+            setChooseOtherCheckbox({
                 indexQuestion,
             }),
         );

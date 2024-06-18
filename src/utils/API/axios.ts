@@ -60,6 +60,12 @@ const getSurveyById = async (surveyId: string) => {
     return survey;
 };
 
+const getPublicSurveyById = async (surveyId: string) => {
+    const response = await axios.get(`${BE_URL}/api/survey/getPublicSurveyById/${surveyId}`);
+    const survey: SurveyInterface = response.data.data;
+    return survey;
+};
+
 const getSurveysOfCurrentUser = async ({ pageParam, queryKey }: { pageParam: number; queryKey: string[] }) => {
     const [, searchString, value] = queryKey;
     const searchParams = new URLSearchParams();
@@ -278,6 +284,7 @@ export {
     resetPassword,
     createSurvey,
     getSurveyById,
+    getPublicSurveyById,
     getSurveysOfCurrentUser,
     getSharedSurveysOfCurrentUser,
     changeQuestion,

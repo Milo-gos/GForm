@@ -113,6 +113,7 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
         changeQuestion.mutate(
             {
                 isRequired: isRequired,
+                id: question.id,
             },
 
             {

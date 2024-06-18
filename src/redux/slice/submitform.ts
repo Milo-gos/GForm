@@ -43,16 +43,23 @@ const submitFormSlice = createSlice({
         setChangeAnswerText: (state, action) => {
             const { indexQuestion, answerText } = action.payload;
             state.infoSubmit!.answers[indexQuestion].answerText = answerText;
+            if (answerText !== '') {
+                if (state.errorQuestions[indexQuestion]) {
+                    state.errorQuestions[indexQuestion] = '';
+                }
+            }
         },
         setOption: (state, action) => {
             const { indexQuestion, value } = action.payload;
-            if (value !== 'Other') {
-                state.infoSubmit!.answers[indexQuestion].singleOption = value;
-            } else state.infoSubmit!.answers[indexQuestion].isChooseOther = true;
+            state.infoSubmit!.answers[indexQuestion].singleOption = value;
+            state.infoSubmit!.answers[indexQuestion].isChooseOther = false;
+            state.infoSubmit!.answers[indexQuestion].otherText = '';
+            state.errorQuestions[indexQuestion] = '';
         },
         setLinearValue: (state, action) => {
             const { indexQuestion, value } = action.payload;
             state.infoSubmit!.answers[indexQuestion].linearValue = Number(value);
+            state.errorQuestions[indexQuestion] = '';
         },
         setOtherText: (state, action) => {
             const { indexQuestion, otherText } = action.payload;
@@ -66,19 +73,41 @@ const submitFormSlice = createSlice({
             const listOptionId = state.infoSubmit!.answers[indexQuestion].multiChooseOption?.map((i) => i);
             if (!listOptionId?.includes(value)) {
                 state.infoSubmit!.answers[indexQuestion].multiChooseOption?.push(value);
-            } else
+                state.errorQuestions[indexQuestion] = '';
+            } else {
                 state.infoSubmit!.answers[indexQuestion].multiChooseOption = state.infoSubmit!.answers[
                     indexQuestion
                 ].multiChooseOption?.filter((i) => i !== value);
+            }
+            if (
+                state.infoSubmit!.answers[indexQuestion].multiChooseOption?.length === 0 &&
+                !state.infoSubmit!.answers[indexQuestion].isChooseOther
+            ) {
+                state.errorQuestions[indexQuestion] = 'Câu hỏi này là bắt buộc';
+            } else state.errorQuestions[indexQuestion] = '';
         },
-        setChooseOther: (state, action) => {
+        setChooseOtherCheckbox: (state, action) => {
             const { indexQuestion } = action.payload;
             const isChooseOther = state.infoSubmit!.answers[indexQuestion].isChooseOther ?? false;
             const nextState = !isChooseOther;
             state.infoSubmit!.answers[indexQuestion].isChooseOther = nextState;
-            if (nextState == false) {
+            if (nextState === false) {
                 state.infoSubmit!.answers[indexQuestion].otherText = '';
             }
+
+            if (
+                (!state.infoSubmit!.answers[indexQuestion].multiChooseOption ||
+                    state.infoSubmit!.answers[indexQuestion].multiChooseOption?.length === 0) &&
+                nextState === false
+            ) {
+                state.errorQuestions[indexQuestion] = 'Câu hỏi này là bắt buộc';
+            } else state.errorQuestions[indexQuestion] = '';
+        },
+        setChooseOtherRadiobutton: (state, action) => {
+            const { indexQuestion } = action.payload;
+            state.infoSubmit!.answers[indexQuestion].isChooseOther = true;
+            state.infoSubmit!.answers[indexQuestion].otherText = '';
+            state.infoSubmit!.answers[indexQuestion].singleOption = '';
         },
         setMultiChooseGColumn: (state, action) => {
             const { indexQuestion, indexRow, value } = action.payload;
@@ -90,6 +119,11 @@ const submitFormSlice = createSlice({
                 );
             }
             state.infoSubmit!.answers[indexQuestion].multiChooseGrid![indexRow].gcolumn = value;
+
+            const isError = state.infoSubmit!.answers[indexQuestion].multiChooseGrid?.some((row) => !row.gcolumn);
+            if (!isError) {
+                state.errorQuestions[indexQuestion] = '';
+            }
         },
     },
 });
@@ -103,7 +137,8 @@ export const {
     setOption,
     setOtherText,
     setMultipleOption,
-    setChooseOther,
+    setChooseOtherCheckbox,
+    setChooseOtherRadiobutton,
     setLinearValue,
     setMultiChooseGColumn,
 } = submitFormSlice.actions;

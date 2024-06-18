@@ -2,13 +2,15 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../../redux';
-import { setOption } from '../../../../redux/slice/submitform';
+import { setErrorQuestion, setOption } from '../../../../redux/slice/submitform';
 
 interface Props {
     indexQuestion: number;
 }
 const AnswerDropdown = ({ indexQuestion }: Props) => {
     const question = useAppSelector((state) => state.submitForm.questions[indexQuestion]);
+    const answer = useAppSelector((state) => state.submitForm.infoSubmit?.answers[indexQuestion]);
+
     const dispatchApp = useAppDispatch();
     const [value, setValue] = React.useState('');
 
@@ -23,6 +25,16 @@ const AnswerDropdown = ({ indexQuestion }: Props) => {
             }),
         );
     };
+    const handleBlurSelect = () => {
+        if (!answer?.singleOption) {
+            dispatchApp(
+                setErrorQuestion({
+                    indexQuestion,
+                    errorMessage: 'Câu hỏi này là bắt buộc',
+                }),
+            );
+        }
+    };
     return (
         <div style={{ width: '260px' }}>
             <FormControl
@@ -34,6 +46,7 @@ const AnswerDropdown = ({ indexQuestion }: Props) => {
                 <InputLabel>Chọn</InputLabel>
                 <Select
                     id="demo-simple-select"
+                    onBlur={handleBlurSelect}
                     value={value}
                     label="Chọn"
                     onChange={handleChange}

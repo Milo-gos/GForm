@@ -52,6 +52,7 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
         );
         ChangeQuestion.mutate({
             isHasOther: true,
+            id: question.id,
         });
     };
     const handleRemoveOther = () => {
