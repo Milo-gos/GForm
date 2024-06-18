@@ -10,13 +10,22 @@ interface Props {
     type?: 'button' | 'reset' | 'submit' | undefined;
     backgroundColor?: string;
     textColor?: string;
+    padding?: string;
+    noBackground?: boolean;
+    form?: string;
 }
 const MyButton = (props: Props) => {
     return (
         <button
-            style={{ backgroundColor: props.backgroundColor, color: props.textColor }}
+            form={props.form}
+            style={{
+                backgroundColor: props.backgroundColor,
+                color: props.textColor,
+                padding: props.padding,
+            }}
             className={cx('wrapper', {
                 big: props.size === 'big',
+                noBackground: props.noBackground === true,
             })}
             onClick={props.onClick}
             type={props.type}>

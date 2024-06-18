@@ -1,8 +1,8 @@
 import NormalTextInput from './NormalTextInput';
-import QuestionTextInput from './QuestionTextInput';
 import MyButton from './MyButton';
 import MyLabel from './MyLabel';
-import Question from './Question';
 import MyDialog from './MyDialog';
+import Modal from './Modal';
+import Search from './Search';
 
-export { NormalTextInput, QuestionTextInput, MyButton, MyLabel, Question, MyDialog };
+export { NormalTextInput, MyButton, MyLabel, MyDialog, Modal, Search };

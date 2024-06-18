@@ -1,4 +1,6 @@
-import MainLayout from './MainLayout';
 import AuthLayout from './AuthLayout';
-import SurveyLayout from './SurveyLayout';
-export { MainLayout, AuthLayout, SurveyLayout };
+import UnitSurveyLayout from './UnitSurveyLayout';
+import NormalLayout from './NormalLayout';
+import UserSurveyManagementLayout from './UserSurveyManagementLayout';
+import LoadingLayout from './LoadingLayout';
+export { AuthLayout, UnitSurveyLayout, NormalLayout, UserSurveyManagementLayout, LoadingLayout };

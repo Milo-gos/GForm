@@ -1,0 +1,50 @@
+@import '../../../../variableSCSS.scss';
+
+.wrapper {
+    padding: 24px 24px;
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid rgb(224, 224, 218);
+
+    &.isErrorForm {
+        border: 1px solid $redColor;
+    }
+
+    .question-wrapper {
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .required {
+            color: red;
+            margin-left: 4px;
+        }
+    }
+
+    .description {
+        margin-top: 4px;
+        color: #494740;
+    }
+
+    .image-question {
+        margin-top: 16px;
+        width: 360px;
+        height: 360px;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}

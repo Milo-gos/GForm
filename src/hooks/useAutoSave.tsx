@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const useAutoSave = (data: any, callback: any, delay = 500) => {
     const prevData = useRef(data);

@@ -1,0 +1,32 @@
+@import '../../variableSCSS.scss';
+.wrapper {
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 24px;
+    border: 1px solid #ddd;
+    padding: 12px 20px;
+    min-width: 300px;
+
+    .icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .search-icon {
+        cursor: pointer;
+    }
+    .close-icon {
+    }
+    input {
+        flex: 1;
+        margin-left: 8px;
+        background-color: transparent;
+    }
+
+    &.isFocus {
+        border-color: $mainColor;
+    }
+    transition: $transition;
+}
