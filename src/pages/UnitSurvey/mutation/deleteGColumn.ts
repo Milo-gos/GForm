@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { deleteGColumn } from '../../../utils/API/axios';
+import { deleteGColumn } from '../../../API/axios';
 
 const useDeleteGColumnMutation = (gcolumnId?: string) => {
     return useMutation({

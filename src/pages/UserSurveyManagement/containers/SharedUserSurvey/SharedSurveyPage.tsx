@@ -7,7 +7,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import SharedSurvey from './components/SharedSurveyComponent';
 import { MoonLoader } from 'react-spinners';
 import { useAppSelector } from '../../../../redux';
-import { getSharedSurveysOfCurrentUser } from '../../../../utils/API/axios';
+import { getSharedSurveysOfCurrentUser } from '../../../../API/axios';
 import { MyButton } from '../../../../components';
 
 const cx = classNames.bind(style);

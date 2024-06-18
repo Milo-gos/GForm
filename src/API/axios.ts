@@ -1,16 +1,16 @@
 import axios from 'axios';
-import InstanceAxios from '../axios/instanceAxios';
-import UserInterface from '../interfaces/user';
-import SurveyInterface from '../interfaces/survey';
-import SurveyData from '../interfaces/surveyData';
-import QuestionInterface from '../interfaces/question';
-import OptionInterface from '../interfaces/option';
-import RowInterface from '../interfaces/row';
-import GColumnInterface from '../interfaces/gcolumn';
-import SubmitFormInterface from '../interfaces/submitForm';
-import ResponseInterface from '../interfaces/response';
-import SharedSurveyData from '../interfaces/sharedSurveyData';
-import SharedUserInterface from '../interfaces/sharedUserInterface';
+import InstanceAxios from '../utils/axios/instanceAxios';
+import UserInterface from '../utils/interfaces/user';
+import SurveyInterface from '../utils/interfaces/survey';
+import SurveyData from '../utils/interfaces/surveyData';
+import QuestionInterface from '../utils/interfaces/question';
+import OptionInterface from '../utils/interfaces/option';
+import RowInterface from '../utils/interfaces/row';
+import GColumnInterface from '../utils/interfaces/gcolumn';
+import SubmitFormInterface from '../utils/interfaces/submitForm';
+import ResponseInterface from '../utils/interfaces/response';
+import SharedSurveyData from '../utils/interfaces/sharedSurveyData';
+import SharedUserInterface from '../utils/interfaces/sharedUserInterface';
 
 const BE_URL = process.env.REACT_APP_BE_URL;
 
@@ -189,6 +189,10 @@ const changeSurvey = async (body: any) => {
     return updateQuestion;
 };
 
+const deleteSurvey = async (surveyId: string) => {
+    await InstanceAxios.delete(`${BE_URL}/api/survey/${surveyId}`);
+};
+
 const createResponse = async (body: any) => {
     const response = await axios.post(`${BE_URL}/api/response/createResponse`, body);
     const newResponse: SubmitFormInterface = response.data.data;
@@ -315,4 +319,5 @@ export {
     getSharedUserSurvey,
     changeEditSharedUser,
     deleteSharedUser,
+    deleteSurvey,
 };

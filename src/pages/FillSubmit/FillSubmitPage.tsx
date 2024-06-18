@@ -7,7 +7,7 @@ import useCreateResponseMutation from './mutation/createResponse';
 import { useNavigate, useParams } from 'react-router-dom';
 import { setErrorQuestion, setSurveySubmit } from '../../redux/slice/submitform';
 import { useQuery } from '@tanstack/react-query';
-import { getPublicSurveyById } from '../../utils/API/axios';
+import { getPublicSurveyById } from '../../API/axios';
 import { setLoading } from '../../redux/slice/global';
 import Answer from './components/Answer';
 import QuestionType from '../../utils/interfaces/questionType';

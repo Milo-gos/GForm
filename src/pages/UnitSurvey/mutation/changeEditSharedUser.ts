@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { changeEditSharedUser } from '../../../utils/API/axios';
+import { changeEditSharedUser } from '../../../API/axios';
 
 const useChangeEditSharedUserMutation = () => {
     return useMutation({

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../../redux';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { setChangeAnswerText, setErrorQuestion } from '../../../../redux/slice/submitform';
-import { createSchema } from '../../../../utils/functions/validationZod';
+import { createSchema } from '../../../../utils/validationZod';
 
 interface Props {
     indexQuestion: number;

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { changeSurvey } from '../../../utils/API/axios';
+import { changeSurvey } from '../../../API/axios';
 
 const useChangeSurveyMutation = () => {
     const { id } = useParams();

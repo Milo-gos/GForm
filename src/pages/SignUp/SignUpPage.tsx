@@ -157,9 +157,7 @@ const SignUpPage = () => {
                                 {errors.confirmPassword?.message}
                             </p>
                         </div>
-                        <div style={{ marginTop: '16px' }}>
-                            <MyButton textButton="Đăng ký" size="big" type="submit"></MyButton>
-                        </div>
+                        <MyButton textButton="Đăng ký" size="big" type="submit"></MyButton>
                     </form>
 
                     <div className={cx('confirm-have-account')}>

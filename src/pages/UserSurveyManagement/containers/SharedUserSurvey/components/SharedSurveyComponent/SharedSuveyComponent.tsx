@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Avatar, Tooltip } from '@mui/material';
-import stringAvatar from '../../../../../../utils/functions/stringAvatar';
+import stringAvatar from '../../../../../../utils/stringAvatar';
 
 const cx = classNames.bind(style);
 

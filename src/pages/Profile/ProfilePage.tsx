@@ -8,7 +8,7 @@ import { Avatar, IconButton, Tooltip } from '@mui/material';
 import useChangeUserAvatarMutation from './mutation/changeUserAvatar';
 import { MoonLoader } from 'react-spinners';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCurrentUser } from '../../utils/API/axios';
+import { getCurrentUser } from '../../API/axios';
 import UserInterface from '../../utils/interfaces/user';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
@@ -19,7 +19,7 @@ import useChangeUserPasswordMutation from './mutation/changeUserPassword';
 import { useAppDispatch } from '../../redux';
 import { setLoading } from '../../redux/slice/global';
 import { Link, useNavigate } from 'react-router-dom';
-import stringAvatar from '../../utils/functions/stringAvatar';
+import stringAvatar from '../../utils/stringAvatar';
 
 const cx = classNames.bind(style);
 const ChangePassWordSchema = z

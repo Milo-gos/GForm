@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { addFirstQuestion } from '../../../utils/API/axios';
+import { addFirstQuestion } from '../../../API/axios';
 
 const useAddFirstQuestionMutation = () => {
     return useMutation({

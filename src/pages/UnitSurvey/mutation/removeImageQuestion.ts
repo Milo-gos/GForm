@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { removeImageQuestion } from '../../../utils/API/axios';
+import { removeImageQuestion } from '../../../API/axios';
 
 const useRemoveImageQuestionMutation = () => {
     return useMutation({

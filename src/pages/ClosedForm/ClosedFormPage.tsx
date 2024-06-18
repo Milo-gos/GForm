@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../redux';
 import { useQuery } from '@tanstack/react-query';
-import { getPublicSurveyById } from '../../utils/API/axios';
+import { getPublicSurveyById } from '../../API/axios';
 
 const cx = classNames.bind(style);
 

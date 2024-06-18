@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { checkExistEmail } from '../../../utils/API/axios';
+import { checkExistEmail } from '../../../API/axios';
 
 const useCheckExistEmailMutation = () => {
     return useMutation({

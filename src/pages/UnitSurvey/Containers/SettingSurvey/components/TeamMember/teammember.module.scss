@@ -29,4 +29,16 @@
     .hover-edit-profile:hover {
         color: #e510a0;
     }
+
+    .inner-modal {
+        padding-top: 20px;
+    }
+
+    .button-wrapper {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 16px;
+    }
 }

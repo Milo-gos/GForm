@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Rectangle } from 'recharts';
 import style from './responseradiobuttongrid.module.scss';
 import classNames from 'classnames/bind';
-import CHART_COLOR from '../../../../../../utils/functions/chartColors';
+import CHART_COLOR from '../../../../../../constants/chartColors';
 import QuestionResponseInterface from '../../../../../../utils/interfaces/question-response';
 
 const cx = classNames.bind(style);

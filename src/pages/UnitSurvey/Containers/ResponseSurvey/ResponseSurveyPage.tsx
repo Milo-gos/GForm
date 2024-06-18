@@ -7,7 +7,7 @@ import useChangeSurveyMutation from '../../mutation/changeSurvey';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../redux';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getResponseSurvey } from '../../../../utils/API/axios';
+import { getResponseSurvey } from '../../../../API/axios';
 import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
 import ResponseInterface from '../../../../utils/interfaces/response';
 import Response from './components/Response';
