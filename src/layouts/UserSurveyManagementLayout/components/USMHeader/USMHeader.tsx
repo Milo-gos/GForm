@@ -13,6 +13,8 @@ import { Search } from '../../../../components';
 import { useAppDispatch } from '../../../../redux';
 import { setSearchString } from '../../../../redux/slice/surveyManagement';
 import stringAvatar from '../../../../utils/stringAvatar';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../../../utils/firebase/config';
 
 const cx = classNames.bind(style);
 
@@ -39,8 +41,9 @@ const USMHeader = () => {
         setAnchorEl(null);
         navigate('/my-profile');
     };
-    const handleClickLogout = () => {
+    const handleClickLogout = async () => {
         setAnchorEl(null);
+        await signOut(auth);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         navigate('/signin', {

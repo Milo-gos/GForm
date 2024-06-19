@@ -7,9 +7,14 @@ import { Google } from '../../assets/images';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useAppDispatch } from '../../redux';
 import useSignInMutation from './mutation/signIn';
 import { setLoading } from '../../redux/slice/global';
+import useSignInGoogleMutation from './mutation/signInGoogle';
+import { auth, provider } from '../../utils/firebase/config';
+import { toast } from 'react-toastify';
+
 const cx = classNames.bind(style);
 
 const SignInSchema = z.object({
@@ -42,14 +47,18 @@ const SignInPage = () => {
         mode: 'onSubmit',
         shouldFocusError: true,
     });
+
+    const saveToken = (accessToken: string, refreshToken: string) => {
+        localStorage.setItem('accessToken', accessToken!);
+        localStorage.setItem('refreshToken', refreshToken!);
+    };
     const SignInMutation = useSignInMutation();
     const onbsumit = async (user: SignInSchemaType) => {
         dispatchApp(setLoading(true));
         SignInMutation.mutate(user, {
             onSuccess(data) {
                 dispatchApp(setLoading(false));
-                localStorage.setItem('accessToken', data.accessToken!);
-                localStorage.setItem('refreshToken', data.refreshToken!);
+                saveToken(data.accessToken, data.refreshToken);
                 navigate('/', {
                     replace: true,
                 });
@@ -60,6 +69,22 @@ const SignInPage = () => {
                     type: 'server',
                     message: error.response.data.message,
                 });
+            },
+        });
+    };
+    const SignInGoogleMutation = useSignInGoogleMutation();
+    const handleClickSignInWithGoogle = async () => {
+        const result = await signInWithPopup(auth, provider);
+        const tokenFirebase = await result.user.getIdToken();
+        SignInGoogleMutation.mutate(tokenFirebase, {
+            onSuccess(data) {
+                saveToken(data.accessToken, data.refreshToken);
+                navigate('/', {
+                    replace: true,
+                });
+            },
+            onError() {
+                toast.error('Có lỗi xảy ra');
             },
         });
     };
@@ -106,15 +131,16 @@ const SignInPage = () => {
                 </div>
                 <MyButton textButton="Đăng nhập" size="big" type="submit"></MyButton>
             </form>
-            {/* <div className={cx('separate')}>
+            <div className={cx('separate')}>
                 <div></div>
                 <span>hoặc</span>
                 <div></div>
             </div>
-            <div className={cx('login-google')}>
+            <div className={cx('login-google')} onClick={handleClickSignInWithGoogle}>
                 <img src={Google} />
                 <span>Đăng nhập với Google</span>
-            </div> */}
+            </div>
+
             <div className={cx('confirm-not-have-account')}>
                 <span>Bạn chưa có tài khoản?</span>
 
