@@ -290,6 +290,13 @@ const deleteSharedUser = async (body: any) => {
     await InstanceAxios.delete(`${BE_URL}/api/survey-share/survey/${surveyId}/deleteSharedSurvey/${sharedId}`);
 };
 
+const getDataExcel = async (surveyId: string) => {
+    const response = await InstanceAxios.get(`${BE_URL}/api/response/dataExportResponse/${surveyId}`, {
+        responseType: 'arraybuffer', // Ensure response type is arraybuffer
+    });
+    const data = response.data;
+    return data;
+};
 export {
     getCurrentUser,
     signUp,
@@ -334,4 +341,5 @@ export {
     changeEditSharedUser,
     deleteSharedUser,
     deleteSurvey,
+    getDataExcel,
 };

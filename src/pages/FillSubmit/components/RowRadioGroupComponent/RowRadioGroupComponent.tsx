@@ -29,6 +29,7 @@ const RowRadioGroupComponent = ({ indexQuestion, row, indexRow }: Props) => {
     };
     return (
         <tr>
+            <td>{row.rowContent}</td>
             {question.gcolumns?.map((gcolumn, index) => {
                 return (
                     <td key={index}>

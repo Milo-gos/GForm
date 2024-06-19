@@ -42,10 +42,10 @@ const USMHeader = () => {
         navigate('/my-profile');
     };
     const handleClickLogout = async () => {
-        setAnchorEl(null);
         await signOut(auth);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        setAnchorEl(null);
         navigate('/signin', {
             replace: true,
         });

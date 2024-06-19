@@ -191,10 +191,12 @@ const unitSurveySlice = createSlice({
             if (max !== undefined) {
                 state.questions[indexQuestion].linearScale!.max = max;
             }
-            if (leftLabel) {
+
+            if (leftLabel !== undefined) {
                 state.questions[indexQuestion].linearScale!.leftLabel = leftLabel;
             }
-            if (rightLabel) {
+
+            if (rightLabel !== undefined) {
                 state.questions[indexQuestion].linearScale!.rightLabel = rightLabel;
             }
         },

@@ -11,6 +11,7 @@ import { getPublicSurveyById } from '../../API/axios';
 import { setLoading } from '../../redux/slice/global';
 import Answer from './components/Answer';
 import QuestionType from '../../utils/interfaces/questionType';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(style);
 
@@ -164,9 +165,16 @@ const FillSubmitPage = () => {
     const handleClickSubmit = () => {
         const isError = checkError();
         if (isError) return;
+        dispatchApp(setLoading(true));
         CreateResponseMutation.mutate(surveySubmit.infoSubmit, {
             onSuccess() {
+                dispatchApp(setLoading(false));
+
                 navigate(`/surveys/${id}/submitSuccess`);
+            },
+            onError() {
+                dispatchApp(setLoading(false));
+                toast.error('Đã có lỗi xảy ra');
             },
         });
     };

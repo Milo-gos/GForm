@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import style from './responsesurvey.module.scss';
 import classNames from 'classnames/bind';
 import { FormControlLabel, IconButton, Menu, MenuItem, Snackbar, Switch } from '@mui/material';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import { FaFileExcel } from 'react-icons/fa';
 import useChangeSurveyMutation from '../../mutation/changeSurvey';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../redux';
@@ -11,12 +11,18 @@ import { getResponseSurvey } from '../../../../API/axios';
 import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
 import ResponseInterface from '../../../../utils/interfaces/response';
 import Response from './components/Response';
+import useGetDataExcelMutation from '../../mutation/getDataExcel';
+import { saveAs } from 'file-saver';
+import { MoonLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
+
 const cx = classNames.bind(style);
 
 const ResponseSurveyPage = () => {
     const { id } = useParams();
     const dispatchApp = useAppDispatch();
     const navigate = useNavigate();
+    const [isLoadingExport, setLoadingExport] = useState(false);
     const survey = useAppSelector((state) => state.survey);
     const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -107,6 +113,23 @@ const ResponseSurveyPage = () => {
             },
         );
     };
+    const GetDataExcelMutation = useGetDataExcelMutation();
+    const handleClickExport = () => {
+        setLoadingExport(true);
+        GetDataExcelMutation.mutate(id!, {
+            async onSuccess(data) {
+                const blob = new Blob([data], {
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                });
+                saveAs(blob, 'SurveyResponses.xlsx');
+                setLoadingExport(false);
+            },
+            onError() {
+                setLoadingExport(false);
+                toast.error('Đã có lỗi xảy ra');
+            },
+        });
+    };
 
     if (!data) return <></>;
     return (
@@ -115,9 +138,11 @@ const ResponseSurveyPage = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span className={cx('total-response')}>{data?.quantityOfResponses || 0} phản hồi</span>
 
-                    <IconButton style={{ padding: '8px' }} onClick={handleClick}>
-                        <BsThreeDotsVertical size={24} />
-                    </IconButton>
+                    <div className={cx('export-excel')} onClick={handleClickExport}>
+                        {isLoadingExport && <MoonLoader color="#ed6c02" size={20} />}
+                        <FaFileExcel className={cx('icon')} />
+                        <span>Xuất excel</span>
+                    </div>
 
                     <Menu
                         disablePortal={true}

@@ -48,4 +48,16 @@
             font-size: 14px;
         }
     }
+
+    .export-excel {
+        cursor: pointer;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+
+        .icon {
+            font-size: 20px;
+            color: #0f9d58;
+        }
+    }
 }
