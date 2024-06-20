@@ -1,4 +1,4 @@
-const CHART_COLOR = [
+export const CHART_COLOR = [
     '#0088fe',
     '#00c49f',
     '#ff8042',
@@ -14,4 +14,3 @@ const CHART_COLOR = [
     '#39CCCC', // Xanh dương (Turquoise/Teal)
     '#85144b', // Nâu (Brown)
 ];
-export default CHART_COLOR;

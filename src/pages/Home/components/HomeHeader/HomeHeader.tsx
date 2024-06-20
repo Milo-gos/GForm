@@ -9,11 +9,13 @@ import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
 import stringAvatar from '../../../../utils/stringAvatar';
 import { getCurrentUser } from '../../../../API/axios';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(style);
 
 const HomeHeader = () => {
     const token = localStorage.getItem('accessToken') || false;
+    const { t } = useTranslation('home');
     const navigate = useNavigate();
     const { data: user } = useQuery({
         queryKey: [`getCurrentUser`],
@@ -49,17 +51,17 @@ const HomeHeader = () => {
                     <div className={cx('nav-list')}>
                         {token && (
                             <div className={cx('create-survey')}>
-                                <Link to={'/user-survey-management'}>Quản lý khảo sát</Link>
+                                <Link to={'/user-survey-management'}>{t('header.survey_management')}</Link>
                             </div>
                         )}
 
                         {!token ? (
                             <>
                                 <div className={cx('sign-in')}>
-                                    <Link to="/signin">Đăng nhập</Link>
+                                    <Link to="/signin">{t('header.sign_in')}</Link>
                                 </div>
                                 <div>
-                                    <Link to="/signup">Đăng ký</Link>
+                                    <Link to="/signup">{t('header.Sign_up')}</Link>
                                 </div>
                             </>
                         ) : (
