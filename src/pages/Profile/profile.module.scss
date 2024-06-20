@@ -103,4 +103,11 @@
             color: $mainColor;
         }
     }
+
+    .buttons-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 12px;
+    }
 }

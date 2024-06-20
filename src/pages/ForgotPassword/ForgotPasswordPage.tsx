@@ -1,24 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
 import style from './forgotpassword.module.scss';
 import classNames from 'classnames/bind';
-import { MyButton, NormalTextInput } from '../../components';
-import { Google, ImageSignin, Logo } from '../../assets/images';
+import { ErrorMessage, MyButton, NormalTextInput } from '../../components';
 import { Link } from 'react-router-dom';
-import { string, z } from 'zod';
+import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from '../../redux';
 import useCheckExistEmailMutation from './mutation/checkExistEmail';
 import { setLoading } from '../../redux/slice/global';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../i18n/i18n';
 const cx = classNames.bind(style);
 
 const object = z.object({
-    email: z.string().nonempty('Vui lòng nhập email').email('Vui lòng nhập đúng định dạng email'),
+    email: z
+        .string()
+        .min(1, {
+            message: i18n.t('validation:email.please_enter_your_email'),
+        })
+        .email(i18n.t('validation:email.please_enter_valid_email_format')),
 });
 
 const ForgotPasswordPage = () => {
     const dispatchApp = useAppDispatch();
-
+    const { t } = useTranslation('auth');
     const [showNotification, setShowNotification] = useState(false);
     const refId = useRef<any>(null);
     const [time, setTime] = useState(new Date(5 * 60 * 1000));
@@ -69,33 +75,22 @@ const ForgotPasswordPage = () => {
     };
     return (
         <div className={cx('wrapper')}>
-            <h2>Quên mật khẩu</h2>
+            <h2>{t('forgot_password')}</h2>
             <form className={cx('form')} onSubmit={handleSubmit(onsubmit)}>
                 <div>
-                    <NormalTextInput
-                        placeholder="Nhập email tài khoản"
-                        name="email"
-                        register={register}></NormalTextInput>
-                    <p
-                        style={{
-                            marginTop: '4px',
-                            fontSize: '14px',
-                            color: '#db4437',
-                        }}>
-                        {errors.email?.message}
-                    </p>
+                    <NormalTextInput placeholder={t('email')} name="email" register={register}></NormalTextInput>
+                    <ErrorMessage message={errors.email?.message} />
                 </div>
 
                 {showNotification && (
                     <p style={{ textAlign: 'center' }}>
-                        Một liên kết đã được gửi đến email của bạn. Vui lòng truy cập liên kết để thay đổi mật khẩu.
-                        Liên kết sẽ hết hạn sau <span>{`${minute}:${second}`}</span>
+                        {t('password_reset_link_sent')} <span>{`${minute}:${second}`}</span>
                     </p>
                 )}
-                {!showNotification && <MyButton textButton="Tiếp tục" size="big"></MyButton>}
+                {!showNotification && <MyButton textButton={t('continue')} size="big"></MyButton>}
             </form>
             <div className={cx('back-login')}>
-                <Link to={'/signin'}>Quay về đăng nhập</Link>
+                <Link to={'/signin'}>{t('back_to_login')}</Link>
             </div>
         </div>
     );

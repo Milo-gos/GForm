@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import style from './profile.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
-import { MyButton, NormalTextInput } from '../../components';
+import { ErrorMessage, MyButton, NormalTextInput } from '../../components';
 import { Avatar, IconButton, Tooltip } from '@mui/material';
 import useChangeUserAvatarMutation from './mutation/changeUserAvatar';
 import { MoonLoader } from 'react-spinners';
@@ -294,16 +294,11 @@ const ProfilePage = () => {
                                 </IconButton>
                             </Tooltip>
                         </div>
-                        <p
-                            style={{
-                                marginTop: '4px',
-                                fontSize: '14px',
-                                color: '#db4437',
-                            }}>
-                            {errorsName.fullName?.message}
-                        </p>
+
+                        <ErrorMessage message={errorsName.fullName?.message} />
+
                         {isChangeName && (
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '12px' }}>
+                            <div className={cx('buttons-wrapper')}>
                                 <MyButton textButton="Hủy" onClick={() => setChangeName(false)} />
                                 <MyButton textButton="Lưu" onClick={handleClickChangeName} />
                             </div>
@@ -345,7 +340,7 @@ const ProfilePage = () => {
                                 </div>
                             </>
                         )}
-                        {isChangePassword && user?.hasPassword && (
+                        {isChangePassword && !user?.isGoogleAccount && (
                             <>
                                 <form
                                     className={cx('section')}
@@ -361,14 +356,7 @@ const ProfilePage = () => {
                                                 register={registerPassword}
                                                 name="password"
                                             />
-                                            <p
-                                                style={{
-                                                    marginTop: '4px',
-                                                    fontSize: '14px',
-                                                    color: '#db4437',
-                                                }}>
-                                                {errorPassword.password?.message}
-                                            </p>
+                                            <ErrorMessage message={errorPassword.password?.message} />
                                         </div>
                                     </div>
                                     <div className={cx('field')}>
@@ -380,14 +368,8 @@ const ProfilePage = () => {
                                                 register={registerPassword}
                                                 name="newPassword"
                                             />
-                                            <p
-                                                style={{
-                                                    marginTop: '4px',
-                                                    fontSize: '14px',
-                                                    color: '#db4437',
-                                                }}>
-                                                {errorPassword.newPassword?.message}
-                                            </p>
+
+                                            <ErrorMessage message={errorPassword.newPassword?.message} />
                                         </div>
                                     </div>
                                     <div className={cx('field')}>
@@ -399,25 +381,13 @@ const ProfilePage = () => {
                                                 register={registerPassword}
                                                 name="confirmNewPassword"
                                             />
-                                            <p
-                                                style={{
-                                                    marginTop: '4px',
-                                                    fontSize: '14px',
-                                                    color: '#db4437',
-                                                }}>
-                                                {errorPassword.confirmNewPassword?.message}
-                                            </p>
+
+                                            <ErrorMessage message={errorPassword.confirmNewPassword?.message} />
                                         </div>
                                     </div>
                                 </form>
                                 {isChangePassword && (
-                                    <div
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '4px',
-                                            marginTop: '12px',
-                                        }}>
+                                    <div className={cx('buttons-wrapper')}>
                                         <MyButton textButton="Hủy" onClick={() => setChangePassword(false)} />
                                         <MyButton textButton="Lưu" form="formChangePassword" />
                                     </div>
@@ -425,7 +395,7 @@ const ProfilePage = () => {
                             </>
                         )}
 
-                        {isChangePassword && !user?.hasPassword && (
+                        {isChangePassword && user?.isGoogleAccount && (
                             <>
                                 <form
                                     className={cx('section')}
@@ -440,14 +410,7 @@ const ProfilePage = () => {
                                                 register={registerSetPassword}
                                                 name="setNewPassword"
                                             />
-                                            <p
-                                                style={{
-                                                    marginTop: '4px',
-                                                    fontSize: '14px',
-                                                    color: '#db4437',
-                                                }}>
-                                                {errorSetPassword.setNewPassword?.message}
-                                            </p>
+                                            <ErrorMessage message={errorSetPassword.setNewPassword?.message} />
                                         </div>
                                     </div>
                                     <div className={cx('field')}>
@@ -459,25 +422,13 @@ const ProfilePage = () => {
                                                 register={registerSetPassword}
                                                 name="confirmSetNewPassword"
                                             />
-                                            <p
-                                                style={{
-                                                    marginTop: '4px',
-                                                    fontSize: '14px',
-                                                    color: '#db4437',
-                                                }}>
-                                                {errorSetPassword.confirmSetNewPassword?.message}
-                                            </p>
+
+                                            <ErrorMessage message={errorSetPassword.confirmSetNewPassword?.message} />
                                         </div>
                                     </div>
                                 </form>
                                 {isChangePassword && (
-                                    <div
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '4px',
-                                            marginTop: '12px',
-                                        }}>
+                                    <div className={cx('buttons-wrapper')}>
                                         <MyButton textButton="Hủy" onClick={() => setChangePassword(false)} />
                                         <MyButton textButton="Lưu" form="formSetPassword" />
                                     </div>

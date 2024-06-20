@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppSelector } from '../../redux';
 import { useQuery } from '@tanstack/react-query';
 import { getPublicSurveyById } from '../../API/axios';
+import { MoonLoader } from 'react-spinners';
 
 const cx = classNames.bind(style);
 
@@ -18,18 +19,22 @@ const SubmitSuccessPage = () => {
         retry: 0,
     });
 
-    if (!data) return <></>;
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('background')}>
-                <img src={data.backgroundImage} />
-            </div>
+            {isLoading && <MoonLoader color="#ed6c02" size={30} />}
+            {data && (
+                <>
+                    <div className={cx('background')}>
+                        <img src={data.backgroundImage} />
+                    </div>
 
-            <div className={cx('form-header')}>
-                <h2>{data.title}</h2>
-                <p>Khảo sát dừng nhận phản hồi</p>
-                <p>Hãy thử liên hệ với chủ sở hữu biểu mẫu nếu bạn cho rằng đây là sự nhầm lẫn</p>
-            </div>
+                    <div className={cx('form-header')}>
+                        <h2>{data.title}</h2>
+                        <p>Khảo sát dừng nhận phản hồi</p>
+                        <p>Hãy thử liên hệ với chủ sở hữu biểu mẫu nếu bạn cho rằng đây là sự nhầm lẫn</p>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

@@ -9,16 +9,18 @@ import { useDebounce } from 'react-autosave';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../../../../assets/images';
 import { getCurrentUser } from '../../../../API/axios';
-import { Search } from '../../../../components';
+import { LanguageButton, Search } from '../../../../components';
 import { useAppDispatch } from '../../../../redux';
 import { setSearchString } from '../../../../redux/slice/surveyManagement';
 import stringAvatar from '../../../../utils/stringAvatar';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../../../utils/firebase/config';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(style);
 
 const USMHeader = () => {
+    const { t } = useTranslation('surveyManagement');
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const dispatchApp = useAppDispatch();
@@ -66,19 +68,25 @@ const USMHeader = () => {
                 <span>GSurvey</span>
             </div>
             <div className={cx('search-wrapper')}>
-                <Search placeHolder="Tìm kiếm khảo sát" onChange={(e) => setSearch(e.target.value)} />
+                <Search placeHolder={t('search_surveys')} onChange={(e) => setSearch(e.target.value)} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '18px', fontWeight: '500' }}>{user?.fullName}</span>
-                <IconButton style={{ padding: '1px' }} onClick={handleClick}>
-                    <div className={cx('avatar')}>
-                        {user?.avatar ? (
-                            <Avatar src={user?.avatar} sx={{ width: '100%', height: '100%' }} />
-                        ) : (
-                            <Avatar {...stringAvatar(user?.fullName || '')} sx={{ width: '100%', height: '100%' }} />
-                        )}
-                    </div>
-                </IconButton>
+                <LanguageButton />
+                <div className={cx('user-info-wrapper')}>
+                    <span style={{ fontSize: '18px', fontWeight: '500' }}>{user?.fullName}</span>
+                    <IconButton style={{ padding: '1px' }} onClick={handleClick}>
+                        <div className={cx('avatar')}>
+                            {user?.avatar ? (
+                                <Avatar src={user?.avatar} sx={{ width: '100%', height: '100%' }} />
+                            ) : (
+                                <Avatar
+                                    {...stringAvatar(user?.fullName || '')}
+                                    sx={{ width: '100%', height: '100%' }}
+                                />
+                            )}
+                        </div>
+                    </IconButton>
+                </div>
             </div>
             <Menu
                 disablePortal={true}
@@ -96,13 +104,13 @@ const USMHeader = () => {
                 <MenuItem onClick={handleClickSetting}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
                         <ManageAccountsOutlinedIcon />
-                        <span>Cài đặt tài khoản</span>
+                        <span>{t('account_setting')}</span>
                     </div>
                 </MenuItem>
                 <MenuItem onClick={handleClickLogout}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
                         <LogoutOutlinedIcon />
-                        <span>Đăng xuất</span>
+                        <span>{t('sign_out')}</span>
                     </div>
                 </MenuItem>
             </Menu>

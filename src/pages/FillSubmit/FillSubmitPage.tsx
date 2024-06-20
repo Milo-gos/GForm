@@ -178,23 +178,25 @@ const FillSubmitPage = () => {
             },
         });
     };
-
-    if (!data) return <></>;
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('background')}>
-                <img src={data.backgroundImage} />
-            </div>
+            {data && (
+                <>
+                    <div className={cx('background')}>
+                        <img src={data.backgroundImage} />
+                    </div>
 
-            <div className={cx('form-header')}>
-                <h2>{surveySubmit.title}</h2>
-                <p>{surveySubmit.description}</p>
-            </div>
-            {surveySubmit.questions?.map((quesiton, index) => <Answer key={quesiton.id} index={index} />)}
+                    <div className={cx('form-header')}>
+                        <h2>{surveySubmit.title}</h2>
+                        <p>{surveySubmit.description}</p>
+                    </div>
+                    {surveySubmit.questions?.map((quesiton, index) => <Answer key={quesiton.id} index={index} />)}
 
-            <div style={{ width: '120px', marginTop: '8px' }}>
-                <MyButton textButton="Submit" padding="12px 0" onClick={handleClickSubmit} />
-            </div>
+                    <div style={{ width: '120px', marginTop: '8px' }}>
+                        <MyButton textButton="Submit" padding="12px 0" onClick={handleClickSubmit} />
+                    </div>
+                </>
+            )}
         </div>
     );
 };

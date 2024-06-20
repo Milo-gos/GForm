@@ -10,9 +10,11 @@ import useCreateNewSurveyMutation from '../../../../pages/UserSurveyManagement/m
 import { setLoading } from '../../../../redux/slice/global';
 import { setSearchString } from '../../../../redux/slice/surveyManagement';
 import { useAppDispatch } from '../../../../redux';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(style);
 const UserSidebar = () => {
+    const { t } = useTranslation('surveyManagement');
     const navigate = useNavigate();
     const dispatchApp = useAppDispatch();
 
@@ -45,7 +47,7 @@ const UserSidebar = () => {
                     })}>
                     <div className={cx('vertical-active')}></div>
                     <FaWpforms style={{ fontSize: '20px' }} />
-                    <span>Khảo sát của tôi</span>
+                    <span>{t('my_surveys')}</span>
                 </Link>
 
                 <Link
@@ -55,7 +57,7 @@ const UserSidebar = () => {
                     })}>
                     <div className={cx('vertical-active')}></div>
                     <FaRegShareSquare style={{ fontSize: '20px' }} />
-                    <span>Khảo sát được chia sẻ</span>
+                    <span>{t('shared_surveys')}</span>
                 </Link>
             </div>
         </div>

@@ -1,0 +1,12 @@
+{
+    "header": {
+        "sign_in": "Sign in",
+        "Sign_up": "Sign up",
+        "survey_management": "Survey management",
+        "sign_out": "Sign out"
+    },
+    "section": {
+        "website_supports_survey_creation": "Website supports survey creation",
+        "take_the_survey_in_your_style": "Take the survey in your style!"
+    }
+}
