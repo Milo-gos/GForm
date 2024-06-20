@@ -270,7 +270,7 @@ const changeUserPassword = async (body: any) => {
 };
 
 const setUserPassword = async (body: any) => {
-    const response = await InstanceAxios.post(`${BE_URL}/api/auth/password`, body);
+    const response = await InstanceAxios.patch(`${BE_URL}/api/auth/password`, body);
     const { accessToken, refreshToken } = response.data.data;
     return { accessToken, refreshToken };
 };
