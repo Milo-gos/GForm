@@ -1,0 +1,12 @@
+{
+    "header": {
+        "sign_in": "Đăng nhập",
+        "Sign_up": "Đăng ký",
+        "survey_management": "Quản lý khảo sát",
+        "sign_out": "Đăng xuất"
+    },
+    "section": {
+        "website_supports_survey_creation": "Website hỗ trợ tạo khảo sát",
+        "take_the_survey_in_your_style": "Tạo khảo sát theo phong cách của bạn!"
+    }
+}

@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import { useNavigate } from 'react-router-dom';
 import convertDate from '../../../../../../utils/convertDate';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(style);
 
@@ -23,6 +24,7 @@ interface Props {
 }
 const SurveyComponent = ({ index, survey }: Props) => {
     const navigate = useNavigate();
+    const { t } = useTranslation('surveyManagement');
     const handleClickSurvey = () => {
         navigate(`/surveys/${survey?.id}/edit`);
     };
@@ -38,20 +40,20 @@ const SurveyComponent = ({ index, survey }: Props) => {
             </div>
             <div className={cx('separate')}></div>
             <div className={cx('question', 'col')}>
-                <span>Số câu hỏi</span>
+                <span>{t('questions')}</span>
                 <span className={cx('bold')}>{survey?.questionsCount}</span>
             </div>
             <div className={cx('status', 'col')}>
-                <span>Trạng thái</span>
-                <span className={cx('bold')}>{survey?.isAccepting ? 'Đang nhận phản hồi' : 'Ngừng nhận phản hồi'}</span>
+                <span>{t('status')}</span>
+                <span className={cx('bold')}>{survey?.isAccepting ? t('accepting_response') : t('stop_response')}</span>
             </div>
 
             <div className={cx('response', 'col')}>
-                <span>Số lượng phản hồi</span>
+                <span>{t('responses')}</span>
                 <span className={cx('bold')}>{survey?.responsesCount}</span>
             </div>
             <div className={cx('response', 'col')}>
-                <span>Ngày tạo</span>
+                <span>{t('create_date')}</span>
                 <span className={cx('bold')}>{convertDate(survey!.create_at)}</span>
             </div>
         </div>
