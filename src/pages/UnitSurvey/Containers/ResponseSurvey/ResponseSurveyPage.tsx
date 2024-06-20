@@ -12,7 +12,7 @@ import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
 import ResponseInterface from '../../../../utils/interfaces/response';
 import Response from './components/Response';
 import useGetDataExcelMutation from '../../mutation/getDataExcel';
-// import { saveAs } from 'file-saver';
+import { saveAs } from 'file-saver';
 import { MoonLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 
@@ -121,7 +121,7 @@ const ResponseSurveyPage = () => {
                 const blob = new Blob([data], {
                     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 });
-                // saveAs(blob, 'SurveyResponses.xlsx');
+                saveAs(blob, 'SurveyResponses.xlsx');
                 setLoadingExport(false);
             },
             onError() {
