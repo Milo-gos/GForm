@@ -5,6 +5,7 @@ interface UserInterface {
     avatar: string;
     isVerifiedEmail: string;
     isAdmin: string;
+    isGoogleAccount: boolean;
 }
 
 export default UserInterface;

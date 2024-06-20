@@ -159,92 +159,94 @@ const EditSurveyPage = () => {
             );
         }
     };
-    if (!data) return <></>;
 
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('inner')}>
-                <div className={cx('background')}>
-                    {survey.backgroundImage && <img src={survey.backgroundImage} />}
+            {isLoading && <MoonLoader color="#ed6c02" size={30} />}
+            {data && (
+                <div className={cx('inner')}>
+                    <div className={cx('background')}>
+                        {survey.backgroundImage && <img src={survey.backgroundImage} />}
+                        <div
+                            className={cx('edit-wrapper')}
+                            onClick={() => {
+                                if (!isEdit) {
+                                    dispatchApp(
+                                        setOpenSnackbar({
+                                            value: true,
+                                            message: 'Bạn không có quyền chỉnh sửa',
+                                        }),
+                                    );
+                                    return;
+                                }
+                                inputImage.current?.click();
+                            }}>
+                            {!isLoadBackground ? (
+                                <>
+                                    <input
+                                        type="file"
+                                        accept="image/png, image/jpeg"
+                                        className={cx('input-image')}
+                                        ref={inputImage}
+                                        onChange={handleChangeImage}
+                                    />
+                                    <EditIcon className={cx('icon')} />
+                                </>
+                            ) : (
+                                <MoonLoader color="#fff" size={15} />
+                            )}
+                        </div>
+                    </div>
                     <div
-                        className={cx('edit-wrapper')}
-                        onClick={() => {
-                            if (!isEdit) {
-                                dispatchApp(
-                                    setOpenSnackbar({
-                                        value: true,
-                                        message: 'Bạn không có quyền chỉnh sửa',
-                                    }),
-                                );
-                                return;
-                            }
-                            inputImage.current?.click();
-                        }}>
-                        {!isLoadBackground ? (
-                            <>
-                                <input
-                                    type="file"
-                                    accept="image/png, image/jpeg"
-                                    className={cx('input-image')}
-                                    ref={inputImage}
-                                    onChange={handleChangeImage}
-                                />
-                                <EditIcon className={cx('icon')} />
-                            </>
-                        ) : (
-                            <MoonLoader color="#fff" size={15} />
-                        )}
+                        className={cx('container', 'active', 'form-header')}
+                        onClick={() =>
+                            dispatchApp(
+                                handleActiveQuestion({
+                                    indexQuestion: -1,
+                                }),
+                            )
+                        }>
+                        <QuestionTextInput
+                            value={survey.title}
+                            onChange={(e) => {
+                                if (!isEdit) {
+                                    dispatchApp(
+                                        setOpenSnackbar({
+                                            value: true,
+                                            message: 'Bạn không có quyền chỉnh sửa',
+                                        }),
+                                    );
+                                    return;
+                                }
+                                dispatchApp(handleChangeTitle({ title: e.target.value }));
+                            }}
+                            isTitleForm={true}></QuestionTextInput>
+                        <QuestionTextInput
+                            placeholder="Mô tả khảo sát"
+                            value={survey.description}
+                            onChange={(e) => {
+                                if (!isEdit) {
+                                    dispatchApp(
+                                        setOpenSnackbar({
+                                            value: true,
+                                            message: 'Bạn không có quyền chỉnh sửa',
+                                        }),
+                                    );
+                                    return;
+                                }
+                                dispatchApp(handleChangeDescription({ description: e.target.value }));
+                            }}></QuestionTextInput>
                     </div>
+                    {survey.questions?.length == 0 && (
+                        <div className={cx('add')} onClick={handleAddFirstQuestion}>
+                            <div className={cx('separate')}></div>
+                            <IoIosAddCircleOutline className={cx('icon')} />
+                            <div className={cx('separate')}></div>
+                        </div>
+                    )}
+                    {survey.questions?.map((question, index) => <Question key={question.id} index={index} />)}
                 </div>
-                <div
-                    className={cx('container', 'active', 'form-header')}
-                    onClick={() =>
-                        dispatchApp(
-                            handleActiveQuestion({
-                                indexQuestion: -1,
-                            }),
-                        )
-                    }>
-                    <QuestionTextInput
-                        value={survey.title}
-                        onChange={(e) => {
-                            if (!isEdit) {
-                                dispatchApp(
-                                    setOpenSnackbar({
-                                        value: true,
-                                        message: 'Bạn không có quyền chỉnh sửa',
-                                    }),
-                                );
-                                return;
-                            }
-                            dispatchApp(handleChangeTitle({ title: e.target.value }));
-                        }}
-                        isTitleForm={true}></QuestionTextInput>
-                    <QuestionTextInput
-                        placeholder="Mô tả khảo sát"
-                        value={survey.description}
-                        onChange={(e) => {
-                            if (!isEdit) {
-                                dispatchApp(
-                                    setOpenSnackbar({
-                                        value: true,
-                                        message: 'Bạn không có quyền chỉnh sửa',
-                                    }),
-                                );
-                                return;
-                            }
-                            dispatchApp(handleChangeDescription({ description: e.target.value }));
-                        }}></QuestionTextInput>
-                </div>
-                {survey.questions?.length == 0 && (
-                    <div className={cx('add')} onClick={handleAddFirstQuestion}>
-                        <div className={cx('separate')}></div>
-                        <IoIosAddCircleOutline className={cx('icon')} />
-                        <div className={cx('separate')}></div>
-                    </div>
-                )}
-                {survey.questions?.map((question, index) => <Question key={question.id} index={index} />)}
-            </div>
+            )}
         </div>
     );
 };

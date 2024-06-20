@@ -63,66 +63,75 @@ const SettingSurveyPage = () => {
             },
         });
     };
-    if (!data) return <></>;
+
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('section')}>
-                <div className={cx('title')}>Chia sẻ</div>
-                <div className={cx('body')}>
-                    <div className={cx('member-survey')}>
-                        <div className={cx('container')}>
-                            <label className={cx('label')}>Chủ sỡ hữu</label>
-                            <div className={cx('separate')}></div>
-                            <div className={cx('mem-wrapper')}>
-                                <TeamMember owner={data.owner} isOwner={data.isOwner} surveyId={data.surveyId} />
-                            </div>
-                        </div>
-                        <div className={cx('container')}>
-                            <label className={cx('label')}>Thành viên</label>
-                            <div className={cx('separate')}></div>
-                            <div className={cx('mem-wrapper')}>
-                                {data.sharedUsers?.map((sharedUser: any) => {
-                                    return (
+            {isLoading && <MoonLoader color="#ed6c02" size={30} />}
+            {data && (
+                <>
+                    <div className={cx('section')}>
+                        <div className={cx('title')}>Chia sẻ</div>
+                        <div className={cx('body')}>
+                            <div className={cx('member-survey')}>
+                                <div className={cx('container')}>
+                                    <label className={cx('label')}>Chủ sỡ hữu</label>
+                                    <div className={cx('separate')}></div>
+                                    <div className={cx('mem-wrapper')}>
                                         <TeamMember
+                                            owner={data.owner}
                                             isOwner={data.isOwner}
-                                            sharedUser={sharedUser}
-                                            key={sharedUser.sharedId}
                                             surveyId={data.surveyId}
                                         />
-                                    );
-                                })}
+                                    </div>
+                                </div>
+                                <div className={cx('container')}>
+                                    <label className={cx('label')}>Thành viên</label>
+                                    <div className={cx('separate')}></div>
+                                    <div className={cx('mem-wrapper')}>
+                                        {data.sharedUsers?.map((sharedUser: any) => {
+                                            return (
+                                                <TeamMember
+                                                    isOwner={data.isOwner}
+                                                    sharedUser={sharedUser}
+                                                    key={sharedUser.sharedId}
+                                                    surveyId={data.surveyId}
+                                                />
+                                            );
+                                        })}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            {data.isOwner && (
-                <div className={cx('section')}>
-                    <div className={cx('title')}>Cài đặt</div>
-                    <div className={cx('body')}>
-                        <div className={cx('row')}>
-                            <div>Xóa khảo sát</div>
-                            <div className={cx('btn-delete')} onClick={() => setOpenModal(true)}>
-                                Xóa
+                    {data.isOwner && (
+                        <div className={cx('section')}>
+                            <div className={cx('title')}>Cài đặt</div>
+                            <div className={cx('body')}>
+                                <div className={cx('row')}>
+                                    <div>Xóa khảo sát</div>
+                                    <div className={cx('btn-delete')} onClick={() => setOpenModal(true)}>
+                                        Xóa
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            )}
-            {isOpenModal && (
-                <Modal onClickClose={handleClickClose}>
-                    <div className={cx('inner-modal')}>
-                        <div>Bạn có chắc muốn xóa khảo sát?</div>
-                        <div className={cx('button-wrapper')}>
-                            {isLoadingDelete ? (
-                                <MoonLoader color="#ed6c02" size={30} />
-                            ) : (
-                                <MyButton textButton="Xóa" onClick={handleClickDeleteSurvey} />
-                            )}
-                            <MyButton textButton="Hủy" onClick={handleClickClose} />
-                        </div>
-                    </div>
-                </Modal>
+                    )}
+                    {isOpenModal && (
+                        <Modal onClickClose={handleClickClose}>
+                            <div className={cx('inner-modal')}>
+                                <div>Bạn có chắc muốn xóa khảo sát?</div>
+                                <div className={cx('button-wrapper')}>
+                                    {isLoadingDelete ? (
+                                        <MoonLoader color="#ed6c02" size={30} />
+                                    ) : (
+                                        <MyButton textButton="Xóa" onClick={handleClickDeleteSurvey} />
+                                    )}
+                                    <MyButton textButton="Hủy" onClick={handleClickClose} />
+                                </div>
+                            </div>
+                        </Modal>
+                    )}
+                </>
             )}
         </div>
     );

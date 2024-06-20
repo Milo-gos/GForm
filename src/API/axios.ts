@@ -36,6 +36,12 @@ const signIn = async (body: any) => {
     return { accessToken, refreshToken };
 };
 
+const signInGoogle = async (tokenFirebase: string) => {
+    const response = await axios.post(`${BE_URL}/api/auth/sign-in/google`, { tokenFirebase });
+    const { accessToken, refreshToken } = response.data.data;
+    return { accessToken, refreshToken };
+};
+
 const checkExistEmail = async (email: string) => {
     await axios.get(`${BE_URL}/api/auth/checkExistEmail/${email}`);
 };
@@ -263,6 +269,12 @@ const changeUserPassword = async (body: any) => {
     return { accessToken, refreshToken };
 };
 
+const setUserPassword = async (body: any) => {
+    const response = await InstanceAxios.patch(`${BE_URL}/api/auth/password`, body);
+    const { accessToken, refreshToken } = response.data.data;
+    return { accessToken, refreshToken };
+};
+
 const changeEditSharedUser = async (body: any) => {
     const { sharedId, isEdit, surveyId } = body;
     const response = await InstanceAxios.patch(`${BE_URL}/api/survey-share/${sharedId}/changeEditSharedUser`, {
@@ -283,6 +295,7 @@ export {
     signUp,
     verifyEmail,
     signIn,
+    signInGoogle,
     checkExistEmail,
     verifyLinkResetPassword,
     resetPassword,
@@ -316,6 +329,7 @@ export {
     changeUserAvatar,
     changeUsername,
     changeUserPassword,
+    setUserPassword,
     getSharedUserSurvey,
     changeEditSharedUser,
     deleteSharedUser,

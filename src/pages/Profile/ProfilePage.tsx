@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames/bind';
 import style from './profile.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
-import { MyButton, NormalTextInput } from '../../components';
+import { ErrorMessage, MyButton, NormalTextInput } from '../../components';
 import { Avatar, IconButton, Tooltip } from '@mui/material';
 import useChangeUserAvatarMutation from './mutation/changeUserAvatar';
 import { MoonLoader } from 'react-spinners';
@@ -14,12 +14,13 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useChangeUsernameMutation from './mutation/changeUsername copy';
+import useChangeUsernameMutation from './mutation/changeUsername';
 import useChangeUserPasswordMutation from './mutation/changeUserPassword';
 import { useAppDispatch } from '../../redux';
 import { setLoading } from '../../redux/slice/global';
 import { Link, useNavigate } from 'react-router-dom';
 import stringAvatar from '../../utils/stringAvatar';
+import useSetUserPasswordMutation from './mutation/setUserPassword';
 
 const cx = classNames.bind(style);
 const ChangePassWordSchema = z
@@ -47,12 +48,33 @@ const ChangePassWordSchema = z
         message: 'Mật khẩu mới không trùng khớp',
         path: ['confirmNewPassword'],
     });
+
+const SetPassWordSchema = z
+    .object({
+        setNewPassword: z
+            .string()
+            .min(1, {
+                message: 'Vui lòng nhập mật khẩu',
+            })
+            .min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
+        confirmSetNewPassword: z
+            .string()
+            .min(1, {
+                message: 'Vui lòng nhập mật khẩu',
+            })
+            .min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
+    })
+    .refine((data) => data.setNewPassword === data.confirmSetNewPassword, {
+        message: 'Mật khẩu mới không trùng khớp',
+        path: ['confirmSetNewPassword'],
+    });
 const ChangeUserNameSchema = z.object({
     fullName: z.string().min(1, {
         message: 'Vui lòng nhập tên',
     }),
 });
 type ChangePassWordType = z.infer<typeof ChangePassWordSchema>;
+type SetPassWordType = z.infer<typeof SetPassWordSchema>;
 type ChangeNameType = z.infer<typeof ChangeUserNameSchema>;
 
 const ProfilePage = () => {
@@ -120,13 +142,55 @@ const ProfilePage = () => {
         shouldFocusError: true,
     });
 
+    const {
+        setError: setErrorSetPassword,
+        register: registerSetPassword,
+        handleSubmit: handleSubmitSetPassword,
+        reset: resetSetPassword,
+        formState: { errors: errorSetPassword },
+    } = useForm<SetPassWordType>({
+        resolver: zodResolver(SetPassWordSchema),
+        mode: 'onSubmit',
+        shouldFocusError: true,
+    });
+
     const UseChangePasswordMutation = useChangeUserPasswordMutation();
+    const UseSetUserPassword = useSetUserPasswordMutation();
     const submitPassword = (data: ChangePassWordType) => {
         dispatchApp(setLoading(true));
         UseChangePasswordMutation.mutate(
             {
                 newPassword: data.newPassword,
                 currentPassword: data.password,
+            },
+            {
+                onSuccess(data) {
+                    dispatchApp(setLoading(false));
+                    toast.success('Đổi mật khẩu thành công');
+                    localStorage.setItem('accessToken', data.accessToken);
+                    localStorage.setItem('refreshToken', data.refreshToken);
+                    resetPassword({
+                        password: '',
+                        newPassword: '',
+                        confirmNewPassword: '',
+                    });
+                    setChangePassword(false);
+                },
+                onError(error: any) {
+                    dispatchApp(setLoading(false));
+                    setErrorPassword('password', {
+                        type: 'server',
+                        message: error.response.data.message,
+                    });
+                },
+            },
+        );
+    };
+    const submitSetPassword = (data: SetPassWordType) => {
+        dispatchApp(setLoading(true));
+        UseSetUserPassword.mutate(
+            {
+                newPassword: data.setNewPassword,
             },
             {
                 onSuccess(data) {
@@ -230,16 +294,11 @@ const ProfilePage = () => {
                                 </IconButton>
                             </Tooltip>
                         </div>
-                        <p
-                            style={{
-                                marginTop: '4px',
-                                fontSize: '14px',
-                                color: '#db4437',
-                            }}>
-                            {errorsName.fullName?.message}
-                        </p>
+
+                        <ErrorMessage message={errorsName.fullName?.message} />
+
                         {isChangeName && (
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '12px' }}>
+                            <div className={cx('buttons-wrapper')}>
                                 <MyButton textButton="Hủy" onClick={() => setChangeName(false)} />
                                 <MyButton textButton="Lưu" onClick={handleClickChangeName} />
                             </div>
@@ -281,7 +340,7 @@ const ProfilePage = () => {
                                 </div>
                             </>
                         )}
-                        {isChangePassword && (
+                        {isChangePassword && !user?.isGoogleAccount && (
                             <>
                                 <form
                                     className={cx('section')}
@@ -297,14 +356,7 @@ const ProfilePage = () => {
                                                 register={registerPassword}
                                                 name="password"
                                             />
-                                            <p
-                                                style={{
-                                                    marginTop: '4px',
-                                                    fontSize: '14px',
-                                                    color: '#db4437',
-                                                }}>
-                                                {errorPassword.password?.message}
-                                            </p>
+                                            <ErrorMessage message={errorPassword.password?.message} />
                                         </div>
                                     </div>
                                     <div className={cx('field')}>
@@ -316,14 +368,8 @@ const ProfilePage = () => {
                                                 register={registerPassword}
                                                 name="newPassword"
                                             />
-                                            <p
-                                                style={{
-                                                    marginTop: '4px',
-                                                    fontSize: '14px',
-                                                    color: '#db4437',
-                                                }}>
-                                                {errorPassword.newPassword?.message}
-                                            </p>
+
+                                            <ErrorMessage message={errorPassword.newPassword?.message} />
                                         </div>
                                     </div>
                                     <div className={cx('field')}>
@@ -335,27 +381,56 @@ const ProfilePage = () => {
                                                 register={registerPassword}
                                                 name="confirmNewPassword"
                                             />
-                                            <p
-                                                style={{
-                                                    marginTop: '4px',
-                                                    fontSize: '14px',
-                                                    color: '#db4437',
-                                                }}>
-                                                {errorPassword.confirmNewPassword?.message}
-                                            </p>
+
+                                            <ErrorMessage message={errorPassword.confirmNewPassword?.message} />
                                         </div>
                                     </div>
                                 </form>
                                 {isChangePassword && (
-                                    <div
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '4px',
-                                            marginTop: '12px',
-                                        }}>
+                                    <div className={cx('buttons-wrapper')}>
                                         <MyButton textButton="Hủy" onClick={() => setChangePassword(false)} />
                                         <MyButton textButton="Lưu" form="formChangePassword" />
+                                    </div>
+                                )}
+                            </>
+                        )}
+
+                        {isChangePassword && user?.isGoogleAccount && (
+                            <>
+                                <form
+                                    className={cx('section')}
+                                    onSubmit={handleSubmitSetPassword(submitSetPassword)}
+                                    id="formSetPassword">
+                                    <div className={cx('field')}>
+                                        <div className={cx('label')}>Mật khẩu mới</div>
+                                        <div style={{ width: '60%' }}>
+                                            <NormalTextInput
+                                                typePassword={true}
+                                                style={{ padding: '6px 0' }}
+                                                register={registerSetPassword}
+                                                name="setNewPassword"
+                                            />
+                                            <ErrorMessage message={errorSetPassword.setNewPassword?.message} />
+                                        </div>
+                                    </div>
+                                    <div className={cx('field')}>
+                                        <div className={cx('label')}>Nhập lại mật khẩu mới</div>
+                                        <div style={{ width: '60%' }}>
+                                            <NormalTextInput
+                                                typePassword={true}
+                                                style={{ padding: '6px 0' }}
+                                                register={registerSetPassword}
+                                                name="confirmSetNewPassword"
+                                            />
+
+                                            <ErrorMessage message={errorSetPassword.confirmSetNewPassword?.message} />
+                                        </div>
+                                    </div>
+                                </form>
+                                {isChangePassword && (
+                                    <div className={cx('buttons-wrapper')}>
+                                        <MyButton textButton="Hủy" onClick={() => setChangePassword(false)} />
+                                        <MyButton textButton="Lưu" form="formSetPassword" />
                                     </div>
                                 )}
                             </>
