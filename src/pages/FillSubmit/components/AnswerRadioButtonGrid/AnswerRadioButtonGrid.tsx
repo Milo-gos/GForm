@@ -33,13 +33,11 @@ const AnswerRadioButtonGrid = ({ indexQuestion }: Props) => {
                 </table>
             </div>
             <div className={cx('inner')}>
-                <div className={cx('left-padding')}>
-                    <div style={{ width: '100px' }}></div>
-                </div>
                 <div style={{ flex: '1' }}>
                     <table className={cx('table')}>
                         <thead>
                             <tr>
+                                <th style={{ width: '100px' }}></th>
                                 {question.gcolumns?.map((gcolumn, index) => {
                                     return <th key={index}>{gcolumn.gcolumnContent}</th>;
                                 })}

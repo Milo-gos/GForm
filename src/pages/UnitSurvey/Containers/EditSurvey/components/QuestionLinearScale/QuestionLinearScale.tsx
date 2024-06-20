@@ -63,12 +63,12 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
             max: Number(e.target.value),
         });
     };
-    useAutoSave(linearScale?.leftLabel, () => {
+    useAutoSave(linearScale!.leftLabel, () => {
         ChangeLinearMutation.mutate({
             leftLabel: linearScale?.leftLabel,
         });
     });
-    useAutoSave(linearScale?.rightLabel, () => {
+    useAutoSave(linearScale!.rightLabel, () => {
         ChangeLinearMutation.mutate({
             rightLabel: linearScale?.rightLabel,
         });
@@ -123,7 +123,7 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
                 </FormControl>
             </div>
             <div className={cx('label')}>
-                <span>1.</span>
+                <span>{linearScale?.min}.</span>
                 <div style={{ flex: '1' }}>
                     <QuestionTextInput
                         padding="8px 0"
@@ -150,7 +150,7 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
                 </div>
             </div>
             <div className={cx('label')}>
-                <span>6.</span>
+                <span>{linearScale?.max}.</span>
                 <div style={{ flex: '1' }}>
                     <QuestionTextInput
                         padding="8px 0"
