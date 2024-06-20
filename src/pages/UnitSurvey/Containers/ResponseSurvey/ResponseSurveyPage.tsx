@@ -11,6 +11,7 @@ import { getResponseSurvey } from '../../../../API/axios';
 import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
 import ResponseInterface from '../../../../utils/interfaces/response';
 import Response from './components/Response';
+import { MoonLoader } from 'react-spinners';
 const cx = classNames.bind(style);
 
 const ResponseSurveyPage = () => {
@@ -108,64 +109,68 @@ const ResponseSurveyPage = () => {
         );
     };
 
-    if (!data) return <></>;
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('header')}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span className={cx('total-response')}>{data?.quantityOfResponses || 0} phản hồi</span>
+            {data && (
+                <div className={cx('header')}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span className={cx('total-response')}>{data?.quantityOfResponses || 0} phản hồi</span>
 
-                    <IconButton style={{ padding: '8px' }} onClick={handleClick}>
-                        <BsThreeDotsVertical size={24} />
-                    </IconButton>
+                        <IconButton style={{ padding: '8px' }} onClick={handleClick}>
+                            <BsThreeDotsVertical size={24} />
+                        </IconButton>
 
-                    <Menu
-                        disablePortal={true}
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}>
-                        <MenuItem onClick={handleClose}>Mô tả</MenuItem>
-                        <MenuItem onClick={handleClose}>Kiểm tra định dạng</MenuItem>
-                        <MenuItem onClick={handleClose}>Đi đến phần chỉ định dựa vào câu trả lời</MenuItem>
-                    </Menu>
-                </div>
-                {data && (
-                    <div
-                        className={cx('close-response', {
-                            isClosed: data.survey?.isAccepting === false,
-                        })}>
-                        <div>
-                            <FormControlLabel
-                                control={
-                                    <Switch
-                                        color="warning"
-                                        sx={{ color: 'error' }}
-                                        checked={data.survey?.isAccepting}
-                                        onChange={handleSwitch}></Switch>
-                                }
-                                labelPlacement="start"
-                                label={
-                                    <span className={cx('label-switch')}>
-                                        {data.survey?.isAccepting ? 'Đang nhận phản hồi' : 'Đã ngừng nhận phản hồi'}
-                                    </span>
-                                }
-                            />
-                        </div>
+                        <Menu
+                            disablePortal={true}
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}>
+                            <MenuItem onClick={handleClose}>Mô tả</MenuItem>
+                            <MenuItem onClick={handleClose}>Kiểm tra định dạng</MenuItem>
+                            <MenuItem onClick={handleClose}>Đi đến phần chỉ định dựa vào câu trả lời</MenuItem>
+                        </Menu>
                     </div>
-                )}
-            </div>
-
-            {data?.questionResponses?.map((question, index) => {
-                return <Response key={index} questionResponse={question} />;
-            })}
+                    {data && (
+                        <>
+                            <div
+                                className={cx('close-response', {
+                                    isClosed: data.survey?.isAccepting === false,
+                                })}>
+                                <div>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                color="warning"
+                                                sx={{ color: 'error' }}
+                                                checked={data.survey?.isAccepting}
+                                                onChange={handleSwitch}></Switch>
+                                        }
+                                        labelPlacement="start"
+                                        label={
+                                            <span className={cx('label-switch')}>
+                                                {data.survey?.isAccepting
+                                                    ? 'Đang nhận phản hồi'
+                                                    : 'Đã ngừng nhận phản hồi'}
+                                            </span>
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            {data?.questionResponses?.map((question, index) => {
+                                return <Response key={index} questionResponse={question} />;
+                            })}
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

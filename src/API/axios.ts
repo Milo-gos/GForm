@@ -37,7 +37,7 @@ const signIn = async (body: any) => {
 };
 
 const signInGoogle = async (tokenFirebase: string) => {
-    const response = await axios.post(`${BE_URL}/api/auth/signInGoogle`, { tokenFirebase });
+    const response = await axios.post(`${BE_URL}/api/auth/sign-in/google`, { tokenFirebase });
     const { accessToken, refreshToken } = response.data.data;
     return { accessToken, refreshToken };
 };
@@ -270,7 +270,7 @@ const changeUserPassword = async (body: any) => {
 };
 
 const setUserPassword = async (body: any) => {
-    const response = await InstanceAxios.patch(`${BE_URL}/api/auth/setUserPassword`, body);
+    const response = await InstanceAxios.post(`${BE_URL}/api/auth/password`, body);
     const { accessToken, refreshToken } = response.data.data;
     return { accessToken, refreshToken };
 };
