@@ -93,7 +93,7 @@ const SignInPage = () => {
         });
     };
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'responsive')}>
             <h2>{t('sign_in')}</h2>
             <form className={cx('form')} onSubmit={handleSubmit(onbsumit)}>
                 <div>

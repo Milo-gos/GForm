@@ -161,7 +161,7 @@ const EditSurveyPage = () => {
     };
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'responsive')}>
             {isLoading && <MoonLoader color="#ed6c02" size={30} />}
             {data && (
                 <div className={cx('inner')}>

@@ -8,7 +8,7 @@ const cx = classNames.bind(style);
 const AuthLayout = ({ children }: { children?: JSX.Element }) => {
     const navigate = useNavigate();
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'responsive')}>
             <div className={cx('left-side')}>
                 <div className={cx('app')} onClick={() => navigate('/')}>
                     <div className={cx('logo-container')}>

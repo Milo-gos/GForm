@@ -74,7 +74,7 @@ const ForgotPasswordPage = () => {
         });
     };
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'responsive')}>
             <h2>{t('forgot_password')}</h2>
             <form className={cx('form')} onSubmit={handleSubmit(onsubmit)}>
                 <div>

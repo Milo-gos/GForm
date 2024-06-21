@@ -23,7 +23,7 @@ const MyButton = (props: Props) => {
                 color: props.textColor,
                 padding: props.padding,
             }}
-            className={cx('wrapper', {
+            className={cx('wrapper', 'responsive', {
                 big: props.size === 'big',
                 noBackground: props.noBackground === true,
             })}

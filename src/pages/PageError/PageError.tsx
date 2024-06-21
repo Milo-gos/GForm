@@ -10,7 +10,7 @@ const PageError = () => {
     const { t } = useTranslation('pageError');
     return (
         <div className={cx('wrapper')}>
-            <h2>{t('page_not_found')}</h2>
+            <h2>{t('error_please_try_again')}</h2>
             <div style={{ textAlign: 'center' }}>
                 <BiSolidErrorAlt size={100} />
             </div>

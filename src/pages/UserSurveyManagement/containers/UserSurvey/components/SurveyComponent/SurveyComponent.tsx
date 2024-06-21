@@ -30,31 +30,37 @@ const SurveyComponent = ({ index, survey }: Props) => {
     };
     return (
         <div
-            className={cx('wrapper', {
+            className={cx('wrapper', 'responsive', {
                 isAccepting: survey?.isAccepting === true,
             })}
             onClick={handleClickSurvey}>
-            <div className={cx('title')}>
-                <FeedOutlinedIcon className={cx('icon')} />
-                <span>{survey?.title}</span>
+            <div className={cx('left')}>
+                <div className={cx('title')}>
+                    <FeedOutlinedIcon className={cx('icon')} />
+                    <span>{survey?.title}</span>
+                </div>
+                <div className={cx('separate')}></div>
+                <div className={cx('question', 'col')}>
+                    <span>{t('questions')}</span>
+                    <span className={cx('bold')}>{survey?.questionsCount}</span>
+                </div>
             </div>
-            <div className={cx('separate')}></div>
-            <div className={cx('question', 'col')}>
-                <span>{t('questions')}</span>
-                <span className={cx('bold')}>{survey?.questionsCount}</span>
-            </div>
-            <div className={cx('status', 'col')}>
-                <span>{t('status')}</span>
-                <span className={cx('bold')}>{survey?.isAccepting ? t('accepting_response') : t('stop_response')}</span>
-            </div>
+            <div className={cx('right')}>
+                <div className={cx('status', 'col')}>
+                    <span>{t('status')}</span>
+                    <span className={cx('bold')}>
+                        {survey?.isAccepting ? t('accepting_response') : t('stop_response')}
+                    </span>
+                </div>
 
-            <div className={cx('response', 'col')}>
-                <span>{t('responses')}</span>
-                <span className={cx('bold')}>{survey?.responsesCount}</span>
-            </div>
-            <div className={cx('response', 'col')}>
-                <span>{t('create_date')}</span>
-                <span className={cx('bold')}>{convertDate(survey!.create_at)}</span>
+                <div className={cx('response', 'col')}>
+                    <span>{t('responses')}</span>
+                    <span className={cx('bold')}>{survey?.responsesCount}</span>
+                </div>
+                <div className={cx('response', 'col')}>
+                    <span>{t('create_date')}</span>
+                    <span className={cx('bold')}>{convertDate(survey!.create_at)}</span>
+                </div>
             </div>
         </div>
     );

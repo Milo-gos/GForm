@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 function Section() {
     const { t } = useTranslation('home');
     return (
-        <section className={cx('wrapper')}>
+        <section className={cx('wrapper', 'responsive')}>
             <motion.div
                 className={cx('content')}
                 initial={{

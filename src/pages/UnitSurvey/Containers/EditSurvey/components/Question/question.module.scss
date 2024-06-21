@@ -87,4 +87,20 @@
             right: 8px;
         }
     }
+
+    &.responsive {
+        @media (max-width: 768px) {
+            .inner {
+                width: 90%;
+            }
+            .select {
+                font-size: 14px;
+                width: 100px;
+            }
+
+            .MuiSelect-select {
+                width: 120px;
+            }
+        }
+    }
 }

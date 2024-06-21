@@ -62,31 +62,37 @@ const USMHeader = () => {
     if (!user) return <></>;
 
     return (
-        <div className={cx('wrapper')}>
-            <div className={cx('logo-wrapper')} onClick={() => navigate('/')}>
-                <img className={cx('logo')} src={Logo}></img>
-                <span>GSurvey</span>
-            </div>
-            <div className={cx('search-wrapper')}>
-                <Search placeHolder={t('search_surveys')} onChange={(e) => setSearch(e.target.value)} />
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <LanguageButton />
-                <div className={cx('user-info-wrapper')}>
-                    <span style={{ fontSize: '18px', fontWeight: '500' }}>{user?.fullName}</span>
-                    <IconButton style={{ padding: '1px' }} onClick={handleClick}>
-                        <div className={cx('avatar')}>
-                            {user?.avatar ? (
-                                <Avatar src={user?.avatar} sx={{ width: '100%', height: '100%' }} />
-                            ) : (
-                                <Avatar
-                                    {...stringAvatar(user?.fullName || '')}
-                                    sx={{ width: '100%', height: '100%' }}
-                                />
-                            )}
-                        </div>
-                    </IconButton>
+        <div className={cx('wrapper', 'responsive')}>
+            <div className={cx('header-wrapper')}>
+                <div className={cx('logo-wrapper')} onClick={() => navigate('/')}>
+                    <img className={cx('logo')} src={Logo}></img>
+                    <span>GSurvey</span>
                 </div>
+                <div className={cx('search-wrapper')}>
+                    <Search placeHolder={t('search_surveys')} onChange={(e) => setSearch(e.target.value)} />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <LanguageButton />
+                    <div className={cx('user-info-wrapper')}>
+                        <span>{user?.fullName}</span>
+                        <IconButton style={{ padding: '1px' }} onClick={handleClick}>
+                            <div className={cx('avatar')}>
+                                {user?.avatar ? (
+                                    <Avatar src={user?.avatar} sx={{ width: '100%', height: '100%' }} />
+                                ) : (
+                                    <Avatar
+                                        {...stringAvatar(user?.fullName || '')}
+                                        sx={{ width: '100%', height: '100%' }}
+                                    />
+                                )}
+                            </div>
+                        </IconButton>
+                    </div>
+                </div>
+            </div>
+
+            <div className={cx('search-wrapper-2')}>
+                <Search placeHolder={t('search_surveys')} onChange={(e) => setSearch(e.target.value)} />
             </div>
             <Menu
                 disablePortal={true}
