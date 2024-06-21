@@ -7,7 +7,7 @@ interface Props {
     textButton: string;
     onClick?: (data: any) => void;
     size?: 'normal' | 'big';
-    type?: 'button' | 'reset' | 'submit' | undefined;
+    type?: 'button' | 'reset' | 'submit';
     backgroundColor?: string;
     textColor?: string;
     padding?: string;
