@@ -8,13 +8,9 @@ const cx = classNames.bind(style);
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     register?: any;
     typePassword?: boolean;
-    fontSize?: string;
-    fontWeight?: number;
-    padding?: string;
     isActiveQuestion?: boolean;
     isFocus?: boolean;
     boldPlaceHolder?: boolean;
-    isTitleForm?: boolean;
     disbaled?: boolean;
 }
 
