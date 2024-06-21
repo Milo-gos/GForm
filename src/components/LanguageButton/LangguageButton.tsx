@@ -17,7 +17,7 @@ const LanguageButton = () => {
         i18n.changeLanguage(value);
     };
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'responsive')}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <LanguageIcon />
                 <FormControl
@@ -30,12 +30,17 @@ const LanguageButton = () => {
                     }}
                     size="small">
                     <Select
+                        className={cx('select')}
                         onChange={handleChangeLanguage}
                         value={lng}
                         size="small"
                         MenuProps={{ disablePortal: true }}>
-                        <MenuItem value={LANGUAGE.vi}>{t('language_button.vi')}</MenuItem>
-                        <MenuItem value={LANGUAGE.en}>{t('language_button.en')}</MenuItem>
+                        <MenuItem value={LANGUAGE.vi} className={cx('menu-item')}>
+                            {t('language_button.vi')}
+                        </MenuItem>
+                        <MenuItem value={LANGUAGE.en} className={cx('menu-item')}>
+                            {t('language_button.en')}
+                        </MenuItem>
                     </Select>
                 </FormControl>
             </div>

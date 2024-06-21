@@ -3,9 +3,11 @@
     display: flex;
     flex-direction: column;
     background-color: #f7f6ee;
+
     .body {
         flex: 1;
         display: flex;
+        min-width: 768px;
 
         overflow: hidden;
         overflow-y: auto;

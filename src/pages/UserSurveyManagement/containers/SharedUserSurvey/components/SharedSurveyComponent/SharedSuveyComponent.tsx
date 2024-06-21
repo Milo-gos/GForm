@@ -36,7 +36,7 @@ const SharedSurvey = ({ index, sharedSurvey }: Props) => {
     };
     return (
         <div
-            className={cx('wrapper', {
+            className={cx('wrapper', 'responsive', {
                 isAccepting: sharedSurvey?.isAccepting === true,
             })}
             onClick={handleClickSharedSurvey}>

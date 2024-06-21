@@ -100,7 +100,7 @@ const SignUpPage = () => {
     }, []);
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'responsive')}>
             {result !== 'success' ? (
                 <>
                     <h2>{t('sign_up')}</h2>

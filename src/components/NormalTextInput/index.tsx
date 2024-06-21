@@ -43,7 +43,7 @@ const NormalTextInput: React.FC<InputProps> = ({ name, register, typePassword, i
         <div
             ref={ref}
             onClick={() => setFocus(true)}
-            className={cx('wrapper', {
+            className={cx('wrapper', 'responsive', {
                 isFocus: focus === true,
             })}>
             <input

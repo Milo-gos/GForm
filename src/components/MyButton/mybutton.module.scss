@@ -35,4 +35,24 @@
             background-color: #f9f9f9;
         }
     }
+
+    &.responsive {
+        @media (max-width: 1024px) {
+            &.big {
+                min-height: 40px;
+                span {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        @media (max-width: 400px) {
+            &.big {
+                min-height: 40px;
+                span {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
 }

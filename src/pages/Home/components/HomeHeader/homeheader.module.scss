@@ -10,8 +10,6 @@
     z-index: 10;
     align-items: center;
     justify-content: center;
-    // background-color: white;
-    // background: linear-gradient(245.59deg, #00a671 0%, #01704d 28.53%, #014f36 75.52%);
     transition:
         padding-top 0.3s,
         background-color 0ms,
@@ -137,6 +135,9 @@
     .nav-list div:hover a::before {
         width: 100%;
     }
+    .menu-item-management {
+        display: none;
+    }
 
     @keyframes fadeIn {
         0% {
@@ -144,6 +145,133 @@
         }
         100% {
             opacity: 1;
+        }
+    }
+
+    &.responsive {
+        @media (max-width: 1024px) {
+            .inner {
+                height: 60px;
+                padding: 0 20px;
+            }
+            .logo-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                img {
+                    width: 30px;
+                }
+
+                .app-name {
+                    font-size: 24px;
+                    color: $mainColor;
+                    font-weight: 600;
+                    letter-spacing: 1.2px;
+                }
+            }
+            .create-survey,
+            .user-section {
+                font-size: 14px;
+            }
+
+            .avatar {
+                width: 30px;
+                height: 30px;
+
+                .img {
+                    font-size: 14px;
+                }
+            }
+            .nav-list {
+                margin-right: 0px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .create-survey {
+                display: none;
+            }
+            .menu-item-management {
+                display: block;
+            }
+            .inner {
+                height: 60px;
+                padding: 0 20px;
+                width: unset;
+            }
+            .logo-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                img {
+                    width: 30px;
+                }
+
+                .app-name {
+                    font-size: 24px;
+                    color: $mainColor;
+                    font-weight: 600;
+                    letter-spacing: 1.2px;
+                }
+            }
+            .create-survey,
+            .user-section {
+                font-size: 14px;
+            }
+
+            .avatar {
+                width: 30px;
+                height: 30px;
+
+                .img {
+                    font-size: 14px;
+                }
+            }
+            .nav-list {
+                margin-right: 0px;
+            }
+
+            .sign-in,
+            .sign-up {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .logo-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                img {
+                    width: 24px;
+                }
+
+                .app-name {
+                    font-size: 16px;
+                }
+            }
+            .inner {
+                padding: 0 16px;
+                height: 50px;
+            }
+
+            .user-section {
+                display: flex;
+                justify-content: flex-end;
+                margin-left: 0px;
+            }
+
+            .nav-list {
+                margin-left: 0px;
+                gap: 10px;
+            }
+
+            .auth {
+            }
+
+            .sign-in {
+                margin-left: 8px;
+            }
         }
     }
 }

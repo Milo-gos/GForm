@@ -42,4 +42,50 @@
             }
         }
     }
+
+    &.responsive {
+        @media (max-width: 1024px) {
+            font-size: 14px;
+            h2 {
+                font-size: 40px;
+            }
+
+            .forgot-password {
+                font-size: 12px;
+            }
+
+            .confirm-have-account {
+                span {
+                    font-size: 14px;
+                }
+                a {
+                    font-size: 14px;
+                }
+            }
+        }
+
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .confirm-have-account {
+                span {
+                    font-size: 12px;
+                }
+                a {
+                    font-size: 12px;
+                }
+            }
+
+            .login-google {
+                padding: 6px 12px;
+                span {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
 }

@@ -297,6 +297,7 @@ const Question = ({ index }: Props) => {
                     {index === indexActiveQuestion && (
                         <div>
                             <Select
+                                className={cx('select')}
                                 onChange={handleChangeNewQuestionType}
                                 value={question?.questionType}
                                 MenuProps={{ disablePortal: true }}

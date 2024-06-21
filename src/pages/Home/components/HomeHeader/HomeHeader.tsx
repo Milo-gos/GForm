@@ -10,6 +10,7 @@ import stringAvatar from '../../../../utils/stringAvatar';
 import { getCurrentUser } from '../../../../API/axios';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
 const cx = classNames.bind(style);
 
@@ -41,7 +42,7 @@ const HomeHeader = () => {
     };
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'responsive')}>
             <div className={cx('inner')}>
                 <div className={cx('logo-wrapper')}>
                     <img className={cx('logo')} src={Logo}></img>
@@ -60,7 +61,7 @@ const HomeHeader = () => {
                                 <div className={cx('sign-in')}>
                                     <Link to="/signin">{t('header.sign_in')}</Link>
                                 </div>
-                                <div>
+                                <div className={cx('sign-up')}>
                                     <Link to="/signup">{t('header.Sign_up')}</Link>
                                 </div>
                             </>
@@ -70,11 +71,16 @@ const HomeHeader = () => {
                                 <IconButton style={{ padding: '1px' }} onClick={handleClick}>
                                     <div className={cx('avatar')}>
                                         {user?.avatar ? (
-                                            <Avatar src={user?.avatar} sx={{ width: '100%', height: '100%' }} />
+                                            <Avatar
+                                                src={user?.avatar}
+                                                sx={{ width: '100%', height: '100%' }}
+                                                className={cx('img')}
+                                            />
                                         ) : (
                                             <Avatar
                                                 {...stringAvatar(user?.fullName || '')}
                                                 sx={{ width: '100%', height: '100%' }}
+                                                className={cx('img')}
                                             />
                                         )}
                                     </div>
@@ -101,6 +107,12 @@ const HomeHeader = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
                         <LogoutOutlinedIcon />
                         <span>Đăng xuất</span>
+                    </div>
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/user-survey-management')} className={cx('menu-item-management')}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
+                        <ManageSearchIcon />
+                        <span>{t('header.survey_management')}</span>
                     </div>
                 </MenuItem>
             </Menu>
