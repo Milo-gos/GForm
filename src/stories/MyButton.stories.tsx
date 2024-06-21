@@ -11,15 +11,9 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Red: Story = {
+export const Base: Story = {
     args: {
-        backgroundColor: 'red',
         onClick: action('click-button'),
-    },
-};
-
-export const Yellow: Story = {
-    args: {
-        backgroundColor: 'yellow',
+        textButton: 'Click me!',
     },
 };

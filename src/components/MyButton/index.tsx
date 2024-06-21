@@ -3,7 +3,7 @@ import style from './mybutton.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(style);
 
-interface Props {
+interface MyButtonProps {
     textButton: string;
     onClick?: (data: any) => void;
     size?: 'normal' | 'big';
@@ -14,7 +14,8 @@ interface Props {
     noBackground?: boolean;
     form?: string;
 }
-const MyButton = (props: Props) => {
+
+const MyButton = (props: MyButtonProps) => {
     return (
         <button
             form={props.form}

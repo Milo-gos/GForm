@@ -10,12 +10,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const PasswordInput: Story = {
-    args: {
-        typePassword: true,
-    },
-};
-
 export const Normal: Story = {
     args: {},
 };
