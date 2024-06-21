@@ -1,12 +1,12 @@
-# Getting Started with Create React App
+# GSURVEY - WEB SURVEY
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="./assets/images/home.jpg" width="800"/>
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+The GSurvey website is designed to help users quickly create a basic survey. The survey includes multiple questions, each of which can have different types of responses such as text, single choice, multiple choice, multichoice grid, and linear scale.
 
-### `npm start`
+##
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
