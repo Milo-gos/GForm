@@ -6,18 +6,34 @@
 
 The GSurvey website is designed to help users quickly create a basic survey. The survey includes multiple questions, each of which can have different types of responses such as text, single choice, multiple choice, multichoice grid, and linear scale.
 
-##
+## Architechture Diagram
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<img src="./assets/images/architechture-diagram.jpg"/>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Directory Structure
 
-### `npm test`
+├── src
+│ ├── controller
+│ │ ├── \*_/_.css
+│ ├── views
+│ ├── model
+│ ├── index.js
+├── public
+│ ├── favicon.ico
+│ ├── images
+│ ├── js
+│ ├── index.html
+├── dist or build
+├── node_modules
+├── package.json
+├── package-lock.json
+└── .gitignore
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Install and Run the Project
+
+### Add .env file
+
+Add .env file into root directory of project
 
 ### `npm run build`
 
