@@ -5,7 +5,6 @@ const cx = classNames.bind(style);
 
 interface MyButtonProps {
     textButton: string;
-    onClick?: (data: any) => void;
     size?: 'normal' | 'big';
     type?: 'button' | 'reset' | 'submit';
     backgroundColor?: string;
@@ -13,6 +12,7 @@ interface MyButtonProps {
     padding?: string;
     noBackground?: boolean;
     form?: string;
+    onClick?: (data: any) => void;
 }
 
 const MyButton = (props: MyButtonProps) => {
