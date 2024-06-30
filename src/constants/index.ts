@@ -1,2 +1,2 @@
-export * from './chartColors';
+export * from './chart-colors';
 export * from './language';

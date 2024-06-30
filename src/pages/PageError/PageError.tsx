@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './pageerror.module.scss';
+import React from 'react';
+import style from './page-error.module.scss';
 import classNames from 'classnames/bind';
 import { BiSolidErrorAlt } from 'react-icons/bi';
 import { useTranslation } from 'react-i18next';

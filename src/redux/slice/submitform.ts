@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import SubmitFormInterface from '../../utils/interfaces/submitForm';
-import AnswerInterface from '../../utils/interfaces/answer';
+import SubmitFormInterface from '../../utils/interfaces/SubmitForm';
+import AnswerInterface from '../../utils/interfaces/Answer';
 
 const initialState: SubmitFormInterface = {
     id: '',
     title: '',
+    backgroundImage: '',
     description: '',
     questions: [],
     errorQuestions: [],
@@ -19,6 +20,7 @@ const submitFormSlice = createSlice({
             const { survey } = action.payload;
             state.id = survey.id;
             state.title = survey.title;
+            state.backgroundImage = survey.backgroundImage;
             state.description = survey.description;
             state.questions = survey.questions;
             state.errorQuestions = state.questions.map((i) => '');

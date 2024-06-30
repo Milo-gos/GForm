@@ -1,4 +1,4 @@
-import AnswerInterface from './answer';
+import AnswerInterface from './Answer';
 
 interface InfoSubmitInterface {
     surveyId: string;

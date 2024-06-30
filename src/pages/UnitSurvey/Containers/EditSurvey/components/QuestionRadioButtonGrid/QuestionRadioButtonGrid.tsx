@@ -1,12 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './questionradiobuttongrid.module.scss';
+import React from 'react';
+import style from './question-radio-button-grid.module.scss';
 import classNames from 'classnames/bind';
 import CloseIcon from '@mui/icons-material/Close';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-
-import QuestionTextInput from '../QuestionTextInput';
-import { useAppDispatch, useAppSelector } from '../../../../../../redux';
-import useAddRowMutation from '../../../../mutation/addRow';
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/store';
 import {
     handleAddGColumn,
     handleAddRow,
@@ -15,12 +12,15 @@ import {
     handleSetGColumn,
     handleSetRow,
 } from '../../../../../../redux/slice/unitSurvey';
-import useDeleteRowMutation from '../../../../mutation/deleteRow';
-import useAddGColumnMutation from '../../../../mutation/addGColumn';
-import useDeleteGColumnMutation from '../../../../mutation/deleteGColumn';
 import RowComponent from '../RowComponent';
 import GColumnComponent from '../GColumnComponent';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
+import {
+    useAddGColumnMutation,
+    useAddRowMutation,
+    useDeleteGColumnMutation,
+    useDeleteRowMutation,
+} from '../../../../../../hooks/api-hooks/mutations';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -34,7 +34,7 @@ const QuestionRadioButtonGrid = ({ isActiveQuestion, indexQuestion }: Props) => 
     const gcolumnLength = question?.gcolumns ? question.gcolumns.length : 0;
     const dispatchApp = useAppDispatch();
 
-    const AddRow = useAddRowMutation(question.id);
+    const AddRow = useAddRowMutation();
     const handleClickAddRow = () => {
         if (!isEdit) {
             dispatchApp(
@@ -80,7 +80,7 @@ const QuestionRadioButtonGrid = ({ isActiveQuestion, indexQuestion }: Props) => 
         DeleteRowMutation.mutate(rowId!);
     };
 
-    const AddGColumn = useAddGColumnMutation(question.id);
+    const AddGColumn = useAddGColumnMutation();
     const handleClickAddGColumn = () => {
         if (!isEdit) {
             dispatchApp(

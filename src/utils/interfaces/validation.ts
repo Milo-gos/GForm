@@ -1,5 +1,3 @@
-import ValidationType from './valiationTypeM';
-
 interface ValidationInterface {
     validationType: string;
     conditionName: string;

@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import style from './responsesurvey.module.scss';
+import style from './response-survey.module.scss';
 import classNames from 'classnames/bind';
-import { FormControlLabel, IconButton, Menu, MenuItem, Snackbar, Switch } from '@mui/material';
+import { FormControlLabel, Menu, MenuItem, Switch } from '@mui/material';
 import { FaFileExcel } from 'react-icons/fa';
-import useChangeSurveyMutation from '../../mutation/changeSurvey';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../../redux';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getResponseSurvey } from '../../../../API/axios';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
+import { useQueryClient } from '@tanstack/react-query';
 import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
-import ResponseInterface from '../../../../utils/interfaces/response';
+import ResponseInterface from '../../../../utils/interfaces/Response';
 import Response from './components/Response';
-import useGetDataExcelMutation from '../../mutation/getDataExcel';
 import { saveAs } from 'file-saver';
 import { MoonLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
+import { useChangeSurveyMutation, useGetDataExcelMutation } from '../../../../hooks/api-hooks/mutations';
+import { useGetResponseSurveyQuery } from '../../../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 
@@ -37,12 +36,7 @@ const ResponseSurveyPage = () => {
         );
     };
 
-    const { data, isLoading, isError, isSuccess, isFetching } = useQuery({
-        queryKey: [`getResponseSurvey_${id}`],
-        queryFn: () => getResponseSurvey(id!),
-        refetchOnWindowFocus: false,
-        retry: 0,
-    });
+    const { data, isLoading, isError, isSuccess, isFetching } = useGetResponseSurveyQuery(id!);
     const queryClient = useQueryClient();
 
     useEffect(() => {

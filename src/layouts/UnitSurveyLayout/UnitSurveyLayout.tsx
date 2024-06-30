@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import style from './uniturveylayout.module.scss';
-import { BsThreeDotsVertical } from 'react-icons/bs';
+import style from './unit-survey-layout.module.scss';
 import classNames from 'classnames/bind';
 import { Logo } from '../../assets/images';
 import { MyButton } from '../../components';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { IconButton, Tooltip } from '@mui/material';
-import { useAppSelector } from '../../redux';
-import Modal from '../../components/Modal';
+import { useAppSelector } from '../../redux/store';
+import { Modal } from '../../components';
 import ShareInnerModal from './components/ShareInnerModal';
 
 const cx = classNames.bind(style);

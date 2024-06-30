@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import style from './usmsidebar.module.scss';
+import style from './usm-sidebar.module.scss';
 
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import classNames from 'classnames/bind';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaWpforms } from 'react-icons/fa';
 import { FaRegShareSquare } from 'react-icons/fa';
-import useCreateNewSurveyMutation from '../../../../pages/UserSurveyManagement/mutation/createNewSurvey';
 import { setLoading } from '../../../../redux/slice/global';
-import { setSearchString } from '../../../../redux/slice/surveyManagement';
-import { useAppDispatch } from '../../../../redux';
+import { useAppDispatch } from '../../../../redux/store';
 import { useTranslation } from 'react-i18next';
+import { useCreateNewSurveyMutation } from '../../../../hooks/api-hooks/mutations';
 
 const cx = classNames.bind(style);
 const UserSidebar = () => {

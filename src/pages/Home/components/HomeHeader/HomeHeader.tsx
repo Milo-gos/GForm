@@ -1,16 +1,17 @@
 import React from 'react';
 
-import style from './homeheader.module.scss';
+import style from './home-header.module.scss';
 import classNames from 'classnames/bind';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Logo } from '../../../../assets/images';
 import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
-import stringAvatar from '../../../../utils/stringAvatar';
+import stringAvatar from '../../../../utils/string-avatar';
 import { getCurrentUser } from '../../../../API/axios';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { useGetCurrentUserQuery } from '../../../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 
@@ -18,12 +19,7 @@ const HomeHeader = () => {
     const token = localStorage.getItem('accessToken') || false;
     const { t } = useTranslation('home');
     const navigate = useNavigate();
-    const { data: user } = useQuery({
-        queryKey: [`getCurrentUser`],
-        queryFn: getCurrentUser,
-        refetchOnWindowFocus: false,
-        enabled: !!token,
-    });
+    const { data: user } = useGetCurrentUserQuery(!!token);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClose = () => {

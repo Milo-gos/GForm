@@ -1,0 +1,58 @@
+@import '../../../../variable.scss';
+
+.wrapper {
+    width: 280px;
+    min-width: 240px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 2px;
+    background-color: #fff;
+    border-top-right-radius: 30px;
+    position: sticky;
+    top: 0px;
+    height: 100%;
+
+    .add-button {
+        align-self: flex-end;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $mainColor;
+        width: 65px;
+        height: 65px;
+        border-radius: 0 30px 30px 40px;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+    .item-nav-wrapper {
+        margin-top: 24px;
+    }
+    .item-nav {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        height: 56px;
+        padding: 3px 0;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(95, 99, 104, 0.04);
+        }
+
+        .vertical-active {
+            width: 4px;
+            height: 100%;
+            background-color: transparent;
+            border-radius: 0 36px 36px 0;
+            margin-right: 8px;
+        }
+        &.active {
+            .vertical-active {
+                background-color: $mainColor;
+            }
+            background-color: rgba(95, 99, 104, 0.04);
+        }
+    }
+}

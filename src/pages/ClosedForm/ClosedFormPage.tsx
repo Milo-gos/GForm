@@ -1,23 +1,15 @@
-import React, { useEffect } from 'react';
-import style from './closedform.module.scss';
+import React from 'react';
+import style from './closed-form.module.scss';
 import classNames from 'classnames/bind';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAppSelector } from '../../redux';
-import { useQuery } from '@tanstack/react-query';
-import { getPublicSurveyById } from '../../API/axios';
+import { useParams } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
+import { useGetPublicSurveyByIdQuery } from '../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 
 const SubmitSuccessPage = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
-    const { data, isLoading, isSuccess, isError } = useQuery({
-        queryKey: [`getPublicSurveyById_${id}`],
-        queryFn: () => getPublicSurveyById(id!),
-        refetchOnWindowFocus: false,
-        retry: 0,
-    });
+    const { data, isLoading } = useGetPublicSurveyByIdQuery(id!);
 
     return (
         <div className={cx('wrapper')}>

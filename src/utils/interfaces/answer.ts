@@ -1,5 +1,3 @@
-import QuestionInterface from './question';
-
 interface AnswerInterface {
     id?: string;
     questionId: string;

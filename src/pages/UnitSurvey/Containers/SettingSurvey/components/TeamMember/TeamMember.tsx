@@ -1,20 +1,21 @@
 import classNames from 'classnames/bind';
-
-import styles from './teammember.module.scss';
+import styles from './team-member.module.scss';
 import CloseIcon from '@mui/icons-material/Close';
 import { Avatar, Checkbox, FormControlLabel, IconButton, Tooltip } from '@mui/material';
 import { Modal, MyButton, MyLabel } from '../../../../../../components';
-import { QueryClient, useQueryClient } from '@tanstack/react-query';
-import useChangeEditSharedUserMutation from '../../../../mutation/changeEditSharedUser';
+import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import SharedUserInterface from '../../../../../../utils/interfaces/sharedUserInterface';
-import useDeleteSharedUserMutation from '../../../../mutation/deleteSharedUse';
-import stringAvatar from '../../../../../../utils/stringAvatar';
-import { useAppDispatch } from '../../../../../../redux';
+import SharedUserInterface from '../../../../../../utils/interfaces/SharedUserInterface';
+import stringAvatar from '../../../../../../utils/string-avatar';
+import { useAppDispatch } from '../../../../../../redux/store';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
 import { useState } from 'react';
 import { MoonLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
+import {
+    useChangeEditSharedUserMutation,
+    useDeleteSharedUserMutation,
+} from '../../../../../../hooks/api-hooks/mutations';
 
 const cx = classNames.bind(styles);
 

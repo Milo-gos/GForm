@@ -1,5 +1,5 @@
-import QuestionInterface from './question';
-import UserInterface from './user';
+import QuestionInterface from './Question';
+import UserInterface from './User';
 
 interface SurveyInterface {
     id?: string;

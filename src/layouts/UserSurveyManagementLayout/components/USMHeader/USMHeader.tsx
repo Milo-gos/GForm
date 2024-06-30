@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import style from './usmheader.module.scss';
+import style from './usm-header.module.scss';
 import classNames from 'classnames/bind';
 import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'react-autosave';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../../../../assets/images';
-import { getCurrentUser } from '../../../../API/axios';
 import { LanguageButton, Search } from '../../../../components';
-import { useAppDispatch } from '../../../../redux';
+import { useAppDispatch } from '../../../../redux/store';
 import { setSearchString } from '../../../../redux/slice/surveyManagement';
-import stringAvatar from '../../../../utils/stringAvatar';
+import stringAvatar from '../../../../utils/string-avatar';
 import { signOut } from 'firebase/auth';
-import { auth } from '../../../../utils/firebase/config';
+import { auth } from '../../../../config/firebase';
 import { useTranslation } from 'react-i18next';
+import { useGetCurrentUserQuery } from '../../../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 
@@ -53,12 +52,7 @@ const USMHeader = () => {
         });
     };
 
-    const { data: user } = useQuery({
-        queryKey: [`getCurrentUser`],
-        queryFn: getCurrentUser,
-        refetchOnWindowFocus: false,
-    });
-
+    const { data: user } = useGetCurrentUserQuery();
     if (!user) return <></>;
 
     return (

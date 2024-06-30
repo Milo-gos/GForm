@@ -1,11 +1,10 @@
-import AnswerInterface from './answer';
-import QuestionInterface from './question';
-import InfoSubmitInterface from './submit';
+import QuestionInterface from './Question';
+import InfoSubmitInterface from './Submit';
 
 interface SubmitFormInterface {
     id?: string;
     title: string;
-
+    backgroundImage: string;
     description: string;
     questions: QuestionInterface[];
     errorQuestions: string[];

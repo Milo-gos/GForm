@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import style from './languagebutton.module.scss';
+import style from './language-button.module.scss';
 import classNames from 'classnames/bind';
 import LanguageIcon from '@mui/icons-material/Language';
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
@@ -10,7 +10,7 @@ const cx = classNames.bind(style);
 
 const LanguageButton = () => {
     const { i18n, t } = useTranslation('component');
-    const [lng, setLng] = useState(LANGUAGE.vi);
+    const [lng, setLng] = useState(LANGUAGE.VI);
     const handleChangeLanguage = (e: SelectChangeEvent) => {
         const value = e.target.value;
         setLng(value);
@@ -35,10 +35,10 @@ const LanguageButton = () => {
                         value={lng}
                         size="small"
                         MenuProps={{ disablePortal: true }}>
-                        <MenuItem value={LANGUAGE.vi} className={cx('menu-item')}>
+                        <MenuItem value={LANGUAGE.VI} className={cx('menu-item')}>
                             {t('language_button.vi')}
                         </MenuItem>
-                        <MenuItem value={LANGUAGE.en} className={cx('menu-item')}>
+                        <MenuItem value={LANGUAGE.EN} className={cx('menu-item')}>
                             {t('language_button.en')}
                         </MenuItem>
                     </Select>

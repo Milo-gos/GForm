@@ -1,14 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './questiondropdown.module.scss';
+import React from 'react';
+import style from './question-dropdown.module.scss';
 import classNames from 'classnames/bind';
 import CloseIcon from '@mui/icons-material/Close';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import useAddOptionMutation from '../../../../mutation/addOption';
-import useDeleteOptionMutation from '../../../../mutation/deleteOption';
-import { useAppDispatch, useAppSelector } from '../../../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/store';
 import { handleAddOption, handleRemoveOption, handleSetOption } from '../../../../../../redux/slice/unitSurvey';
 import OptionComponent from '../OptionComponent';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
+import { useAddOptionMutation, useDeleteOptionMutation } from '../../../../../../hooks/api-hooks/mutations';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -22,7 +21,7 @@ const QuestionDropDown = ({ isActiveQuestion, indexQuestion }: Props) => {
 
     ////
 
-    const AddOption = useAddOptionMutation(question.id);
+    const AddOption = useAddOptionMutation();
     const handleAdd = () => {
         if (!isEdit) {
             dispatchApp(

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import { RouterProvider } from 'react-router-dom';
-import router from './routes';
+import router from './routes/router';
 import './config/i18n';
 import './config/sentry';
 

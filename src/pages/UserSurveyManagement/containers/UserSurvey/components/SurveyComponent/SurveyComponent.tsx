@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './surveycomponent.module.scss';
+import React from 'react';
+import style from './survey-component.module.scss';
 import classNames from 'classnames/bind';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import { useNavigate } from 'react-router-dom';
-import convertDate from '../../../../../../utils/convertDate';
+import convertDate from '../../../../../../utils/convert-date';
 import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(style);

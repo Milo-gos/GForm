@@ -5,22 +5,24 @@ import style from './profile.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
 import { ErrorMessage, MyButton, NormalTextInput } from '../../components';
 import { Avatar, IconButton, Tooltip } from '@mui/material';
-import useChangeUserAvatarMutation from './mutation/changeUserAvatar';
 import { MoonLoader } from 'react-spinners';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCurrentUser } from '../../API/axios';
-import UserInterface from '../../utils/interfaces/user';
+import { useQueryClient } from '@tanstack/react-query';
+import UserInterface from '../../utils/interfaces/User';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useChangeUsernameMutation from './mutation/changeUsername';
-import useChangeUserPasswordMutation from './mutation/changeUserPassword';
-import { useAppDispatch } from '../../redux';
+import {
+    useChangeUserAvatarMutation,
+    useChangeUserPasswordMutation,
+    useChangeUsernameMutation,
+    useSetUserPasswordMutation,
+} from '../../hooks/api-hooks/mutations';
+import { useAppDispatch } from '../../redux/store';
 import { setLoading } from '../../redux/slice/global';
-import { Link, useNavigate } from 'react-router-dom';
-import stringAvatar from '../../utils/stringAvatar';
-import useSetUserPasswordMutation from './mutation/setUserPassword';
+import { useNavigate } from 'react-router-dom';
+import stringAvatar from '../../utils/string-avatar';
+import { useGetCurrentUserQuery } from '../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 const ChangePassWordSchema = z
@@ -84,11 +86,7 @@ const ProfilePage = () => {
     const [isChangeName, setChangeName] = useState(false);
     const [isLoadAvatar, setLoadAvatar] = useState(false);
     const queryClient = useQueryClient();
-    const { data: user } = useQuery({
-        queryKey: [`getCurrentUser`],
-        queryFn: getCurrentUser,
-        refetchOnWindowFocus: false,
-    });
+    const { data: user } = useGetCurrentUserQuery();
     const ref = useRef<HTMLInputElement>(null);
     const ChangeUserAvatarMutation = useChangeUserAvatarMutation();
     const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {

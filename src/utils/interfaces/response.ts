@@ -1,6 +1,6 @@
-import AnswerInterface from './answer';
-import QuestionResponseInterface from './question-response';
-import SurveyInterface from './survey';
+import AnswerInterface from './Answer';
+import QuestionResponseInterface from './QuestionResponse';
+import SurveyInterface from './Survey';
 
 interface ResponseInterface {
     survey?: SurveyInterface;

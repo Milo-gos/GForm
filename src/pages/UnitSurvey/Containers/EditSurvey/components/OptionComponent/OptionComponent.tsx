@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../../../redux';
-import useChangeOptionMutation from '../../../../mutation/changeOptionText';
-import useAutoSave from '../../../../../../hooks/useAutoSave';
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/store';
+import { useAutoSave } from '../../../../../../hooks';
 import QuestionTextInput from '../QuestionTextInput';
 import { handleChangeOptionText } from '../../../../../../redux/slice/unitSurvey';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
+import { useChangeOptionMutation } from '../../../../../../hooks/api-hooks/mutations';
 
 interface Props {
     isActiveQuestion?: boolean;
@@ -15,7 +15,7 @@ const OptionComponent = ({ indexQuestion, indexOption, isActiveQuestion }: Props
     const dispatchApp = useAppDispatch();
     const option = useAppSelector((state) => state.survey.questions![indexQuestion]?.options![indexOption]);
     const isEdit = useAppSelector((state) => state.survey.isEdit);
-    const ChangeOption = useChangeOptionMutation(option.id);
+    const ChangeOption = useChangeOptionMutation();
 
     useAutoSave(option.optionText, () => {
         ChangeOption.mutate(
