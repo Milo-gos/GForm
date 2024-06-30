@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import style from './linktab.module.scss';
+import style from './link-tab.module.scss';
 import classNames from 'classnames/bind';
 import { MyButton, NormalTextInput } from '../../../../components';
-import { Checkbox, FormControlLabel } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind(style);

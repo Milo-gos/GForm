@@ -1,0 +1,59 @@
+@import '../../variable.scss';
+
+.wrapper {
+    min-height: 36px;
+    min-width: 90px;
+    padding: 10px;
+    display: flex;
+    outline: none;
+
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: $mainColor;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: $transition;
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &.big {
+        min-height: 44px;
+        min-width: 120px;
+        border-radius: 12px;
+        span {
+            font-weight: 600;
+            font-size: 18px;
+        }
+    }
+
+    &.noBackground {
+        background-color: transparent;
+        color: $textColor;
+
+        &:hover {
+            background-color: #f9f9f9;
+        }
+    }
+
+    &.responsive {
+        @media (max-width: 1024px) {
+            &.big {
+                min-height: 40px;
+                span {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        @media (max-width: 400px) {
+            &.big {
+                min-height: 40px;
+                span {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

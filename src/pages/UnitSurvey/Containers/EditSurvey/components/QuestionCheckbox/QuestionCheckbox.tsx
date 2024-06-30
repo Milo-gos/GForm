@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './questioncheckbox.module.scss';
+import React from 'react';
+import style from './question-checkbox.module.scss';
 import classNames from 'classnames/bind';
 import CloseIcon from '@mui/icons-material/Close';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import { useAppDispatch, useAppSelector } from '../../../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/store';
 import {
     handleAddOption,
     handleRemoveOption,
@@ -12,11 +12,13 @@ import {
     handleSetOption,
 } from '../../../../../../redux/slice/unitSurvey';
 
-import useDeleteOptionMutation from '../../../../mutation/deleteOption';
-import useAddOptionMutation from '../../../../mutation/addOption';
-import useChangeQuestionMutation from '../../../../mutation/changeQuestion';
 import OptionComponent from '../OptionComponent';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
+import {
+    useAddOptionMutation,
+    useChangeQuestionMutation,
+    useDeleteOptionMutation,
+} from '../../../../../../hooks/api-hooks/mutations';
 
 const cx = classNames.bind(style);
 interface Props {
@@ -31,8 +33,7 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
     const isHasOther = question.isHasOther;
     const dispatchApp = useAppDispatch();
 
-    //////////////////////////////////
-    const ChangeQuestion = useChangeQuestionMutation(question.id || '');
+    const ChangeQuestion = useChangeQuestionMutation();
     const handleAddOther = () => {
         if (!isEdit) {
             dispatchApp(
@@ -76,7 +77,7 @@ const QuestionCheckbox = ({ isActiveQuestion, indexQuestion }: Props) => {
         });
     };
 
-    const AddOption = useAddOptionMutation(question.id);
+    const AddOption = useAddOptionMutation();
     const handleAdd = () => {
         if (!isEdit) {
             dispatchApp(

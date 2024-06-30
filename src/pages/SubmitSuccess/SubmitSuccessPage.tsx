@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import style from './submitsuccess.module.scss';
+import style from './submit-success.module.scss';
 import classNames from 'classnames/bind';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppSelector } from '../../redux';
+import { useAppSelector } from '../../redux/store';
 
 const cx = classNames.bind(style);
 
@@ -23,7 +23,7 @@ const SubmitSuccessPage = () => {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('background')}>
-                <img src="https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg" />
+                <img src={survey.backgroundImage} />
             </div>
 
             <div className={cx('form-header')}>

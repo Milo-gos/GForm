@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import style from './authlayout.module.scss';
+import style from './auth-layout.module.scss';
 import classNames from 'classnames/bind';
 import { ImageSignin, Logo } from '../../assets/images';
 import { useNavigate } from 'react-router-dom';

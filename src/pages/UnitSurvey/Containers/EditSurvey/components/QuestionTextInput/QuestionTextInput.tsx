@@ -1,5 +1,5 @@
 import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
-import style from './questiontextinput.module.scss';
+import style from './question-text-input.module.scss';
 import classNames from 'classnames/bind';
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 const cx = classNames.bind(style);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { HashLoader } from 'react-spinners';
-import { useAppDispatch, useAppSelector } from '../../redux';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Snackbar } from '@mui/material';

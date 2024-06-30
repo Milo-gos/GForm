@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import style from './settingsurvey.module.scss';
+import style from './setting-survey.module.scss';
 import classNames from 'classnames/bind';
-import useChangeSurveyMutation from '../../mutation/changeSurvey';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch } from '../../../../redux';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useAppDispatch } from '../../../../redux/store';
+import { useQuery } from '@tanstack/react-query';
 import { getSharedUserSurvey } from '../../../../API/axios';
 import { setLoading } from '../../../../redux/slice/global';
 import TeamMember from './components/TeamMember';
 import { Modal, MyButton } from '../../../../components';
-import useDeleteSurveyMutation from '../../mutation/deleteSurvey';
 import { toast } from 'react-toastify';
 import { MoonLoader } from 'react-spinners';
+import { useDeleteSurveyMutation } from '../../../../hooks/api-hooks/mutations';
+import { useGetSharedUserSurveyQuery } from '../../../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 
@@ -22,13 +22,7 @@ const SettingSurveyPage = () => {
     const [isLoadingDelete, setLoadingDelete] = useState(false);
 
     const [isOpenModal, setOpenModal] = useState(false);
-    const { data, isLoading, isError, isSuccess } = useQuery({
-        queryKey: [`getSharedUserSurvey_${id}`],
-        queryFn: () => getSharedUserSurvey(id!),
-        refetchOnWindowFocus: false,
-        retry: 0,
-    });
-    const queryClient = useQueryClient();
+    const { data, isLoading, isError, isSuccess } = useGetSharedUserSurveyQuery(id!);
 
     useEffect(() => {
         if (isLoading) {
@@ -39,7 +33,6 @@ const SettingSurveyPage = () => {
         }
     }, [isLoading, isError, isSuccess, dispatchApp]);
 
-    const ChangeSurveyMutation = useChangeSurveyMutation();
     const handleClickClose = () => {
         setOpenModal(false);
     };

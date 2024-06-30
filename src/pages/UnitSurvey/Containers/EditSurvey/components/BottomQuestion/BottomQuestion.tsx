@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import style from './bottomquestion.module.scss';
+import style from './bottom-question.module.scss';
 import classNames from 'classnames/bind';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { FormControlLabel, IconButton, Menu, MenuItem, Snackbar, Switch, Tooltip } from '@mui/material';
+import { FormControlLabel, IconButton, Menu, MenuItem, Switch, Tooltip } from '@mui/material';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import { BsThreeDotsVertical } from 'react-icons/bs';
-import QuestionType from '../../../../../../utils/interfaces/questionType';
+import QuestionType from '../../../../../../utils/interfaces/QuestionType';
 import {
     handleDeleteQuestion,
     handleToggleDescription,
     handleChangeRequired,
     handleDuplicateQuestion,
 } from '../../../../../../redux/slice/unitSurvey';
-import useChangeQuestionMutation from '../../../../mutation/changeQuestion';
-import useDeleteQuestionMutation from '../../../../mutation/deleteQuestion';
-import { useAppDispatch, useAppSelector } from '../../../../../../redux';
-import useDuplicateQuestionMutation from '../../../../mutation/duplicateQuestion';
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/store';
 import { MoonLoader } from 'react-spinners';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
+import {
+    useChangeQuestionMutation,
+    useDeleteQuestionMutation,
+    useDuplicateQuestionMutation,
+} from '../../../../../../hooks/api-hooks/mutations';
 
 const cx = classNames.bind(style);
 interface Props {
@@ -52,20 +54,12 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
             return;
         }
         dispatchApp(handleToggleDescription({ indexQuestion }));
-        changeQuestion.mutate(
-            {
-                isHasDescription: !question.isHasDescription,
-            },
-
-            {
-                onError(error, variables, context) {
-                    console.log(error);
-                },
-            },
-        );
+        changeQuestion.mutate({
+            isHasDescription: !question.isHasDescription,
+        });
     };
 
-    const DeleteQuestionMutation = useDeleteQuestionMutation(question.id);
+    const DeleteQuestionMutation = useDeleteQuestionMutation();
     const handleClickRemoveQuestion = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         if (!isEdit) {
@@ -92,7 +86,7 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
 
         DeleteQuestionMutation.mutate(question.id!);
     };
-    const changeQuestion = useChangeQuestionMutation(question.id || '');
+    const changeQuestion = useChangeQuestionMutation();
     const handleSwitch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const isRequired = event.target.checked;
         if (!isEdit) {
@@ -124,7 +118,7 @@ const BottomQuestion = ({ type, indexQuestion }: Props) => {
         );
     };
 
-    const DuplicateQuestionMutation = useDuplicateQuestionMutation(question.id);
+    const DuplicateQuestionMutation = useDuplicateQuestionMutation();
 
     const handleDuplicateThisQuestion = () => {
         setLoadingDuplicate(true);

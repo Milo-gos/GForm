@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import style from './responseparagraph.module.scss';
+import style from './response-paragraph.module.scss';
 import classNames from 'classnames/bind';
-import QuestionResponseInterface from '../../../../../../utils/interfaces/question-response';
+import QuestionResponseInterface from '../../../../../../utils/interfaces/QuestionResponse';
 
 const cx = classNames.bind(style);
 

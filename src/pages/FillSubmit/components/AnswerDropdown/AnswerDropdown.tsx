@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
 import { setErrorQuestion, setOption } from '../../../../redux/slice/submitform';
 
 interface Props {

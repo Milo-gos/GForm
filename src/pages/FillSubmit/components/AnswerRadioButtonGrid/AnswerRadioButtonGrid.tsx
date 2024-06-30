@@ -1,7 +1,7 @@
 import React from 'react';
-import style from './answerradiobuttongrid.module.scss';
+import style from './answer-radio-button-grid.module.scss';
 import classNames from 'classnames/bind';
-import { useAppSelector } from '../../../../redux';
+import { useAppSelector } from '../../../../redux/store';
 import RowRadioGroupComponent from '../RowRadioGroupComponent';
 
 const cx = classNames.bind(style);

@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './questionradiobutton.module.scss';
+import React from 'react';
+import style from './question-radiobutton.module.scss';
 import classNames from 'classnames/bind';
 import CloseIcon from '@mui/icons-material/Close';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined';
-import { useAppDispatch, useAppSelector } from '../../../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/store';
 import {
     handleAddOption,
     handleRemoveOption,
@@ -12,10 +12,12 @@ import {
     handleSetOption,
 } from '../../../../../../redux/slice/unitSurvey';
 import OptionComponent from '../OptionComponent';
-import useAddOptionMutation from '../../../../mutation/addOption';
-import useDeleteOptionMutation from '../../../../mutation/deleteOption';
-import useChangeQuestionMutation from '../../../../mutation/changeQuestion';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
+import {
+    useAddOptionMutation,
+    useChangeQuestionMutation,
+    useDeleteOptionMutation,
+} from '../../../../../../hooks/api-hooks/mutations';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -26,7 +28,7 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
     const isEdit = useAppSelector((state) => state.survey.isEdit);
 
     const optionsLength = question.options ? question.options.length : 0;
-    const ChangeQuestion = useChangeQuestionMutation(question.id || '');
+    const ChangeQuestion = useChangeQuestionMutation();
     const isHasOther = question.isHasOther;
     const dispatchApp = useAppDispatch();
     const handleAddOther = () => {
@@ -73,7 +75,7 @@ const QuestionRadioButton = ({ isActiveQuestion, indexQuestion }: Props) => {
         });
     };
 
-    const AddOption = useAddOptionMutation(question.id);
+    const AddOption = useAddOptionMutation();
     const handleAdd = () => {
         if (!isEdit) {
             dispatchApp(

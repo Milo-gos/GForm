@@ -2,14 +2,14 @@ import React, { useMemo, useState } from 'react';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import style from './response.module.scss';
 import classNames from 'classnames/bind';
-import QuestionType from '../../../../../../utils/interfaces/questionType';
+import QuestionType from '../../../../../../utils/interfaces/QuestionType';
 import ResponseShortAnswer from '../ResponseShortAnswer';
 import ResponseParagraph from '../ResponseParagraph';
 import ResponseRadioButton from '../ResponseRadioButton';
 import ResponseDropdown from '../ResponseDropdown';
 import ResponseLinearScale from '../ResponseLinearScale';
 import ResponseRadioButtonGrid from '../ResponseRadioButtonGrid';
-import QuestionResponseInterface from '../../../../../../utils/interfaces/question-response';
+import QuestionResponseInterface from '../../../../../../utils/interfaces/QuestionResponse';
 import ResponseCheckbox from '../ResponseCheckbox';
 
 const cx = classNames.bind(style);

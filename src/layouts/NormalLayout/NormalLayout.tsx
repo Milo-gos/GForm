@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from 'react';
-import style from './normallayout.module.scss';
+import style from './normal-layout.module.scss';
 
 import classNames from 'classnames/bind';
 

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import style from './usersurvey.module.scss';
+import style from './user-survey.module.scss';
 import classNames from 'classnames/bind';
 import { useNavigate } from 'react-router-dom';
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { MoonLoader } from 'react-spinners';
-import { useAppSelector } from '../../../../redux';
+import { useAppSelector } from '../../../../redux/store';
 import { getSurveysOfCurrentUser } from '../../../../API/axios';
 import SurveyComponent from './components/SurveyComponent';
 import { MyButton } from '../../../../components';
 import { useTranslation } from 'react-i18next';
+import { useGetSurveyOfCurrentUserQuery } from '../../../../hooks/api-hooks/infiniteQueries';
 
 const cx = classNames.bind(style);
 const UserSurveyPage = () => {
@@ -22,13 +23,10 @@ const UserSurveyPage = () => {
         const value = e.target.value;
         setValue(value);
     };
-    const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
-        queryKey: [`getSurveyOfCurrentUser`, searchString, value],
-        queryFn: getSurveysOfCurrentUser,
-        refetchOnWindowFocus: false,
-        initialPageParam: 0,
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-    });
+    const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetSurveyOfCurrentUserQuery(
+        searchString,
+        value,
+    );
 
     return (
         <div className={cx('wrapper')}>

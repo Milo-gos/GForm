@@ -2,11 +2,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { z } from 'zod';
 import classNames from 'classnames/bind';
 import NormalTextInput from '../../../../components/NormalTextInput';
-import { useAppDispatch, useAppSelector } from '../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { setChangeAnswerText, setErrorQuestion } from '../../../../redux/slice/submitform';
-import { createSchema } from '../../../../utils/validationZod';
+import { createSchema } from '../../../../utils/validation-zod';
 
 interface Props {
     indexQuestion: number;

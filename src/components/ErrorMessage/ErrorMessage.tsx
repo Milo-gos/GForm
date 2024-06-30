@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './errormessage.module.scss';
+import style from './error-message.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(style);
 

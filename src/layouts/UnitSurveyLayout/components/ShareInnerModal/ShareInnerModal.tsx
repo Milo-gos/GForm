@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import style from './shareinnermodal.module.scss';
+import style from './share-inner-modal.module.scss';
 import classNames from 'classnames/bind';
 
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import LinkIcon from '@mui/icons-material/Link';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import { Checkbox, FormControlLabel, Tooltip } from '@mui/material';
-import { NormalTextInput } from '../../../../components';
+import { Tooltip } from '@mui/material';
 import MailTab from '../MailTab';
 import LinkTab from '../LinkTab';
 import { FacebookShareButton } from 'react-share';
-import { useAppSelector } from '../../../../redux';
+import { useAppSelector } from '../../../../redux/store';
 import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind(style);

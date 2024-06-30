@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import NormalTextInput from '../../../../components/NormalTextInput';
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
 import { setChooseOtherCheckbox, setMultipleOption, setOtherText } from '../../../../redux/slice/submitform';
 
 interface Props {

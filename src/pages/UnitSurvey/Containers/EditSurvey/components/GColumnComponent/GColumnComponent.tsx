@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../../../redux';
-import useChangeGColumnMutation from '../../../../mutation/changeGColumnContent';
-import useAutoSave from '../../../../../../hooks/useAutoSave';
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/store';
+import { useAutoSave } from '../../../../../../hooks';
 import QuestionTextInput from '../QuestionTextInput';
 import { handleChangeGColumnContent } from '../../../../../../redux/slice/unitSurvey';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
+import { useChangeGColumnMutation } from '../../../../../../hooks/api-hooks/mutations';
 
 interface Props {
     isActiveQuestion?: boolean;
@@ -15,7 +15,7 @@ const GColumnComponent = ({ indexQuestion, indexGColumn, isActiveQuestion }: Pro
     const dispatchApp = useAppDispatch();
     const gcolumn = useAppSelector((state) => state.survey.questions![indexQuestion]?.gcolumns![indexGColumn]);
     const isEdit = useAppSelector((state) => state.survey.isEdit);
-    const ChangeGColumn = useChangeGColumnMutation(gcolumn.id);
+    const ChangeGColumn = useChangeGColumnMutation();
 
     useAutoSave(gcolumn.gcolumnContent, () => {
         ChangeGColumn.mutate(

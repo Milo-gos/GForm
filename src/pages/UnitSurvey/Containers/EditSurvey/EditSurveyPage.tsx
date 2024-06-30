@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import style from './editsurvey.module.scss';
+import style from './edit-survey.module.scss';
 import classNames from 'classnames/bind';
-import { useAppDispatch, useAppSelector } from '../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
 import {
     handleActiveQuestion,
     handleChangeDescription,
@@ -12,19 +12,18 @@ import {
 } from '../../../../redux/slice/unitSurvey';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
-import useAutoSave from '../../../../hooks/useAutoSave';
-import useChangeSurveyMutation from '../../mutation/changeSurvey';
+import { useAutoSave } from '../../../../hooks';
+import useChangeSurveyMutation from '../../../../hooks/api-hooks/mutations/useChangeSurveyMutation';
 import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getSurveyById } from '../../../../API/axios';
-import useAddFirstQuestionMutation from '../../mutation/addFirstQuestion';
+import { useQueryClient } from '@tanstack/react-query';
+import useAddFirstQuestionMutation from '../../../../hooks/api-hooks/mutations/useAddFirstQuestionMutation';
 import QuestionTextInput from './components/QuestionTextInput';
 import Question from './components/Question';
-import { Snackbar } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { MoonLoader } from 'react-spinners';
-import useChangeBackgroundSurveyMutation from '../../mutation/changeBackgroundSurvey';
-import SurveyInterface from '../../../../utils/interfaces/survey';
+import useChangeBackgroundSurveyMutation from '../../../../hooks/api-hooks/mutations/useChangeBackgroundSurveyMutation';
+import SurveyInterface from '../../../../utils/interfaces/SurveyInterface';
+import { useGetSurveyByIdQuery } from '../../../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 
@@ -38,12 +37,7 @@ const EditSurveyPage = () => {
     const survey = useAppSelector((state) => state.survey);
     const isEdit = useAppSelector((state) => state.survey.isEdit);
 
-    const { data, isLoading, isError, isSuccess, error } = useQuery({
-        queryKey: [`getSurveyById_${id}`],
-        queryFn: () => getSurveyById(id!),
-        refetchOnWindowFocus: false,
-        retry: 0,
-    });
+    const { data, isLoading, isError, isSuccess, error } = useGetSurveyByIdQuery(id!);
 
     useEffect(() => {
         if (isLoading) {

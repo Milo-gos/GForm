@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
-import style from './fillsubmit.module.scss';
+import style from './fill-submit.module.scss';
 import classNames from 'classnames/bind';
 import { MyButton } from '../../components';
-import { useAppDispatch, useAppSelector } from '../../redux';
-import useCreateResponseMutation from './mutation/createResponse';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { useCreateResponseMutation } from '../../hooks/api-hooks/mutations';
 import { useNavigate, useParams } from 'react-router-dom';
 import { setErrorQuestion, setSurveySubmit } from '../../redux/slice/submitform';
-import { useQuery } from '@tanstack/react-query';
-import { getPublicSurveyById } from '../../API/axios';
 import { setLoading } from '../../redux/slice/global';
 import Answer from './components/Answer';
-import QuestionType from '../../utils/interfaces/questionType';
+import QuestionType from '../../utils/interfaces/QuestionType';
 import { toast } from 'react-toastify';
+import { useGetPublicSurveyByIdQuery } from '../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 
@@ -23,12 +22,7 @@ const FillSubmitPage = () => {
     const surveySubmit = useAppSelector((state) => state.submitForm);
     const answers = useAppSelector((state) => state.submitForm.infoSubmit?.answers);
 
-    const { data, isLoading, isSuccess, isError } = useQuery({
-        queryKey: [`getPublicSurveyById_${id}`],
-        queryFn: () => getPublicSurveyById(id!),
-        refetchOnWindowFocus: false,
-        retry: 0,
-    });
+    const { data, isLoading, isSuccess, isError } = useGetPublicSurveyByIdQuery(id!);
 
     useEffect(() => {
         if (isLoading) {

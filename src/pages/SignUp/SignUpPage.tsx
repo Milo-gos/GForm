@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import style from './signup.module.scss';
+import style from './sign-up.module.scss';
 import classNames from 'classnames/bind';
 import { ErrorMessage, MyButton, NormalTextInput } from '../../components';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '../../redux';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { MdOutlineMarkEmailRead } from 'react-icons/md';
-import useSignUpMutation from './mutation/signUp';
 import { setLoading } from '../../redux/slice/global';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../config/i18n';
+import { useSignUpMutation } from '../../hooks/api-hooks/mutations';
 const cx = classNames.bind(style);
 
 const SignUpSchema = z
