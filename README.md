@@ -35,7 +35,7 @@ The GSurvey website is designed to help users quickly create a basic survey. The
 ┃ ┃ ┣ 📂ExampleComponent
 ┃ ┃ ┃ ┣ 📜example-component.module.scss
 ┃ ┃ ┃ ┣ 📜ExampleComponent.tsx
-┃ ┃ ┃ ┗ 📜index.tsx
+┃ ┃ ┃ ┗ 📜index.ts
 ┃ ┃ ┣ ...
 ┃ ┃ ┗ 📜index.ts
 ┃ ┣ 📂config
@@ -59,18 +59,18 @@ The GSurvey website is designed to help users quickly create a basic survey. The
 ┃ ┃ ┃ ┃ ┗ 📜index.ts
 ┃ ┃ ┣ 📜useAutoSave.tsx
 ┃ ┃ ┣ 📜useDebounce.tsx
-┃ ┃ ┗ 📜index.tsx
+┃ ┃ ┗ 📜index.ts
 ┃ ┣ 📂layouts
 ┃ ┃ ┣ 📂ExampleLayout
 ┃ ┃ ┃ ┣ 📂components
 ┃ ┃ ┃ ┃ ┣ 📂ExampleComponent
 ┃ ┃ ┃ ┃ ┃ ┣ 📜example-component.module.scss
 ┃ ┃ ┃ ┃ ┃ ┣ 📜ExampleComponent.tsx
-┃ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+┃ ┃ ┃ ┃ ┃ ┗ 📜index.ts
 ┃ ┃ ┃ ┃ ┗ ...
 ┃ ┃ ┃ ┣ 📜example-layout.module.scss
 ┃ ┃ ┃ ┣ 📜ExampleLayout.tsx
-┃ ┃ ┃ ┗ 📜index.tsx
+┃ ┃ ┃ ┗ 📜index.ts
 ┃ ┃ ┗ 📜index.ts
 ┃ ┣ 📂locales
 ┃ ┃ ┣ 📂en
@@ -87,17 +87,17 @@ The GSurvey website is designed to help users quickly create a basic survey. The
 ┃ ┃ ┃ ┃ ┣ 📂ExampleContainer
 ┃ ┃ ┃ ┃ ┃ ┣ 📜example-container.module.scss
 ┃ ┃ ┃ ┃ ┃ ┣ 📜ExampleContainer.tsx
-┃ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+┃ ┃ ┃ ┃ ┃ ┗ 📜index.ts
 ┃ ┃ ┃ ┃ ┗ ...
 ┃ ┃ ┃ ┣ 📂components
 ┃ ┃ ┃ ┃ ┣ 📂ExampleComponent
 ┃ ┃ ┃ ┃ ┃ ┣ 📜example-component.module.scss
 ┃ ┃ ┃ ┃ ┃ ┣ 📜ExampleComponent.tsx
-┃ ┃ ┃ ┃ ┃ ┗ 📜index.tsx
+┃ ┃ ┃ ┃ ┃ ┗ 📜index.ts
 ┃ ┃ ┃ ┃ ┗ ...
 ┃ ┃ ┃ ┣ 📜example-page.module.scss
 ┃ ┃ ┃ ┣ 📜ExamplePage.tsx
-┃ ┃ ┃ ┗ 📜index.tsx
+┃ ┃ ┃ ┗ 📜index.ts
 ┃ ┃ ┣ ...
 ┃ ┃ ┗ 📜index.ts
 ┃ ┣ 📂redux
@@ -119,7 +119,7 @@ The GSurvey website is designed to help users quickly create a basic survey. The
 ┃ ┃ ┣ 📂axios
 ┃ ┃ ┃ ┗ 📜instance-axios.ts
 ┃ ┃ ┣ 📂interfaces
-┃ ┃ ┃ ┣ 📜IQuestion.ts
+┃ ┃ ┃ ┣ 📜Question.ts
 ┃ ┃ ┃ ┣ ...
 ┃ ┃ ┃ ┗ 📜index.ts
 ┃ ┃ ┣ 📜convert-date.ts
