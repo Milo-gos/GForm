@@ -1,12 +1,9 @@
-import GColumnInterface from './GColumn';
-
+import GColumnInterface from './GColumnInterface';
 import LinearScaleInterface from './LinearScale';
-import OptionInterface from './Option';
-
+import OptionInterface from './OptionInterface';
 import QuestionType from './QuestionType';
-import RowInterface from './Row';
-
-import ValidationInterface from './Validation';
+import RowInterface from './RowInterface';
+import ValidationInterface from './ValidationInterface';
 
 interface QuestionInterface {
     id?: string;

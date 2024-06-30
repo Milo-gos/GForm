@@ -22,7 +22,7 @@ import Question from './components/Question';
 import EditIcon from '@mui/icons-material/Edit';
 import { MoonLoader } from 'react-spinners';
 import useChangeBackgroundSurveyMutation from '../../../../hooks/api-hooks/mutations/useChangeBackgroundSurveyMutation';
-import SurveyInterface from '../../../../utils/interfaces/Survey';
+import SurveyInterface from '../../../../utils/interfaces/SurveyInterface';
 import { useGetSurveyByIdQuery } from '../../../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);

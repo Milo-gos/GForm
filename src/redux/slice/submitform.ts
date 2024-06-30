@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import SubmitFormInterface from '../../utils/interfaces/SubmitForm';
-import AnswerInterface from '../../utils/interfaces/Answer';
+import SubmitFormInterface from '../../utils/interfaces/SubmitFormInterface';
+import AnswerInterface from '../../utils/interfaces/AnswerInterface';
 
 const initialState: SubmitFormInterface = {
     id: '',

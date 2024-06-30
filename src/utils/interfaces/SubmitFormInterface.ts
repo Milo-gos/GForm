@@ -1,5 +1,5 @@
-import QuestionInterface from './Question';
-import InfoSubmitInterface from './Submit';
+import QuestionInterface from './QuestionInterface';
+import InfoSubmitInterface from './InfoSubmitInterface';
 
 interface SubmitFormInterface {
     id?: string;

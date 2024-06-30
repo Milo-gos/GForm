@@ -7,7 +7,7 @@ import { ErrorMessage, MyButton, NormalTextInput } from '../../components';
 import { Avatar, IconButton, Tooltip } from '@mui/material';
 import { MoonLoader } from 'react-spinners';
 import { useQueryClient } from '@tanstack/react-query';
-import UserInterface from '../../utils/interfaces/User';
+import UserInterface from '../../utils/interfaces/UserInterface';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

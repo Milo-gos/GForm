@@ -1,7 +1,7 @@
 import { Draft, PayloadAction, createSlice } from '@reduxjs/toolkit';
-import Survey from '../../utils/interfaces/Survey';
+import Survey from '../../utils/interfaces/SurveyInterface';
 import QuestionType from '../../utils/interfaces/QuestionType';
-import QuestionInterface from '../../utils/interfaces/Question';
+import QuestionInterface from '../../utils/interfaces/QuestionInterface';
 
 const initialState: Survey = {
     id: '',

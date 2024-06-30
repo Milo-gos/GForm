@@ -1,16 +1,18 @@
 import axios from 'axios';
 import InstanceAxios from '../utils/axios/instanceAxios';
-import UserInterface from '../utils/interfaces/User';
-import SurveyInterface from '../utils/interfaces/Survey';
-import SurveyData from '../utils/interfaces/SurveyData';
-import QuestionInterface from '../utils/interfaces/Question';
-import OptionInterface from '../utils/interfaces/Option';
-import RowInterface from '../utils/interfaces/Row';
-import GColumnInterface from '../utils/interfaces/GColumn';
-import SubmitFormInterface from '../utils/interfaces/SubmitForm';
-import ResponseInterface from '../utils/interfaces/Response';
-import SharedSurveyData from '../utils/interfaces/SharedSurveyData';
-import SharedUserInterface from '../utils/interfaces/SharedUserInterface';
+import {
+    GColumnInterface,
+    OptionInterface,
+    QuestionInterface,
+    ResponseInterface,
+    RowInterface,
+    SharedSurveyData,
+    SharedUserInterface,
+    SubmitFormInterface,
+    SurveyData,
+    SurveyInterface,
+    UserInterface,
+} from '../utils/interfaces';
 
 const BE_URL = process.env.REACT_APP_BE_URL;
 

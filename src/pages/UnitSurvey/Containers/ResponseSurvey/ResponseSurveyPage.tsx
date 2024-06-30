@@ -7,7 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../redux/store';
 import { useQueryClient } from '@tanstack/react-query';
 import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
-import ResponseInterface from '../../../../utils/interfaces/Response';
+import ResponseInterface from '../../../../utils/interfaces/ResponseInterface';
 import Response from './components/Response';
 import { saveAs } from 'file-saver';
 import { MoonLoader } from 'react-spinners';

@@ -1,4 +1,4 @@
-interface SharedSurveyData {
+interface SharedSurveyInterface {
     id: string;
     ownerName: string;
     ownerAvatar: string;
@@ -10,4 +10,4 @@ interface SharedSurveyData {
     create_at: string;
     isEdit: boolean;
 }
-export default SharedSurveyData;
+export default SharedSurveyInterface;
