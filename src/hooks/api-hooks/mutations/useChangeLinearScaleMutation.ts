@@ -3,7 +3,7 @@ import { changeLinearScale } from '../../../API/axios';
 
 const useChangeLinearScaleMutation = () => {
     return useMutation({
-        mutationKey: [`changeLinearScale`],
+        mutationKey: ['changeLinearScale'],
         mutationFn: changeLinearScale,
     });
 };

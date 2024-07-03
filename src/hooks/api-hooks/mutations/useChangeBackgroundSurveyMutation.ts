@@ -4,7 +4,7 @@ import { changeBackgroundSurvey, changeSurvey } from '../../../API/axios';
 
 const useChangeBackgroundSurveyMutation = () => {
     return useMutation({
-        mutationKey: [`changeBackgroundSurvey`],
+        mutationKey: ['changeBackgroundSurvey'],
         mutationFn: changeBackgroundSurvey,
     });
 };

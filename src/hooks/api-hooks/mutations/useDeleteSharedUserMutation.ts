@@ -3,7 +3,7 @@ import { deleteSharedUser } from '../../../API/axios';
 
 const useDeleteSharedUserMutation = () => {
     return useMutation({
-        mutationKey: [`deleteSharedUser`],
+        mutationKey: ['deleteSharedUser'],
         mutationFn: deleteSharedUser,
     });
 };

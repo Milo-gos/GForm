@@ -3,7 +3,7 @@ import { removeImageQuestion } from '../../../API/axios';
 
 const useRemoveImageQuestionMutation = () => {
     return useMutation({
-        mutationKey: [`removeImageQuestion`],
+        mutationKey: ['removeImageQuestion'],
         mutationFn: removeImageQuestion,
     });
 };

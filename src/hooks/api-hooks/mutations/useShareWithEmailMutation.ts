@@ -3,7 +3,7 @@ import { shareWithEmail } from '../../../API/axios';
 
 const useShareWithEmailMutation = () => {
     return useMutation({
-        mutationKey: [`shareWithEmail`],
+        mutationKey: ['shareWithEmail'],
         mutationFn: shareWithEmail,
     });
 };

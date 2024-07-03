@@ -3,7 +3,7 @@ import { addRow } from '../../../API/axios';
 
 const useAddRowMutation = () => {
     return useMutation({
-        mutationKey: [`addOption`],
+        mutationKey: ['addOption'],
         mutationFn: addRow,
     });
 };

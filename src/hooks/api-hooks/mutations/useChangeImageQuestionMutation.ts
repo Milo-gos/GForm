@@ -3,7 +3,7 @@ import { changeImageQuestion } from '../../../API/axios';
 
 const useChangeImageQuestionMutation = () => {
     return useMutation({
-        mutationKey: [`changeImageQuestion`],
+        mutationKey: ['changeImageQuestion'],
         mutationFn: changeImageQuestion,
     });
 };

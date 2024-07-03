@@ -3,7 +3,7 @@ import { createSurvey } from '../../../API/axios';
 
 const useCreateNewSurveyMutation = () => {
     return useMutation({
-        mutationKey: [`createSurveyMutation`],
+        mutationKey: ['createSurveyMutation'],
         mutationFn: createSurvey,
     });
 };

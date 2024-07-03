@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppDispatch } from '../../redux/store';
-import { useCheckExistEmailMutation } from '../../hooks/api-hooks/mutations';
+import { useSendPasswordResetLinkMutation } from '../../hooks/api-hooks/mutations';
 import { setLoading } from '../../redux/slice/global';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../config/i18n';
@@ -43,7 +43,7 @@ const ForgotPasswordPage = () => {
     if (minute === '0' && second === '00') {
         clearInterval(refId.current);
     }
-    const CheckExistEmailMutation = useCheckExistEmailMutation();
+    const CheckExistEmailMutation = useSendPasswordResetLinkMutation();
     useEffect(() => {
         if (showNotification) {
             refId.current = setInterval(() => {

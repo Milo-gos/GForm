@@ -3,7 +3,7 @@ import { changeUserAvatar } from '../../../API/axios';
 
 const useChangeUserAvatarMutation = () => {
     return useMutation({
-        mutationKey: [`useChangeAvatarMutation`],
+        mutationKey: ['useChangeAvatarMutation'],
         mutationFn: changeUserAvatar,
     });
 };

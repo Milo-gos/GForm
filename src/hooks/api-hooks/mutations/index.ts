@@ -5,7 +5,7 @@ export { default as useVerifyLinkResetPasswordMutation } from './useVerifyLinkRe
 export { default as useSignInMutation } from './useSignInMutation';
 export { default as useSignInGoogleMutation } from './useSignInGoogleMutation';
 export { default as useSignUpMutation } from './useSignUpMutation';
-export { default as useCheckExistEmailMutation } from './useCheckExistEmailMutation';
+export { default as useSendPasswordResetLinkMutation } from './useSendPasswordResetLinkMutation';
 export { default as useVerifyEmailMutation } from './useVerifyEmailMutation';
 
 // profile

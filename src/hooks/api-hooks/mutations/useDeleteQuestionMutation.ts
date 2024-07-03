@@ -3,7 +3,7 @@ import { deleteQuestion } from '../../../API/axios';
 
 const useDeleteQuestionMutation = () => {
     return useMutation({
-        mutationKey: [`deleteQuestion`],
+        mutationKey: ['deleteQuestion'],
         mutationFn: deleteQuestion,
     });
 };

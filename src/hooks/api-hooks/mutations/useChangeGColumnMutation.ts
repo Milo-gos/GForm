@@ -3,7 +3,7 @@ import { changeGColumn } from '../../../API/axios';
 
 const useChangeGColumnMutation = () => {
     return useMutation({
-        mutationKey: [`changeGColumn`],
+        mutationKey: ['changeGColumn'],
         mutationFn: changeGColumn,
     });
 };

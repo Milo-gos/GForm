@@ -3,7 +3,7 @@ import { addQuestion } from '../../../API/axios';
 
 const useAddQuestionMutation = () => {
     return useMutation({
-        mutationKey: [`addQuestion`],
+        mutationKey: ['addQuestion'],
         mutationFn: addQuestion,
     });
 };

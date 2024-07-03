@@ -3,7 +3,7 @@ import { deleteGColumn } from '../../../API/axios';
 
 const useDeleteGColumnMutation = () => {
     return useMutation({
-        mutationKey: [`deleteGColumn`],
+        mutationKey: ['deleteGColumn'],
         mutationFn: deleteGColumn,
     });
 };

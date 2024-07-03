@@ -3,7 +3,7 @@ import { changeEditSharedUser } from '../../../API/axios';
 
 const useChangeEditSharedUserMutation = () => {
     return useMutation({
-        mutationKey: [`changeEditSharedUser`],
+        mutationKey: ['changeEditSharedUser'],
         mutationFn: changeEditSharedUser,
     });
 };

@@ -3,7 +3,7 @@ import { deleteRow } from '../../../API/axios';
 
 const useDeleteRowMutation = () => {
     return useMutation({
-        mutationKey: [`deleteRow`],
+        mutationKey: ['deleteRow'],
         mutationFn: deleteRow,
     });
 };

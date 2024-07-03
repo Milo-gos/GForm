@@ -3,7 +3,7 @@ import { verifyEmail } from '../../../API/axios';
 
 const useVerifyEmailMutation = () => {
     return useMutation({
-        mutationKey: [`VerifyEmail`],
+        mutationKey: ['verifyEmail'],
         mutationFn: verifyEmail,
     });
 };

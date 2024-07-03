@@ -3,7 +3,7 @@ import { verifyLinkResetPassword } from '../../../API/axios';
 
 const useVerifyLinkResetPasswordMutation = () => {
     return useMutation({
-        mutationKey: [`verifyLinkResetPassword`],
+        mutationKey: ['verifyLinkResetPassword'],
         mutationFn: verifyLinkResetPassword,
     });
 };

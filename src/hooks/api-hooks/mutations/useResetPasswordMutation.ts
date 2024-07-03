@@ -3,7 +3,7 @@ import { resetPassword } from '../../../API/axios';
 
 const useResetPasswordMutation = () => {
     return useMutation({
-        mutationKey: [`reseResetPasswordMutation`],
+        mutationKey: ['reseResetPasswordMutation'],
         mutationFn: resetPassword,
     });
 };
