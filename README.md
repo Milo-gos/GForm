@@ -143,8 +143,6 @@ The GSurvey website is designed to help users quickly create a basic survey. The
 ┣ 📜README.md
 ┗ 📜tsconfig.json
 
-### Be:
-
 ## Install and Run the Project
 
 ### Add .env file

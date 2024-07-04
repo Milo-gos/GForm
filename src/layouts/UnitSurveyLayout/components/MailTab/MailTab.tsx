@@ -10,7 +10,7 @@ import { useShareWithEmailMutation } from '../../../../hooks/api-hooks/mutations
 import { useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
-import SharedUserInterface from '../../../../utils/interfaces/SharedUserInterface';
+import { SharedUserInterface } from '../../../../utils/interfaces';
 
 const cx = classNames.bind(style);
 
