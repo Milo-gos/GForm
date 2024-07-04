@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import style from './description.module.scss';
 import classNames from 'classnames/bind';
 import QuestionTextInput from '../QuestionTextInput';
-import { useAppDispatch, useAppSelector } from '../../../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/store';
 import { handleChangeDescriptionQuestion } from '../../../../../../redux/slice/unitSurvey';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
 

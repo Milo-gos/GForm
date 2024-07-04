@@ -1,22 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './surveycomponent.module.scss';
+import React from 'react';
+import style from './survey-component.module.scss';
 import classNames from 'classnames/bind';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import { useNavigate } from 'react-router-dom';
-import convertDate from '../../../../../../utils/convertDate';
+import convertDate from '../../../../../../utils/convert-date';
 import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(style);
 
 interface SurveyData {
     id: string;
-    ownerId: string;
+    ownerIdString: string;
     title: string;
     description: string;
     isAccepting: boolean;
     questionsCount: string;
     responsesCount: string;
-    create_at: string;
+    createdAt: string;
 }
 interface Props {
     index?: number;
@@ -59,7 +59,7 @@ const SurveyComponent = ({ index, survey }: Props) => {
                 </div>
                 <div className={cx('response', 'col')}>
                     <span>{t('create_date')}</span>
-                    <span className={cx('bold')}>{convertDate(survey!.create_at)}</span>
+                    <span className={cx('bold')}>{convertDate(survey!.createdAt)}</span>
                 </div>
             </div>
         </div>

@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './sharedsurveycomponent.module.scss';
+import React from 'react';
+import style from './shared-survey-component.module.scss';
 import classNames from 'classnames/bind';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Avatar, Tooltip } from '@mui/material';
-import stringAvatar from '../../../../../../utils/stringAvatar';
+import stringAvatar from '../../../../../../utils/string-avatar';
 import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(style);
@@ -20,7 +20,7 @@ interface SharedSurveyData {
     isAccepting: boolean;
     questionsCount: number;
     responsesCount: number;
-    create_at: string;
+    createdAt: string;
     isEdit: boolean;
 }
 interface Props {

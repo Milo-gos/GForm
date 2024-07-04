@@ -1,0 +1,91 @@
+@import '../../variable.scss';
+
+.wrapper {
+    transition: $transition;
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    h2 {
+        font-size: 48px;
+        margin-bottom: 48px;
+        text-align: center;
+    }
+    .confirm-have-account {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin: 20px 0;
+        span {
+            font-size: 15px;
+        }
+        a {
+            font-size: 15px;
+            color: $mainColor;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+        }
+    }
+    .back-login {
+        margin-top: 12px;
+        text-align: right;
+        a {
+            font-size: 15px;
+            text-decoration: underline;
+            cursor: pointer;
+
+            transition: $transition;
+            &:hover {
+                color: $mainColor;
+            }
+        }
+    }
+
+    &.responsive {
+        @media (max-width: 1024px) {
+            font-size: 14px;
+            h2 {
+                font-size: 40px;
+            }
+
+            .forgot-password {
+                font-size: 12px;
+            }
+
+            .confirm-have-account {
+                span {
+                    font-size: 14px;
+                }
+                a {
+                    font-size: 14px;
+                }
+            }
+        }
+
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .confirm-have-account {
+                span {
+                    font-size: 12px;
+                }
+                a {
+                    font-size: 12px;
+                }
+            }
+
+            .login-google {
+                padding: 6px 12px;
+                span {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}

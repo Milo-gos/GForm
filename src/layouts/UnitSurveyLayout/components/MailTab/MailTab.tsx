@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import style from './mailtab.module.scss';
+import style from './mail-tab.module.scss';
 import classNames from 'classnames/bind';
 import { MyButton, NormalTextInput } from '../../../../components';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useShareWithEmailMutation from './mutation/shareWithEmail';
+import { useShareWithEmailMutation } from '../../../../hooks/api-hooks/mutations';
 import { useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useQueryClient } from '@tanstack/react-query';
-import SharedUserInterface from '../../../../utils/interfaces/sharedUserInterface';
+import SharedUserInterface from '../../../../utils/interfaces/SharedUserInterface';
 
 const cx = classNames.bind(style);
 

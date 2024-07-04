@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-import style from './responsecheckbox.module.scss';
+import style from './response-checkbox.module.scss';
 import classNames from 'classnames/bind';
-import QuestionResponseInterface from '../../../../../../utils/interfaces/question-response';
+import QuestionResponseInterface from '../../../../../../utils/interfaces/QuestionResponse';
 import { CHART_COLOR } from '../../../../../../constants';
 
 const cx = classNames.bind(style);

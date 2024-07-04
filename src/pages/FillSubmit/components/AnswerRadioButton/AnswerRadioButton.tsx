@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import NormalTextInput from '../../../../components/NormalTextInput';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
 import { setChooseOtherRadiobutton, setOption, setOtherText } from '../../../../redux/slice/submitform';
 
 interface Props {

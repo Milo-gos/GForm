@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './questionshortanswer.module.scss';
+import React from 'react';
+import style from './question-short-answer.module.scss';
 import classNames from 'classnames/bind';
 const cx = classNames.bind(style);
 

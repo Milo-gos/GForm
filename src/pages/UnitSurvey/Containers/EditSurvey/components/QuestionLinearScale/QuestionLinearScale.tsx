@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './questionlinearscale.module.scss';
+import React from 'react';
+import style from './question-linear-scale.module.scss';
 import classNames from 'classnames/bind';
 import { FormControl, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import QuestionTextInput from '../QuestionTextInput';
-import { useAppDispatch, useAppSelector } from '../../../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/store';
 import { handleChangeLinear } from '../../../../../../redux/slice/unitSurvey';
-import useChangeLinearScaleMutation from '../../../../mutation/changeLinearScale';
-import useAutoSave from '../../../../../../hooks/useAutoSave';
+import { useAutoSave } from '../../../../../../hooks';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
+import { useChangeLinearScaleMutation } from '../../../../../../hooks/api-hooks/mutations';
 const cx = classNames.bind(style);
 interface Props {
     isActiveQuestion?: boolean;
@@ -18,7 +18,7 @@ const QuestionLinearScale = ({ isActiveQuestion, indexQuestion }: Props) => {
     const linearScale = useAppSelector((state) => state.survey.questions[indexQuestion].linearScale);
     const isEdit = useAppSelector((state) => state.survey.isEdit);
 
-    const ChangeLinearMutation = useChangeLinearScaleMutation(linearScale?.id);
+    const ChangeLinearMutation = useChangeLinearScaleMutation();
 
     const handleChangeSelectLeft = (e: SelectChangeEvent) => {
         if (!isEdit) {

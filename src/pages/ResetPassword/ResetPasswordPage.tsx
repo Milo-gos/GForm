@@ -1,19 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import style from './resetpassword.module.scss';
+import style from './reset-password.module.scss';
 import classNames from 'classnames/bind';
 import { ErrorMessage, MyButton, NormalTextInput } from '../../components';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { string, z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAppDispatch } from '../../redux';
+import { useAppDispatch } from '../../redux/store';
 import PageNotFound from '../PageNotFound';
 import { FaRegCircleCheck } from 'react-icons/fa6';
-import useVerifyLinkResetPasswordMutation from './mutation/verifyLinkResetPassword';
-import useResetPasswordMutation from './mutation/resetPassword';
 import { setLoading } from '../../redux/slice/global';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../config/i18n';
+import { useResetPasswordMutation, useVerifyLinkResetPasswordMutation } from '../../hooks/api-hooks/mutations';
 const cx = classNames.bind(style);
 
 const ResetPasswordSchema = z
@@ -36,12 +35,12 @@ const ResetPasswordSchema = z
 type ResetPasswordType = z.infer<typeof ResetPasswordSchema>;
 
 const ResetPasswordPage = () => {
+    const { resetPasswordToken } = useParams();
     const { t } = useTranslation('auth');
     const dispatchApp = useAppDispatch();
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>('');
     const [result, setResult] = useState<string>('');
-    const { tokenLinkResetPassword } = useParams();
     const {
         handleSubmit,
         setError,
@@ -54,8 +53,8 @@ const ResetPasswordPage = () => {
     });
     const VerifyLinkResetPasswordMutation = useVerifyLinkResetPasswordMutation();
     useEffect(() => {
-        if (tokenLinkResetPassword)
-            VerifyLinkResetPasswordMutation.mutate(tokenLinkResetPassword, {
+        if (resetPasswordToken)
+            VerifyLinkResetPasswordMutation.mutate(resetPasswordToken, {
                 onSuccess(data) {
                     setEmail(data);
                     setResult('success');
@@ -70,7 +69,7 @@ const ResetPasswordPage = () => {
     const onsubmit = async ({ password }: ResetPasswordType) => {
         dispatchApp(setLoading(true));
         ResetPasswordMutation.mutate(
-            { email: email, password: password },
+            { resetPasswordToken: resetPasswordToken!, password: password },
             {
                 onSuccess() {
                     dispatchApp(setLoading(false));
