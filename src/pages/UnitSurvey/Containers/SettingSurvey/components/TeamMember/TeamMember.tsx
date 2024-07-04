@@ -5,7 +5,7 @@ import { Avatar, Checkbox, FormControlLabel, IconButton, Tooltip } from '@mui/ma
 import { Modal, MyButton, MyLabel } from '../../../../../../components';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import SharedUserInterface from '../../../../../../utils/interfaces/SharedUserInterface';
+import { SharedUserInterface } from '../../../../../../utils/interfaces';
 import stringAvatar from '../../../../../../utils/string-avatar';
 import { useAppDispatch } from '../../../../../../redux/store';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';

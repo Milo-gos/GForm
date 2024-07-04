@@ -8,7 +8,7 @@ export { default as QuestionType } from './QuestionType';
 export { default as ResponseInterface } from './ResponseInterface';
 export { default as RowInterface } from './RowInterface';
 export { default as SharedSurveyData } from './SharedSurveyInterface';
-export { default as SharedUserInterface } from './SharedUserInterface';
+export { default as SharedUserInterface } from './sharedUserInterface';
 export { default as InfoSubmitInterface } from './InfoSubmitInterface';
 export { default as SubmitFormInterface } from './SubmitFormInterface';
 export { default as SurveyInterface } from './SurveyInterface';

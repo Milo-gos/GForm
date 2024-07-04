@@ -46,7 +46,7 @@ import {
     useChangeImageQuestionMutation,
     useChangeQuestionMutation,
 } from '../../../../../../hooks/api-hooks/mutations';
-import useRemoveImageQuestionMutation from '../../../../../../hooks/api-hooks/mutations/removeImageQuestion';
+import useRemoveImageQuestionMutation from '../../../../../../hooks/api-hooks/mutations/useRemoveImageQuestion';
 
 const cx = classNames.bind(style);
 
