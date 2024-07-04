@@ -8,6 +8,7 @@ const useGetSurveyOfCurrentUserQuery = (searchString: string, value: string) => 
         refetchOnWindowFocus: false,
         initialPageParam: 0,
         getNextPageParam: (lastPage) => lastPage.nextCursor,
+        retry: 0,
     });
 };
 

@@ -7,6 +7,7 @@ const useGetCurrentUserQuery = (enable?: boolean) => {
         queryFn: getCurrentUser,
         refetchOnWindowFocus: false,
         enabled: enable !== undefined ? enable : true,
+        retry: 0,
     });
 };
 

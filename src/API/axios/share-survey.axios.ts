@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { SharedSurveyData } from '../../utils/interfaces';
-import InstanceAxios from '../../utils/axios/instanceAxios';
+import InstanceAxios from '../../config/axios-interceptors';
 const BE_URL = process.env.REACT_APP_BE_URL;
 
 export const getSharedSurveysOfCurrentUser = async ({
@@ -15,29 +15,27 @@ export const getSharedSurveysOfCurrentUser = async ({
     searchParams.append('page', pageParam.toString());
     searchParams.append('status', value);
     searchParams.append('searchString', searchString);
-    const response = await InstanceAxios.get(
-        `${BE_URL}/api/survey-share/getSharedSurveysOfCurrentUser/?${searchParams.toString()}`,
-    );
-    const { sharedSurveys, nextCursor }: { sharedSurveys: SharedSurveyData[]; nextCursor: number } = response.data.data;
+    const response = await InstanceAxios.get(`${BE_URL}/api/survey-share/all/current-user/?${searchParams.toString()}`);
+    const { sharedSurveys, nextCursor }: { sharedSurveys: SharedSurveyData[]; nextCursor: number } = response.data;
     return { sharedSurveys, nextCursor };
 };
 
 export const changeEditSharedUser = async (body: any) => {
     const { sharedId, isEdit, surveyId } = body;
-    const response = await InstanceAxios.patch(`${BE_URL}/api/survey-share/${sharedId}/changeEditSharedUser`, {
+    const response = await InstanceAxios.put(`${BE_URL}/api/survey-share/${sharedId}/role`, {
         isEdit,
         surveyId,
     });
-    const data: { shareId: string; isEdit: boolean } = response.data.data;
+    const data: { shareId: string; isEdit: boolean } = response.data;
     return data;
 };
 
 export const deleteSharedUser = async (body: any) => {
     const { sharedId, surveyId } = body;
-    await InstanceAxios.delete(`${BE_URL}/api/survey-share/survey/${surveyId}/deleteSharedSurvey/${sharedId}`);
+    await InstanceAxios.delete(`${BE_URL}/api/survey-share/${surveyId}/${sharedId}`);
 };
 
 export const shareWithEmail = async (body: any) => {
-    const response = await InstanceAxios.post(`${BE_URL}/api/survey-share/shareWithEmail`, body);
-    return response.data.data;
+    const response = await InstanceAxios.post(`${BE_URL}/api/survey-share/share-with-email`, body);
+    return response.data;
 };

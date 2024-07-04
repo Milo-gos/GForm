@@ -20,7 +20,7 @@ interface SharedSurveyData {
     isAccepting: boolean;
     questionsCount: number;
     responsesCount: number;
-    create_at: string;
+    createdAt: string;
     isEdit: boolean;
 }
 interface Props {

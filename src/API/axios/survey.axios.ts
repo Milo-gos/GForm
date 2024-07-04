@@ -6,24 +6,24 @@ import {
     SurveyInterface,
     UserInterface,
 } from '../../utils/interfaces';
-import InstanceAxios from '../../utils/axios/instanceAxios';
+import InstanceAxios from '../../config/axios-interceptors';
 const BE_URL = process.env.REACT_APP_BE_URL;
 
 export const createSurvey = async () => {
-    const response = await InstanceAxios.post(`${BE_URL}/api/survey/createSurvey`);
-    const newSurvey: SurveyInterface = response.data.data;
+    const response = await InstanceAxios.post(`${BE_URL}/api/survey`);
+    const newSurvey: SurveyInterface = response.data;
     return newSurvey;
 };
 
 export const getSurveyById = async (surveyId: string) => {
-    const response = await InstanceAxios.get(`${BE_URL}/api/survey/getSurveyById/${surveyId}`);
-    const survey: SurveyInterface = response.data.data;
+    const response = await InstanceAxios.get(`${BE_URL}/api/survey/${surveyId}`);
+    const survey: SurveyInterface = response.data;
     return survey;
 };
 
 export const getPublicSurveyById = async (surveyId: string) => {
-    const response = await axios.get(`${BE_URL}/api/survey/getPublicSurveyById/${surveyId}`);
-    const survey: SurveyInterface = response.data.data;
+    const response = await axios.get(`${BE_URL}/api/survey/${surveyId}/public`);
+    const survey: SurveyInterface = response.data;
     return survey;
 };
 
@@ -33,34 +33,32 @@ export const getSurveysOfCurrentUser = async ({ pageParam, queryKey }: { pagePar
     searchParams.append('page', pageParam.toString());
     searchParams.append('status', value);
     searchParams.append('searchString', searchString);
-    const response = await InstanceAxios.get(
-        `${BE_URL}/api/survey/getSurveysOfCurrentUser/?${searchParams.toString()}`,
-    );
+    const response = await InstanceAxios.get(`${BE_URL}/api/survey/all/current-user/?${searchParams.toString()}`);
     const { surveys, nextCursor, totalSurveys }: { surveys: SurveyData[]; nextCursor: number; totalSurveys: number } =
-        response.data.data;
+        response.data;
     return { surveys, nextCursor, totalSurveys };
 };
 
 export const changeSurvey = async (body: any) => {
-    const response = await InstanceAxios.patch(`${BE_URL}/api/survey/changeSurvey`, body);
-    const updateQuestion: SurveyInterface = response.data.data;
+    const response = await InstanceAxios.put(`${BE_URL}/api/survey`, body);
+    const updateQuestion: SurveyInterface = response.data;
     return updateQuestion;
 };
 
 export const getSharedUserSurvey = async (id: string) => {
-    const response = await InstanceAxios.get(`${BE_URL}/api/survey/getSharedUserSurvey/${id}`);
-    const t: SharedUserInterface = response.data.data;
+    const response = await InstanceAxios.get(`${BE_URL}/api/survey/${id}/shared-user`);
+    const t: SharedUserInterface = response.data;
     return t;
 };
 
 export const changeBackgroundSurvey = async (body: any) => {
     const { surveyId, formData } = body;
-    const response = await InstanceAxios.patch(`${BE_URL}/api/survey/${surveyId}/changeBackgroundSurvey`, formData, {
+    const response = await InstanceAxios.put(`${BE_URL}/api/survey/${surveyId}/background`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     });
-    const urlImage: string = response.data.data;
+    const urlImage: string = response.data;
     return urlImage;
 };
 

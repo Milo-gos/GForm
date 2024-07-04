@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { UserInterface } from '../../utils/interfaces';
-import InstanceAxios from '../../utils/axios/instanceAxios';
+import InstanceAxios from '../../config/axios-interceptors';
 const BE_URL = process.env.REACT_APP_BE_URL;
 
 export const signUp = async (body: any) => {
@@ -34,20 +34,20 @@ export const verifyLinkResetPassword = async (resetPasswordToken: string) => {
     const email: string = response.data;
     return email;
 };
-export const resetPassword = async (body: { email: string; password: string }) => {
-    await axios.post(`${BE_URL}/api/auth/reset-password/${body.email}`, {
+export const resetPassword = async (body: { resetPasswordToken: string; password: string }) => {
+    await axios.put(`${BE_URL}/api/auth/reset-password/${body.resetPasswordToken}`, {
         password: body.password,
     });
 };
 
 export const changeUserPassword = async (body: any) => {
     const response = await InstanceAxios.patch(`${BE_URL}/api/auth/changeUserPassword`, body);
-    const { accessToken, refreshToken } = response.data.data;
+    const { accessToken, refreshToken } = response.data;
     return { accessToken, refreshToken };
 };
 
 export const setUserPassword = async (body: any) => {
     const response = await InstanceAxios.patch(`${BE_URL}/api/auth/password`, body);
-    const { accessToken, refreshToken } = response.data.data;
+    const { accessToken, refreshToken } = response.data;
     return { accessToken, refreshToken };
 };

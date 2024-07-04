@@ -35,12 +35,12 @@ const ResetPasswordSchema = z
 type ResetPasswordType = z.infer<typeof ResetPasswordSchema>;
 
 const ResetPasswordPage = () => {
+    const { resetPasswordToken } = useParams();
     const { t } = useTranslation('auth');
     const dispatchApp = useAppDispatch();
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>('');
     const [result, setResult] = useState<string>('');
-    const { tokenLinkResetPassword } = useParams();
     const {
         handleSubmit,
         setError,
@@ -53,8 +53,8 @@ const ResetPasswordPage = () => {
     });
     const VerifyLinkResetPasswordMutation = useVerifyLinkResetPasswordMutation();
     useEffect(() => {
-        if (tokenLinkResetPassword)
-            VerifyLinkResetPasswordMutation.mutate(tokenLinkResetPassword, {
+        if (resetPasswordToken)
+            VerifyLinkResetPasswordMutation.mutate(resetPasswordToken, {
                 onSuccess(data) {
                     setEmail(data);
                     setResult('success');
@@ -69,7 +69,7 @@ const ResetPasswordPage = () => {
     const onsubmit = async ({ password }: ResetPasswordType) => {
         dispatchApp(setLoading(true));
         ResetPasswordMutation.mutate(
-            { email: email, password: password },
+            { resetPasswordToken: resetPasswordToken!, password: password },
             {
                 onSuccess() {
                     dispatchApp(setLoading(false));

@@ -6,11 +6,11 @@ import {
     RowInterface,
     UserInterface,
 } from '../../utils/interfaces';
-import InstanceAxios from '../../utils/axios/instanceAxios';
+import InstanceAxios from '../../config/axios-interceptors';
 const BE_URL = process.env.REACT_APP_BE_URL;
 
 export const changeLinearScale = async (body: any) => {
-    const response = await axios.patch(`${BE_URL}/api/linearScale/changeLinearScale`, body);
-    const updateOption: QuestionInterface = response.data.data;
+    const response = await axios.put(`${BE_URL}/api/linearScale`, body);
+    const updateOption: QuestionInterface = response.data;
     return updateOption;
 };

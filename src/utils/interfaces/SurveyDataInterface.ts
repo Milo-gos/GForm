@@ -1,11 +1,11 @@
 interface SurveyData {
     id: string;
-    ownerId: string;
+    ownerIdString: string;
     title: string;
     description: string;
     isAccepting: boolean;
     questionsCount: string;
     responsesCount: string;
-    create_at: string;
+    createdAt: string;
 }
 export default SurveyData;

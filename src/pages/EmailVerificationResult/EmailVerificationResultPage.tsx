@@ -17,9 +17,11 @@ const EmailVerificationResultPage = () => {
         if (tokenLink) {
             VerifyEmailMutation.mutate(tokenLink, {
                 onSuccess() {
+                    console.log('success');
                     setResult('success');
                 },
-                onError() {
+                onError(error) {
+                    console.log(error);
                     setResult('failed');
                 },
             });

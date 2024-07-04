@@ -50,7 +50,7 @@ const publicPages = [
     },
 
     {
-        path: '/reset-password/:tokenLinkResetPassword',
+        path: '/reset-password/:resetPasswordToken',
         page: ResetPassword,
         layout: AuthLayout,
     },

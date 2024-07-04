@@ -20,7 +20,7 @@ function stringToColor(string: string) {
 
 export default function stringAvatar(name: string) {
     let tmp = name;
-    if (!tmp.trim()) tmp = 'N N';
+    if (!tmp.trim().includes(' ')) tmp = 'N N';
     return {
         sx: {
             bgcolor: stringToColor(tmp),

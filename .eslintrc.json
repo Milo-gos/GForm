@@ -19,8 +19,9 @@
         "ecmaVersion": "latest",
         "sourceType": "module",
         "project": "./tsconfig.json",
-        "extraFileExtensions": [".scss"]
+        "extraFileExtensions": [".svg", ".scss"]
     },
+    "ignorePatterns": ["src/assets/**/*", "**/*.scss", "**/*.svg"],
     "plugins": ["react", "@typescript-eslint", "prettier"],
     "rules": {
         "prettier/prettier": 0,
