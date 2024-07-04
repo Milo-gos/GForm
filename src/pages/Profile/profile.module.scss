@@ -1,4 +1,4 @@
-@import '../../variableSCSS.scss';
+@import '../../variable.scss';
 
 .wrapper {
     width: 700px;
@@ -102,5 +102,12 @@
         &:hover {
             color: $mainColor;
         }
+    }
+
+    .buttons-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 12px;
     }
 }

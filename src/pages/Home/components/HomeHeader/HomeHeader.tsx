@@ -1,26 +1,25 @@
 import React from 'react';
 
-import style from './homeheader.module.scss';
+import style from './home-header.module.scss';
 import classNames from 'classnames/bind';
 import { Link, useNavigate } from 'react-router-dom';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Logo } from '../../../../assets/images';
 import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
-import stringAvatar from '../../../../utils/stringAvatar';
+import stringAvatar from '../../../../utils/string-avatar';
 import { getCurrentUser } from '../../../../API/axios';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { useGetCurrentUserQuery } from '../../../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 
 const HomeHeader = () => {
     const token = localStorage.getItem('accessToken') || false;
+    const { t } = useTranslation('home');
     const navigate = useNavigate();
-    const { data: user } = useQuery({
-        queryKey: [`getCurrentUser`],
-        queryFn: getCurrentUser,
-        refetchOnWindowFocus: false,
-        enabled: !!token,
-    });
+    const { data: user } = useGetCurrentUserQuery(!!token);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClose = () => {
@@ -39,7 +38,7 @@ const HomeHeader = () => {
     };
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'responsive')}>
             <div className={cx('inner')}>
                 <div className={cx('logo-wrapper')}>
                     <img className={cx('logo')} src={Logo}></img>
@@ -49,17 +48,17 @@ const HomeHeader = () => {
                     <div className={cx('nav-list')}>
                         {token && (
                             <div className={cx('create-survey')}>
-                                <Link to={'/user-survey-management'}>Quản lý khảo sát</Link>
+                                <Link to={'/user-survey-management'}>{t('header.survey_management')}</Link>
                             </div>
                         )}
 
                         {!token ? (
                             <>
                                 <div className={cx('sign-in')}>
-                                    <Link to="/signin">Đăng nhập</Link>
+                                    <Link to="/signin">{t('header.sign_in')}</Link>
                                 </div>
-                                <div>
-                                    <Link to="/signup">Đăng ký</Link>
+                                <div className={cx('sign-up')}>
+                                    <Link to="/signup">{t('header.Sign_up')}</Link>
                                 </div>
                             </>
                         ) : (
@@ -68,11 +67,16 @@ const HomeHeader = () => {
                                 <IconButton style={{ padding: '1px' }} onClick={handleClick}>
                                     <div className={cx('avatar')}>
                                         {user?.avatar ? (
-                                            <Avatar src={user?.avatar} sx={{ width: '100%', height: '100%' }} />
+                                            <Avatar
+                                                src={user?.avatar}
+                                                sx={{ width: '100%', height: '100%' }}
+                                                className={cx('img')}
+                                            />
                                         ) : (
                                             <Avatar
                                                 {...stringAvatar(user?.fullName || '')}
                                                 sx={{ width: '100%', height: '100%' }}
+                                                className={cx('img')}
                                             />
                                         )}
                                     </div>
@@ -99,6 +103,12 @@ const HomeHeader = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
                         <LogoutOutlinedIcon />
                         <span>Đăng xuất</span>
+                    </div>
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/user-survey-management')} className={cx('menu-item-management')}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
+                        <ManageSearchIcon />
+                        <span>{t('header.survey_management')}</span>
                     </div>
                 </MenuItem>
             </Menu>

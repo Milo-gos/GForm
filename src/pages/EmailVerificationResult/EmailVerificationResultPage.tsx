@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import style from './emailverificationresult.module.scss';
+import style from './email-verification-result.module.scss';
 import classNames from 'classnames/bind';
 import { FaRegCircleCheck } from 'react-icons/fa6';
 import { Link, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../redux';
+import { useAppDispatch } from '../../redux/store';
 import PageNotFound from '../PageNotFound';
-import useVerifyEmailMutation from './mutation/verifyEmail';
+import { useVerifyEmailMutation } from '../../hooks/api-hooks/mutations';
 const cx = classNames.bind(style);
 
 const EmailVerificationResultPage = () => {
@@ -17,9 +17,11 @@ const EmailVerificationResultPage = () => {
         if (tokenLink) {
             VerifyEmailMutation.mutate(tokenLink, {
                 onSuccess() {
+                    console.log('success');
                     setResult('success');
                 },
-                onError() {
+                onError(error) {
+                    console.log(error);
                     setResult('failed');
                 },
             });

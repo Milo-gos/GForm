@@ -1,36 +1,46 @@
 import React, { useEffect, useRef, useState } from 'react';
-import style from './resetpassword.module.scss';
+import style from './reset-password.module.scss';
 import classNames from 'classnames/bind';
-import { MyButton, NormalTextInput } from '../../components';
+import { ErrorMessage, MyButton, NormalTextInput } from '../../components';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { string, z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAppDispatch } from '../../redux';
+import { useAppDispatch } from '../../redux/store';
 import PageNotFound from '../PageNotFound';
 import { FaRegCircleCheck } from 'react-icons/fa6';
-import useVerifyLinkResetPasswordMutation from './mutation/verifyLinkResetPassword';
-import useResetPasswordMutation from './mutation/resetPassword';
 import { setLoading } from '../../redux/slice/global';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../config/i18n';
+import { useResetPasswordMutation, useVerifyLinkResetPasswordMutation } from '../../hooks/api-hooks/mutations';
 const cx = classNames.bind(style);
 
 const ResetPasswordSchema = z
     .object({
-        password: z.string().nonempty('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
-        confirmPassword: z.string().nonempty('Vui lòng nhập mật khẩu').min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
+        password: z
+            .string()
+            .min(1, {
+                message: i18n.t('validation:password.please_enter_password'),
+            })
+            .min(6, i18n.t('validation:password.password_must_be_at_least_6_characters_long')),
+        confirmPassword: z
+            .string()
+            .min(1, i18n.t('validation:password.please_enter_password'))
+            .min(6, i18n.t('validation:password.password_must_be_at_least_6_characters_long')),
     })
     .refine((data) => data.password === data.confirmPassword, {
-        message: 'Mật khẩu không trùng khớp',
+        message: i18n.t('validation:password.password_does_not_match'),
         path: ['confirmPassword'],
     });
 type ResetPasswordType = z.infer<typeof ResetPasswordSchema>;
 
 const ResetPasswordPage = () => {
+    const { resetPasswordToken } = useParams();
+    const { t } = useTranslation('auth');
     const dispatchApp = useAppDispatch();
     const navigate = useNavigate();
     const [email, setEmail] = useState<string>('');
     const [result, setResult] = useState<string>('');
-    const { tokenLinkResetPassword } = useParams();
     const {
         handleSubmit,
         setError,
@@ -43,8 +53,8 @@ const ResetPasswordPage = () => {
     });
     const VerifyLinkResetPasswordMutation = useVerifyLinkResetPasswordMutation();
     useEffect(() => {
-        if (tokenLinkResetPassword)
-            VerifyLinkResetPasswordMutation.mutate(tokenLinkResetPassword, {
+        if (resetPasswordToken)
+            VerifyLinkResetPasswordMutation.mutate(resetPasswordToken, {
                 onSuccess(data) {
                     setEmail(data);
                     setResult('success');
@@ -59,7 +69,7 @@ const ResetPasswordPage = () => {
     const onsubmit = async ({ password }: ResetPasswordType) => {
         dispatchApp(setLoading(true));
         ResetPasswordMutation.mutate(
-            { email: email, password: password },
+            { resetPasswordToken: resetPasswordToken!, password: password },
             {
                 onSuccess() {
                     dispatchApp(setLoading(false));
@@ -81,52 +91,39 @@ const ResetPasswordPage = () => {
         <div className={cx('wrapper')}>
             {result === 'success' && (
                 <>
-                    <h2>Thay đổi mật khẩu</h2>
+                    <h2>{t('change_password')}</h2>
                     <form className={cx('form')} onSubmit={handleSubmit(onsubmit)}>
                         <div>
                             <NormalTextInput
-                                placeholder="Nhập mật khẩu mới"
+                                placeholder={t('enter_new_password')}
                                 typePassword={true}
                                 name="password"
                                 register={register}></NormalTextInput>
-                            <p
-                                style={{
-                                    marginTop: '4px',
-                                    fontSize: '14px',
-                                    color: '#db4437',
-                                }}>
-                                {errors.password?.message}
-                            </p>
+                            <ErrorMessage message={errors.password?.message} />
                         </div>
                         <div>
                             <NormalTextInput
-                                placeholder="Nhập lại mật khẩu"
+                                placeholder={t('confirm_password')}
                                 name="confirmPassword"
                                 typePassword={true}
                                 register={register}></NormalTextInput>
-                            <p
-                                style={{
-                                    marginTop: '4px',
-                                    fontSize: '14px',
-                                    color: '#db4437',
-                                }}>
-                                {errors.confirmPassword?.message}
-                            </p>
+
+                            <ErrorMessage message={errors.confirmPassword?.message} />
                         </div>
-                        <MyButton textButton="Xác nhận" size="big"></MyButton>
+                        <MyButton textButton={t('accept')} size="big"></MyButton>
                     </form>
                 </>
             )}
             {result === 'failed' && <PageNotFound />}
             {result === 'reset-success' && (
                 <>
-                    <h2 style={{ fontSize: '36px' }}>Cập nhật mật khẩu thành công</h2>
+                    <h2 style={{ fontSize: '36px' }}>{t('password_update_successful')}</h2>
                     <div style={{ textAlign: 'center' }}>
                         <FaRegCircleCheck size={100} />
                     </div>
 
                     <div className={cx('back-login')} style={{ textAlign: 'center', marginTop: '48px' }}>
-                        <Link to={'/signin'}>Quay về đăng nhập</Link>
+                        <Link to={'/signin'}>{t('back_to_login')}</Link>
                     </div>
                 </>
             )}

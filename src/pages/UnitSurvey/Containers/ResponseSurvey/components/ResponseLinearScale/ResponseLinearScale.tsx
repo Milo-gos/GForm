@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import style from './responselinearscale.module.scss';
+import style from './response-linear-scale.module.scss';
 import classNames from 'classnames/bind';
-import QuestionResponseInterface from '../../../../../../utils/interfaces/question-response';
+import QuestionResponseInterface from '../../../../../../utils/interfaces/QuestionResponse';
 
 const cx = classNames.bind(style);
 

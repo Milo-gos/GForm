@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import style from './answerlinearscale.module.scss';
+import style from './answer-linear-scale.module.scss';
 import classNames from 'classnames/bind';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../../redux';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
 import { setLinearValue } from '../../../../redux/slice/submitform';
 
 const cx = classNames.bind(style);

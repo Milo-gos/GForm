@@ -34,18 +34,19 @@ import ShortTextIcon from '@mui/icons-material/ShortText';
 import NotesIcon from '@mui/icons-material/Notes';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
-import useChangeQuestionMutation from '../../../../mutation/changeQuestion';
-import useAddQuestionMutation from '../../../../mutation/addQuestion';
-import useDuplicateQuestionMutation from '../../../../mutation/duplicateQuestion';
-import { useAppDispatch, useAppSelector } from '../../../../../../redux';
-import useAutoSave from '../../../../../../hooks/useAutoSave';
-import QuestionType from '../../../../../../utils/interfaces/questionType';
-import useChangeImageQuestionMutation from '../../../../mutation/changeImageQuestion';
+import { useAppDispatch, useAppSelector } from '../../../../../../redux/store';
+import { useAutoSave } from '../../../../../../hooks';
+import QuestionType from '../../../../../../utils/interfaces/QuestionType';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { MoonLoader } from 'react-spinners';
-import useRemoveImageQuestionMutation from '../../../../mutation/removeImageQuestion';
 import { setOpenSnackbar } from '../../../../../../redux/slice/global';
+import {
+    useAddQuestionMutation,
+    useChangeImageQuestionMutation,
+    useChangeQuestionMutation,
+} from '../../../../../../hooks/api-hooks/mutations';
+import useRemoveImageQuestionMutation from '../../../../../../hooks/api-hooks/mutations/useRemoveImageQuestion';
 
 const cx = classNames.bind(style);
 
@@ -65,7 +66,7 @@ const Question = ({ index }: Props) => {
     const dispatchApp = useAppDispatch();
     const inputImage = useRef<HTMLInputElement>(null);
 
-    const changeQuestion = useChangeQuestionMutation(question?.id || '');
+    const changeQuestion = useChangeQuestionMutation();
 
     useAutoSave(question.description, () => {
         changeQuestion.mutate(
@@ -110,7 +111,7 @@ const Question = ({ index }: Props) => {
         dispatchApp(handleActiveQuestion({ indexQuestion: index }));
     };
 
-    const AddQuestionMutation = useAddQuestionMutation(question.id);
+    const AddQuestionMutation = useAddQuestionMutation();
     const handleInsertNewQuestion = (position: number, position2: 'before' | 'after') => {
         if (!isEdit) {
             dispatchApp(
@@ -297,6 +298,7 @@ const Question = ({ index }: Props) => {
                     {index === indexActiveQuestion && (
                         <div>
                             <Select
+                                className={cx('select')}
                                 onChange={handleChangeNewQuestionType}
                                 value={question?.questionType}
                                 MenuProps={{ disablePortal: true }}

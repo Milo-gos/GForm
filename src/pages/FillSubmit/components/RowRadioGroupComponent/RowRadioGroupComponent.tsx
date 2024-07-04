@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import { Radio } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../../redux';
-import RowInterface from '../../../../utils/interfaces/row';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
+import { RowInterface } from '../../../../utils/interfaces';
 import { setMultiChooseGColumn } from '../../../../redux/slice/submitform';
 
 interface Props {
@@ -29,6 +29,7 @@ const RowRadioGroupComponent = ({ indexQuestion, row, indexRow }: Props) => {
     };
     return (
         <tr>
+            <td>{row.rowContent}</td>
             {question.gcolumns?.map((gcolumn, index) => {
                 return (
                     <td key={index}>

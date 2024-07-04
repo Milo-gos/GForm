@@ -2,13 +2,13 @@ import React, { memo, useState } from 'react';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import style from './answer.module.scss';
 import classNames from 'classnames/bind';
-import QuestionType from '../../../../utils/interfaces/questionType';
+import QuestionType from '../../../../utils/interfaces/QuestionType';
 import AnswerParagraph from '../AnswerParagraph';
 import AnswerDropdown from '../AnswerDropdown';
 import AnswerCheckbox from '../AnswerCheckbox';
 import AnswerRadioButton from '../AnswerRadioButton';
 import AnswerLinearScale from '../AnswerLinearScale';
-import { useAppSelector } from '../../../../redux';
+import { useAppSelector } from '../../../../redux/store';
 import AnswerShortAnswer from '../AnswerShortAnswer';
 import AnswerRadioButtonGrid from '../AnswerRadioButtonGrid';
 

@@ -8,7 +8,8 @@
         "plugin:react/recommended",
         "plugin:import/typescript",
         "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:storybook/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -18,16 +19,19 @@
         "ecmaVersion": "latest",
         "sourceType": "module",
         "project": "./tsconfig.json",
-        "extraFileExtensions": [".scss"]
+        "extraFileExtensions": [".svg", ".scss"]
     },
+    "ignorePatterns": ["src/assets/**/*", "**/*.scss", "**/*.svg"],
     "plugins": ["react", "@typescript-eslint", "prettier"],
     "rules": {
         "prettier/prettier": 0,
         "@typescript-eslint/triple-slash-reference": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "react/react-in-jsx-scope": "off",
+        "react/no-unescaped-entities": "off",
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-non-null-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "storybook/default-exports": "off"
     }
 }

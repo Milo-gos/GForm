@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import style from './usmheader.module.scss';
+import style from './usm-header.module.scss';
 import classNames from 'classnames/bind';
 import { Avatar, IconButton, Menu, MenuItem } from '@mui/material';
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { useQuery } from '@tanstack/react-query';
 import { useDebounce } from 'react-autosave';
 import { useNavigate } from 'react-router-dom';
 import { Logo } from '../../../../assets/images';
-import { getCurrentUser } from '../../../../API/axios';
-import { Search } from '../../../../components';
-import { useAppDispatch } from '../../../../redux';
+import { LanguageButton, Search } from '../../../../components';
+import { useAppDispatch } from '../../../../redux/store';
 import { setSearchString } from '../../../../redux/slice/surveyManagement';
-import stringAvatar from '../../../../utils/stringAvatar';
+import stringAvatar from '../../../../utils/string-avatar';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../../../config/firebase';
+import { useTranslation } from 'react-i18next';
+import { useGetCurrentUserQuery } from '../../../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 
 const USMHeader = () => {
+    const { t } = useTranslation('surveyManagement');
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const dispatchApp = useAppDispatch();
@@ -39,43 +42,51 @@ const USMHeader = () => {
         setAnchorEl(null);
         navigate('/my-profile');
     };
-    const handleClickLogout = () => {
-        setAnchorEl(null);
+    const handleClickLogout = async () => {
+        await signOut(auth);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        setAnchorEl(null);
         navigate('/signin', {
             replace: true,
         });
     };
 
-    const { data: user } = useQuery({
-        queryKey: [`getCurrentUser`],
-        queryFn: getCurrentUser,
-        refetchOnWindowFocus: false,
-    });
-
+    const { data: user } = useGetCurrentUserQuery();
     if (!user) return <></>;
 
     return (
-        <div className={cx('wrapper')}>
-            <div className={cx('logo-wrapper')} onClick={() => navigate('/')}>
-                <img className={cx('logo')} src={Logo}></img>
-                <span>GSurvey</span>
-            </div>
-            <div className={cx('search-wrapper')}>
-                <Search placeHolder="Tìm kiếm khảo sát" onChange={(e) => setSearch(e.target.value)} />
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '18px', fontWeight: '500' }}>{user?.fullName}</span>
-                <IconButton style={{ padding: '1px' }} onClick={handleClick}>
-                    <div className={cx('avatar')}>
-                        {user?.avatar ? (
-                            <Avatar src={user?.avatar} sx={{ width: '100%', height: '100%' }} />
-                        ) : (
-                            <Avatar {...stringAvatar(user?.fullName || '')} sx={{ width: '100%', height: '100%' }} />
-                        )}
+        <div className={cx('wrapper', 'responsive')}>
+            <div className={cx('header-wrapper')}>
+                <div className={cx('logo-wrapper')} onClick={() => navigate('/')}>
+                    <img className={cx('logo')} src={Logo}></img>
+                    <span>GSurvey</span>
+                </div>
+                <div className={cx('search-wrapper')}>
+                    <Search placeHolder={t('search_surveys')} onChange={(e) => setSearch(e.target.value)} />
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <LanguageButton />
+                    <div className={cx('user-info-wrapper')}>
+                        <span>{user?.fullName}</span>
+                        <IconButton style={{ padding: '1px' }} onClick={handleClick}>
+                            <div className={cx('avatar')}>
+                                {user?.avatar ? (
+                                    <Avatar src={user?.avatar} sx={{ width: '100%', height: '100%' }} />
+                                ) : (
+                                    <Avatar
+                                        {...stringAvatar(user?.fullName || '')}
+                                        sx={{ width: '100%', height: '100%' }}
+                                    />
+                                )}
+                            </div>
+                        </IconButton>
                     </div>
-                </IconButton>
+                </div>
+            </div>
+
+            <div className={cx('search-wrapper-2')}>
+                <Search placeHolder={t('search_surveys')} onChange={(e) => setSearch(e.target.value)} />
             </div>
             <Menu
                 disablePortal={true}
@@ -93,13 +104,13 @@ const USMHeader = () => {
                 <MenuItem onClick={handleClickSetting}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
                         <ManageAccountsOutlinedIcon />
-                        <span>Cài đặt tài khoản</span>
+                        <span>{t('account_setting')}</span>
                     </div>
                 </MenuItem>
                 <MenuItem onClick={handleClickLogout}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
                         <LogoutOutlinedIcon />
-                        <span>Đăng xuất</span>
+                        <span>{t('sign_out')}</span>
                     </div>
                 </MenuItem>
             </Menu>

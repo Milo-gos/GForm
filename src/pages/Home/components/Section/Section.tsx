@@ -3,12 +3,14 @@ import React, { useEffect, useRef } from 'react';
 import styles from './Section.module.scss';
 import { motion } from 'framer-motion';
 import { ImageSignin } from '../../../../assets/images';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(styles);
 
 function Section() {
+    const { t } = useTranslation('home');
     return (
-        <section className={cx('wrapper')}>
+        <section className={cx('wrapper', 'responsive')}>
             <motion.div
                 className={cx('content')}
                 initial={{
@@ -18,10 +20,9 @@ function Section() {
                     x: [-200, 30, 0],
                 }}
                 transition={{ duration: 0.8, times: [0, 0.6, 0.8] }}>
-                <h5>#1 Trending</h5>
-                <h4>Website hỗ trợ tạo khảo sát</h4>
+                <h4>{t('section.website_supports_survey_creation')}</h4>
                 <h1>G - SURVEY</h1>
-                <p>Tham gia thực hiện cuộc khảo sát theo phong cách của bạn!</p>
+                <p>{t('section.take_the_survey_in_your_style')}</p>
             </motion.div>
 
             <motion.div

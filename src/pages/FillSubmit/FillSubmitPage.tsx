@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import style from './fillsubmit.module.scss';
+import style from './fill-submit.module.scss';
 import classNames from 'classnames/bind';
 import { MyButton } from '../../components';
-import { useAppDispatch, useAppSelector } from '../../redux';
-import useCreateResponseMutation from './mutation/createResponse';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { useCreateResponseMutation } from '../../hooks/api-hooks/mutations';
 import { useNavigate, useParams } from 'react-router-dom';
 import { setErrorQuestion, setSurveySubmit } from '../../redux/slice/submitform';
-import { useQuery } from '@tanstack/react-query';
-import { getPublicSurveyById } from '../../API/axios';
 import { setLoading } from '../../redux/slice/global';
 import Answer from './components/Answer';
-import QuestionType from '../../utils/interfaces/questionType';
+import QuestionType from '../../utils/interfaces/QuestionType';
+import { toast } from 'react-toastify';
+import { useGetPublicSurveyByIdQuery } from '../../hooks/api-hooks/queries';
 
 const cx = classNames.bind(style);
 
@@ -22,12 +22,7 @@ const FillSubmitPage = () => {
     const surveySubmit = useAppSelector((state) => state.submitForm);
     const answers = useAppSelector((state) => state.submitForm.infoSubmit?.answers);
 
-    const { data, isLoading, isSuccess, isError } = useQuery({
-        queryKey: [`getPublicSurveyById_${id}`],
-        queryFn: () => getPublicSurveyById(id!),
-        refetchOnWindowFocus: false,
-        retry: 0,
-    });
+    const { data, isLoading, isSuccess, isError } = useGetPublicSurveyByIdQuery(id!);
 
     useEffect(() => {
         if (isLoading) {
@@ -164,29 +159,38 @@ const FillSubmitPage = () => {
     const handleClickSubmit = () => {
         const isError = checkError();
         if (isError) return;
+        dispatchApp(setLoading(true));
         CreateResponseMutation.mutate(surveySubmit.infoSubmit, {
             onSuccess() {
+                dispatchApp(setLoading(false));
+
                 navigate(`/surveys/${id}/submitSuccess`);
+            },
+            onError() {
+                dispatchApp(setLoading(false));
+                toast.error('Đã có lỗi xảy ra');
             },
         });
     };
-
-    if (!data) return <></>;
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('background')}>
-                <img src={data.backgroundImage} />
-            </div>
+            {data && (
+                <>
+                    <div className={cx('background')}>
+                        <img src={data.backgroundImage} />
+                    </div>
 
-            <div className={cx('form-header')}>
-                <h2>{surveySubmit.title}</h2>
-                <p>{surveySubmit.description}</p>
-            </div>
-            {surveySubmit.questions?.map((quesiton, index) => <Answer key={quesiton.id} index={index} />)}
+                    <div className={cx('form-header')}>
+                        <h2>{surveySubmit.title}</h2>
+                        <p>{surveySubmit.description}</p>
+                    </div>
+                    {surveySubmit.questions?.map((quesiton, index) => <Answer key={quesiton.id} index={index} />)}
 
-            <div style={{ width: '120px', marginTop: '8px' }}>
-                <MyButton textButton="Submit" padding="12px 0" onClick={handleClickSubmit} />
-            </div>
+                    <div style={{ width: '120px', marginTop: '8px' }}>
+                        <MyButton textButton="Submit" padding="12px 0" onClick={handleClickSubmit} />
+                    </div>
+                </>
+            )}
         </div>
     );
 };

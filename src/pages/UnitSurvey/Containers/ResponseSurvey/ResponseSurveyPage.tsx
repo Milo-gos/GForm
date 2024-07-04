@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import style from './responsesurvey.module.scss';
+import style from './response-survey.module.scss';
 import classNames from 'classnames/bind';
-import { FormControlLabel, IconButton, Menu, MenuItem, Snackbar, Switch } from '@mui/material';
-import { BsThreeDotsVertical } from 'react-icons/bs';
-import useChangeSurveyMutation from '../../mutation/changeSurvey';
+import { FormControlLabel, Menu, MenuItem, Switch } from '@mui/material';
+import { FaFileExcel } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../../redux';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getResponseSurvey } from '../../../../API/axios';
+import { useAppDispatch, useAppSelector } from '../../../../redux/store';
+import { useQueryClient } from '@tanstack/react-query';
 import { setLoading, setOpenSnackbar } from '../../../../redux/slice/global';
-import ResponseInterface from '../../../../utils/interfaces/response';
+import ResponseInterface from '../../../../utils/interfaces/ResponseInterface';
 import Response from './components/Response';
+import { saveAs } from 'file-saver';
+import { MoonLoader } from 'react-spinners';
+import { toast } from 'react-toastify';
+import { useChangeSurveyMutation, useGetDataExcelMutation } from '../../../../hooks/api-hooks/mutations';
+import { useGetResponseSurveyQuery } from '../../../../hooks/api-hooks/queries';
+
 const cx = classNames.bind(style);
 
 const ResponseSurveyPage = () => {
     const { id } = useParams();
     const dispatchApp = useAppDispatch();
     const navigate = useNavigate();
+    const [isLoadingExport, setLoadingExport] = useState(false);
     const survey = useAppSelector((state) => state.survey);
     const handleCloseSnackbar = (event: React.SyntheticEvent | Event, reason?: string) => {
         if (reason === 'clickaway') {
@@ -31,12 +36,7 @@ const ResponseSurveyPage = () => {
         );
     };
 
-    const { data, isLoading, isError, isSuccess, isFetching } = useQuery({
-        queryKey: [`getResponseSurvey_${id}`],
-        queryFn: () => getResponseSurvey(id!),
-        refetchOnWindowFocus: false,
-        retry: 0,
-    });
+    const { data, isLoading, isError, isSuccess, isFetching } = useGetResponseSurveyQuery(id!);
     const queryClient = useQueryClient();
 
     useEffect(() => {
@@ -107,65 +107,88 @@ const ResponseSurveyPage = () => {
             },
         );
     };
+    const GetDataExcelMutation = useGetDataExcelMutation();
+    const handleClickExport = () => {
+        setLoadingExport(true);
+        GetDataExcelMutation.mutate(id!, {
+            async onSuccess(data) {
+                const blob = new Blob([data], {
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                });
+                saveAs(blob, 'SurveyResponses.xlsx');
+                setLoadingExport(false);
+            },
+            onError() {
+                setLoadingExport(false);
+                toast.error('Đã có lỗi xảy ra');
+            },
+        });
+    };
 
-    if (!data) return <></>;
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('header')}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span className={cx('total-response')}>{data?.quantityOfResponses || 0} phản hồi</span>
+            {data && (
+                <div className={cx('header')}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span className={cx('total-response')}>{data?.quantityOfResponses || 0} phản hồi</span>
 
-                    <IconButton style={{ padding: '8px' }} onClick={handleClick}>
-                        <BsThreeDotsVertical size={24} />
-                    </IconButton>
-
-                    <Menu
-                        disablePortal={true}
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}>
-                        <MenuItem onClick={handleClose}>Mô tả</MenuItem>
-                        <MenuItem onClick={handleClose}>Kiểm tra định dạng</MenuItem>
-                        <MenuItem onClick={handleClose}>Đi đến phần chỉ định dựa vào câu trả lời</MenuItem>
-                    </Menu>
-                </div>
-                {data && (
-                    <div
-                        className={cx('close-response', {
-                            isClosed: data.survey?.isAccepting === false,
-                        })}>
-                        <div>
-                            <FormControlLabel
-                                control={
-                                    <Switch
-                                        color="warning"
-                                        sx={{ color: 'error' }}
-                                        checked={data.survey?.isAccepting}
-                                        onChange={handleSwitch}></Switch>
-                                }
-                                labelPlacement="start"
-                                label={
-                                    <span className={cx('label-switch')}>
-                                        {data.survey?.isAccepting ? 'Đang nhận phản hồi' : 'Đã ngừng nhận phản hồi'}
-                                    </span>
-                                }
-                            />
+                        <div className={cx('export-excel')} onClick={handleClickExport}>
+                            {isLoadingExport && <MoonLoader color="#ed6c02" size={20} />}
+                            <FaFileExcel className={cx('icon')} />
+                            <span>Xuất excel</span>
                         </div>
-                    </div>
-                )}
-            </div>
 
-            {data?.questionResponses?.map((question, index) => {
-                return <Response key={index} questionResponse={question} />;
-            })}
+                        <Menu
+                            disablePortal={true}
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}>
+                            <MenuItem onClick={handleClose}>Mô tả</MenuItem>
+                            <MenuItem onClick={handleClose}>Kiểm tra định dạng</MenuItem>
+                            <MenuItem onClick={handleClose}>Đi đến phần chỉ định dựa vào câu trả lời</MenuItem>
+                        </Menu>
+                    </div>
+                    {data && (
+                        <>
+                            <div
+                                className={cx('close-response', {
+                                    isClosed: data.survey?.isAccepting === false,
+                                })}>
+                                <div>
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                color="warning"
+                                                sx={{ color: 'error' }}
+                                                checked={data.survey?.isAccepting}
+                                                onChange={handleSwitch}></Switch>
+                                        }
+                                        labelPlacement="start"
+                                        label={
+                                            <span className={cx('label-switch')}>
+                                                {data.survey?.isAccepting
+                                                    ? 'Đang nhận phản hồi'
+                                                    : 'Đã ngừng nhận phản hồi'}
+                                            </span>
+                                        }
+                                    />
+                                </div>
+                            </div>
+                            {data?.questionResponses?.map((question, index) => {
+                                return <Response key={index} questionResponse={question} />;
+                            })}
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

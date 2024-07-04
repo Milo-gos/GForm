@@ -1,35 +1,43 @@
 import React, { useEffect } from 'react';
-import style from './signin.module.scss';
+import style from './sign-in.module.scss';
 import { z } from 'zod';
 import classNames from 'classnames/bind';
-import { MyButton, NormalTextInput } from '../../components';
+import { ErrorMessage, MyButton, NormalTextInput } from '../../components';
 import { Google } from '../../assets/images';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAppDispatch } from '../../redux';
-import useSignInMutation from './mutation/signIn';
+import { useAppDispatch } from '../../redux/store';
 import { setLoading } from '../../redux/slice/global';
+import { auth, provider } from '../../config/firebase';
+import { toast } from 'react-toastify';
+import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../config/i18n';
+import { signInWithPopup } from 'firebase/auth';
+import { useSignInGoogleMutation, useSignInMutation } from '../../hooks/api-hooks/mutations';
+
 const cx = classNames.bind(style);
 
 const SignInSchema = z.object({
     email: z
         .string()
         .min(1, {
-            message: 'Vui lòng nhập email',
+            message: i18n.t('validation:email.please_enter_your_email'),
         })
-        .email('Vui lòng nhập đúng định dạng email'),
+        .email(i18n.t('validation:email.please_enter_valid_email_format')),
     password: z
         .string()
         .min(1, {
-            message: 'Vui lòng nhập mật khẩu',
+            message: i18n.t('validation:password.please_enter_password'),
         })
-        .min(6, 'Mật khẩu phải từ 6 ký tự trở lên'),
+        .min(6, i18n.t('validation:password.password_must_be_at_least_6_characters_long')),
 });
 
 type SignInSchemaType = z.infer<typeof SignInSchema>;
 
 const SignInPage = () => {
+    const { t } = useTranslation('auth');
     const navigate = useNavigate();
     const dispatchApp = useAppDispatch();
     const {
@@ -42,14 +50,18 @@ const SignInPage = () => {
         mode: 'onSubmit',
         shouldFocusError: true,
     });
+
+    const saveToken = (accessToken: string, refreshToken: string) => {
+        localStorage.setItem('accessToken', accessToken!);
+        localStorage.setItem('refreshToken', refreshToken!);
+    };
     const SignInMutation = useSignInMutation();
     const onbsumit = async (user: SignInSchemaType) => {
         dispatchApp(setLoading(true));
         SignInMutation.mutate(user, {
             onSuccess(data) {
                 dispatchApp(setLoading(false));
-                localStorage.setItem('accessToken', data.accessToken!);
-                localStorage.setItem('refreshToken', data.refreshToken!);
+                saveToken(data.accessToken, data.refreshToken);
                 navigate('/', {
                     replace: true,
                 });
@@ -63,21 +75,30 @@ const SignInPage = () => {
             },
         });
     };
+    const SignInGoogleMutation = useSignInGoogleMutation();
+    const handleClickSignInWithGoogle = async () => {
+        const result = await signInWithPopup(auth, provider);
+        const tokenFirebase = await result.user.getIdToken();
+        SignInGoogleMutation.mutate(tokenFirebase, {
+            onSuccess(data) {
+                saveToken(data.accessToken, data.refreshToken);
+                navigate('/', {
+                    replace: true,
+                });
+            },
+            onError() {
+                toast.error(i18n.t('notificationMessage:error.an_error_occurred'));
+            },
+        });
+    };
     return (
-        <div className={cx('wrapper')}>
-            <h2>Đăng nhập</h2>
+        <div className={cx('wrapper', 'responsive')}>
+            <h2>{t('sign_in')}</h2>
             <form className={cx('form')} onSubmit={handleSubmit(onbsumit)}>
                 <div>
-                    <NormalTextInput placeholder="Email" name="email" register={register}></NormalTextInput>
+                    <NormalTextInput placeholder={t('email')} name="email" register={register}></NormalTextInput>
 
-                    <p
-                        style={{
-                            marginTop: '4px',
-                            fontSize: '14px',
-                            color: '#db4437',
-                        }}>
-                        {errors.email?.message}
-                    </p>
+                    <ErrorMessage message={errors.email?.message} />
                 </div>
 
                 <div
@@ -87,38 +108,32 @@ const SignInPage = () => {
                     }}>
                     <div>
                         <NormalTextInput
-                            placeholder="Mật khẩu"
+                            placeholder={t('password')}
                             name="password"
                             typePassword={true}
                             register={register}></NormalTextInput>
-                        <p
-                            style={{
-                                marginTop: '4px',
-                                fontSize: '14px',
-                                color: '#db4437',
-                            }}>
-                            {errors.password?.message}
-                        </p>
+                        <ErrorMessage message={errors.password?.message} />
                     </div>
                     <Link to={'/forgot-password'} className={cx('forgot-password')}>
-                        Quên mật khẩu
+                        {t('forgot_password')}
                     </Link>
                 </div>
-                <MyButton textButton="Đăng nhập" size="big" type="submit"></MyButton>
+                <MyButton textButton={t('sign_in')} size="big" type="submit"></MyButton>
             </form>
-            {/* <div className={cx('separate')}>
+            <div className={cx('separate')}>
                 <div></div>
-                <span>hoặc</span>
+                <span>{t('or')}</span>
                 <div></div>
             </div>
-            <div className={cx('login-google')}>
+            <div className={cx('login-google')} onClick={handleClickSignInWithGoogle}>
                 <img src={Google} />
-                <span>Đăng nhập với Google</span>
-            </div> */}
-            <div className={cx('confirm-not-have-account')}>
-                <span>Bạn chưa có tài khoản?</span>
+                <span>{t('sign_in_with_google')}</span>
+            </div>
 
-                <Link to={'/signup'}>Đăng ký</Link>
+            <div className={cx('confirm-not-have-account')}>
+                <span>{t('do_you_have_an_account')}</span>
+
+                <Link to={'/signup'}>{t('sign_up')}</Link>
             </div>
         </div>
     );

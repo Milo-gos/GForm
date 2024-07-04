@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
-import style from './responsedropdown.module.scss';
+import style from './response-dropdown.module.scss';
 import classNames from 'classnames/bind';
-import QuestionResponseInterface from '../../../../../../utils/interfaces/question-response';
-import CHART_COLOR from '../../../../../../constants/chartColors';
+import QuestionResponseInterface from '../../../../../../utils/interfaces/QuestionResponse';
+import { CHART_COLOR } from '../../../../../../constants';
 
 const cx = classNames.bind(style);
 
@@ -16,16 +16,15 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
+    const percentValue = percent * 100;
+    const percentString = percentValue === 0 ? '' : `${(percent * 100).toFixed(0)}%`;
     return (
         <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-            {`${(percent * 100).toFixed(0)}%`}
+            {percentString}
         </text>
     );
 };
 const ResponseDropdown = ({ questionResponse }: Props) => {
-    // const question = useAppSelector((state) => state.submitForm.questions[index]);
-    // const questionType = question.questionType;
     const data = questionResponse.optionReponses!.map((option) => ({
         name: option.optionContent,
         value: option.quantity,

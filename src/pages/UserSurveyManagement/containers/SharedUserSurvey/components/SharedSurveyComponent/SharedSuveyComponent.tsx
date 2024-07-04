@@ -1,12 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './sharedsurveycomponent.module.scss';
+import React from 'react';
+import style from './shared-survey-component.module.scss';
 import classNames from 'classnames/bind';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Avatar, Tooltip } from '@mui/material';
-import stringAvatar from '../../../../../../utils/stringAvatar';
+import stringAvatar from '../../../../../../utils/string-avatar';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(style);
 
@@ -19,7 +20,7 @@ interface SharedSurveyData {
     isAccepting: boolean;
     questionsCount: number;
     responsesCount: number;
-    create_at: string;
+    createdAt: string;
     isEdit: boolean;
 }
 interface Props {
@@ -27,13 +28,15 @@ interface Props {
     sharedSurvey?: SharedSurveyData;
 }
 const SharedSurvey = ({ index, sharedSurvey }: Props) => {
+    const { t } = useTranslation('surveyManagement');
+
     const navigate = useNavigate();
     const handleClickSharedSurvey = () => {
         navigate(`/surveys/${sharedSurvey?.id}/edit`);
     };
     return (
         <div
-            className={cx('wrapper', {
+            className={cx('wrapper', 'responsive', {
                 isAccepting: sharedSurvey?.isAccepting === true,
             })}
             onClick={handleClickSharedSurvey}>
@@ -43,23 +46,23 @@ const SharedSurvey = ({ index, sharedSurvey }: Props) => {
             </div>
             <div className={cx('separate')}></div>
             <div className={cx('question', 'col')}>
-                <span>Số câu hỏi</span>
+                <span>{t('questions')}</span>
                 <span className={cx('bold')}>{sharedSurvey?.questionsCount}</span>
             </div>
             <div className={cx('response', 'col')}>
-                <span>Số lượng phản hồi</span>
+                <span>{t('responses')}</span>
                 <span className={cx('bold')}>{sharedSurvey?.responsesCount}</span>
             </div>
 
             <div className={cx('status', 'col')}>
-                <span>Trạng thái</span>
+                <span>{t('status')}</span>
                 <span className={cx('bold')}>
-                    {sharedSurvey?.isAccepting ? 'Đang nhận phản hồi' : 'Ngừng nhận phản hồi'}
+                    {sharedSurvey?.isAccepting ? t('accepting_response') : t('stop_response')}
                 </span>
             </div>
 
             <div className={cx('owner', 'col')}>
-                <span>Người tạo</span>
+                <span>{t('creator')}</span>
                 <Tooltip title={sharedSurvey?.ownerName}>
                     <div className={cx('avatar')}>
                         {sharedSurvey?.ownerAvatar ? (

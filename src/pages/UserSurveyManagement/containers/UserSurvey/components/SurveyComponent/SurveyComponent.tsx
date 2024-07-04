@@ -1,21 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import style from './surveycomponent.module.scss';
+import React from 'react';
+import style from './survey-component.module.scss';
 import classNames from 'classnames/bind';
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import { useNavigate } from 'react-router-dom';
-import convertDate from '../../../../../../utils/convertDate';
+import convertDate from '../../../../../../utils/convert-date';
+import { useTranslation } from 'react-i18next';
 
 const cx = classNames.bind(style);
 
 interface SurveyData {
     id: string;
-    ownerId: string;
+    ownerIdString: string;
     title: string;
     description: string;
     isAccepting: boolean;
     questionsCount: string;
     responsesCount: string;
-    create_at: string;
+    createdAt: string;
 }
 interface Props {
     index?: number;
@@ -23,36 +24,43 @@ interface Props {
 }
 const SurveyComponent = ({ index, survey }: Props) => {
     const navigate = useNavigate();
+    const { t } = useTranslation('surveyManagement');
     const handleClickSurvey = () => {
         navigate(`/surveys/${survey?.id}/edit`);
     };
     return (
         <div
-            className={cx('wrapper', {
+            className={cx('wrapper', 'responsive', {
                 isAccepting: survey?.isAccepting === true,
             })}
             onClick={handleClickSurvey}>
-            <div className={cx('title')}>
-                <FeedOutlinedIcon className={cx('icon')} />
-                <span>{survey?.title}</span>
+            <div className={cx('left')}>
+                <div className={cx('title')}>
+                    <FeedOutlinedIcon className={cx('icon')} />
+                    <span>{survey?.title}</span>
+                </div>
+                <div className={cx('separate')}></div>
+                <div className={cx('question', 'col')}>
+                    <span>{t('questions')}</span>
+                    <span className={cx('bold')}>{survey?.questionsCount}</span>
+                </div>
             </div>
-            <div className={cx('separate')}></div>
-            <div className={cx('question', 'col')}>
-                <span>Số câu hỏi</span>
-                <span className={cx('bold')}>{survey?.questionsCount}</span>
-            </div>
-            <div className={cx('status', 'col')}>
-                <span>Trạng thái</span>
-                <span className={cx('bold')}>{survey?.isAccepting ? 'Đang nhận phản hồi' : 'Ngừng nhận phản hồi'}</span>
-            </div>
+            <div className={cx('right')}>
+                <div className={cx('status', 'col')}>
+                    <span>{t('status')}</span>
+                    <span className={cx('bold')}>
+                        {survey?.isAccepting ? t('accepting_response') : t('stop_response')}
+                    </span>
+                </div>
 
-            <div className={cx('response', 'col')}>
-                <span>Số lượng phản hồi</span>
-                <span className={cx('bold')}>{survey?.responsesCount}</span>
-            </div>
-            <div className={cx('response', 'col')}>
-                <span>Ngày tạo</span>
-                <span className={cx('bold')}>{convertDate(survey!.create_at)}</span>
+                <div className={cx('response', 'col')}>
+                    <span>{t('responses')}</span>
+                    <span className={cx('bold')}>{survey?.responsesCount}</span>
+                </div>
+                <div className={cx('response', 'col')}>
+                    <span>{t('create_date')}</span>
+                    <span className={cx('bold')}>{convertDate(survey!.createdAt)}</span>
+                </div>
             </div>
         </div>
     );

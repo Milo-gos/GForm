@@ -1,46 +1,158 @@
-# Getting Started with Create React App
+# DEMO 1: GSURVEY - WEB SURVEY
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="./assets/images/home.jpg"/>
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+The GSurvey website is designed to help users quickly create a basic survey. The survey includes multiple questions, each of which can have different types of responses such as text, single choice, multiple choice, multichoice grid, and linear scale.
+
+## Architechture Diagram
+
+<img src="./assets/images/architechture-diagram.jpg"/>
+
+## Database Diagram
+
+<img src="./assets/images/database-diagram.png"/>
+
+## Directory Structure
+
+### Fe:
+
+📦GForm
+┣ 📂public
+┃ ┣ 📜favicon.ico
+┃ ┣ 📜index.html
+┃ ┗ ...
+┣ 📂src
+┃ ┣ 📂API
+┃ ┃ ┗ 📜axios.ts
+┃ ┣ 📂assets
+┃ ┃ ┗ 📂images
+┃ ┃ ┃ ┣ 📜example1.jpg
+┃ ┃ ┃ ┣ 📜example2.png
+┃ ┃ ┃ ┗ ...
+┃ ┣ 📂components
+┃ ┃ ┣ 📂ExampleComponent
+┃ ┃ ┃ ┣ 📜example-component.module.scss
+┃ ┃ ┃ ┣ 📜ExampleComponent.tsx
+┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┣ ...
+┃ ┃ ┗ 📜index.ts
+┃ ┣ 📂config
+┃ ┃ ┣ 📜i18n.ts
+┃ ┃ ┣ 📜sentry.ts
+┃ ┃ ┣ 📜firebase.ts
+┃ ┃ ┗ 📜index.ts
+┃ ┣ 📂constants
+┃ ┃ ┣ 📜chart-color.ts
+┃ ┃ ┣ 📜language.ts
+┃ ┃ ┗ 📜index.ts
+┃ ┣ 📂hooks
+┃ ┃ ┗ 📂api-hooks
+┃ ┃ ┃ ┣ 📂mutations
+┃ ┃ ┃ ┃ ┣ 📜useExampleMutation.ts
+┃ ┃ ┃ ┃ ┣ ...
+┃ ┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┃ ┗ 📂queries
+┃ ┃ ┃ ┃ ┣ 📜useExampleQuery.ts
+┃ ┃ ┃ ┃ ┣ ...
+┃ ┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┣ 📜useAutoSave.tsx
+┃ ┃ ┣ 📜useDebounce.tsx
+┃ ┃ ┗ 📜index.ts
+┃ ┣ 📂layouts
+┃ ┃ ┣ 📂ExampleLayout
+┃ ┃ ┃ ┣ 📂components
+┃ ┃ ┃ ┃ ┣ 📂ExampleComponent
+┃ ┃ ┃ ┃ ┃ ┣ 📜example-component.module.scss
+┃ ┃ ┃ ┃ ┃ ┣ 📜ExampleComponent.tsx
+┃ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┃ ┃ ┗ ...
+┃ ┃ ┃ ┣ 📜example-layout.module.scss
+┃ ┃ ┃ ┣ 📜ExampleLayout.tsx
+┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┗ 📜index.ts
+┃ ┣ 📂locales
+┃ ┃ ┣ 📂en
+┃ ┃ ┃ ┣ 📜auth.json
+┃ ┃ ┃ ┣ ...
+┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┗ 📂vi
+┃ ┃ ┃ ┣ 📜auth.json
+┃ ┃ ┃ ┣ ...
+┃ ┃ ┃ ┗ 📜index.ts
+┃ ┣ 📂pages
+┃ ┃ ┣ 📂ExamplePage
+┃ ┃ ┃ ┣ 📂containers
+┃ ┃ ┃ ┃ ┣ 📂ExampleContainer
+┃ ┃ ┃ ┃ ┃ ┣ 📜example-container.module.scss
+┃ ┃ ┃ ┃ ┃ ┣ 📜ExampleContainer.tsx
+┃ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┃ ┃ ┗ ...
+┃ ┃ ┃ ┣ 📂components
+┃ ┃ ┃ ┃ ┣ 📂ExampleComponent
+┃ ┃ ┃ ┃ ┃ ┣ 📜example-component.module.scss
+┃ ┃ ┃ ┃ ┃ ┣ 📜ExampleComponent.tsx
+┃ ┃ ┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┃ ┃ ┗ ...
+┃ ┃ ┃ ┣ 📜example-page.module.scss
+┃ ┃ ┃ ┣ 📜ExamplePage.tsx
+┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┣ ...
+┃ ┃ ┗ 📜index.ts
+┃ ┣ 📂redux
+┃ ┃ ┣ 📂slice
+┃ ┃ ┃ ┣ 📜auth.ts
+┃ ┃ ┃ ┣ ...
+┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┗ 📜store.ts
+┃ ┣ 📂routes
+┃ ┃ ┣ 📂page-routers
+┃ ┃ ┃ ┣ 📜AuthRouter.tsx
+┃ ┃ ┃ ┣ 📜ProtectedRouter.tsx
+┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┗ 📜router.tsx
+┃ ┣ 📂stories
+┃ ┃ ┣ 📜MyButton.stories.tsx
+┃ ┃ ┗ 📜NormalTextInput.stories.tsx
+┃ ┣ 📂utils
+┃ ┃ ┣ 📂axios
+┃ ┃ ┃ ┗ 📜instance-axios.ts
+┃ ┃ ┣ 📂interfaces
+┃ ┃ ┃ ┣ 📜Question.ts
+┃ ┃ ┃ ┣ ...
+┃ ┃ ┃ ┗ 📜index.ts
+┃ ┃ ┣ 📜convert-date.ts
+┃ ┃ ┗ ...
+┃ ┣ 📜App.test.tsx
+┃ ┣ 📜App.tsx
+┃ ┣ 📜index.scss
+┃ ┣ 📜index.tsx
+┃ ┣ 📜logo.svg
+┃ ┣ 📜react-app-env.d.ts
+┃ ┣ 📜reportWebVitals.ts
+┃ ┣ 📜setupTests.ts
+┃ ┗ 📜variable.scss
+┣ 📜.env
+┣ 📜.env.example
+┣ 📜.eslintrc.json
+┣ 📜.gitignore
+┣ 📜.prettierrc
+┣ 📜package-lock.json
+┣ 📜package.json
+┣ 📜README.md
+┗ 📜tsconfig.json
+
+## Install and Run the Project
+
+### Add .env file
+
+Add the .env file to the root directory with the parameters as described in the .env.example file.
+
+### `npm install`
+
+The `npm install` command is used to install the packages and dependencies listed in the project's package.json file.
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Run command `npm start` to start project.

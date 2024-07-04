@@ -1,0 +1,14 @@
+{
+    "fullname": {
+        "enter_full_name": "Vui lòng nhập họ tên"
+    },
+    "email": {
+        "please_enter_your_email": "Vui lòng nhập email",
+        "please_enter_valid_email_format": "Vui lòng nhập đúng định dạng email"
+    },
+    "password": {
+        "please_enter_password": "Vui lòng nhập mật khẩu",
+        "password_must_be_at_least_6_characters_long": "Mật khẩu phải từ 6 ký tự trở lên",
+        "password_does_not_match": "Mật khẩu không trùng khớp"
+    }
+}

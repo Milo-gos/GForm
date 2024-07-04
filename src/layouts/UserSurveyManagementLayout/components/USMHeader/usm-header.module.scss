@@ -1,0 +1,103 @@
+@import '../../../../variable.scss';
+
+.wrapper {
+    padding: 16px;
+
+    position: sticky;
+    top: 0;
+    .header-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .logo-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        img {
+            width: 50px;
+        }
+        span {
+            font-size: 28px;
+            font-weight: 500;
+            color: #717479;
+        }
+        cursor: pointer;
+    }
+    .search-wrapper {
+        width: 50%;
+    }
+
+    .search-wrapper-2 {
+        display: none;
+        margin-top: 16px;
+
+        padding-left: 280px;
+    }
+
+    .user-info-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        span {
+            font-size: 18px;
+            font-weight: 500;
+        }
+    }
+
+    .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 1px solid #ccc;
+    }
+
+    &.responsive {
+        @media (max-width: 1100px) {
+            .search-wrapper {
+                width: 40%;
+            }
+        }
+        @media (max-width: 1024px) {
+            .search-wrapper {
+                display: none;
+            }
+            .search-wrapper-2 {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-wrapper {
+                img {
+                    width: 40px;
+                }
+                span {
+                    font-size: 24px;
+                    font-weight: 500;
+                    color: #717479;
+                }
+            }
+            .user-info-wrapper {
+                span {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        @media (max-width: 500px) {
+            .logo-wrapper {
+                span {
+                    display: none;
+                }
+            }
+            .user-info-wrapper {
+                span {
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}

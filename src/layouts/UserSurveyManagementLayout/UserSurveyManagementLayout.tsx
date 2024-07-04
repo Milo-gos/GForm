@@ -1,15 +1,12 @@
 import React from 'react';
-import style from './usersurveymanagementlayout.module.scss';
+import style from './user-survey-management-layout.module.scss';
 import classNames from 'classnames/bind';
-import { useAppDispatch } from '../../redux';
 import USMHeader from './components/USMHeader';
 import USMSidebar from './components/USMSidebar';
 
 const cx = classNames.bind(style);
 
 const UserSurveyManagementLayout = ({ children }: { children: JSX.Element }) => {
-    const dispatchApp = useAppDispatch();
-
     return (
         <div className={cx('wrapper')}>
             <USMHeader />

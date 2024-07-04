@@ -1,7 +1,7 @@
 import { Draft, PayloadAction, createSlice } from '@reduxjs/toolkit';
-import Survey from '../../utils/interfaces/survey';
-import QuestionType from '../../utils/interfaces/questionType';
-import QuestionInterface from '../../utils/interfaces/question';
+import Survey from '../../utils/interfaces/SurveyInterface';
+import QuestionType from '../../utils/interfaces/QuestionType';
+import QuestionInterface from '../../utils/interfaces/QuestionInterface';
 
 const initialState: Survey = {
     id: '',
@@ -191,10 +191,12 @@ const unitSurveySlice = createSlice({
             if (max !== undefined) {
                 state.questions[indexQuestion].linearScale!.max = max;
             }
-            if (leftLabel) {
+
+            if (leftLabel !== undefined) {
                 state.questions[indexQuestion].linearScale!.leftLabel = leftLabel;
             }
-            if (rightLabel) {
+
+            if (rightLabel !== undefined) {
                 state.questions[indexQuestion].linearScale!.rightLabel = rightLabel;
             }
         },
